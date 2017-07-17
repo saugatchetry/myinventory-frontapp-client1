@@ -1,0 +1,1 @@
+# myinventory-frontapp-client1
