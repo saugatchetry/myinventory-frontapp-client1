@@ -1,0 +1,50 @@
+<div class="dateFilterButton">
+  <button id="toggleFilters" (click)="toggleDateFilter()">Filters</button>
+</div>
+
+<div *ngIf="dateFilterOn" class="dateFilterSpace">
+
+    <select [(ngModel)]="selectorVendor" id = "vendorDropDown">
+      <option *ngFor="let vendor of vendorNameArray;" value= {{vendor}}>
+        {{vendor}}
+      </option>
+    </select>
+    <label id="startDateLabel">Starting Date</label>
+    <input id="startDateEntry" type="date" name="" value="" [max]='today' [(ngModel)]="filterStartDate">
+    <label id="endDateLabel">End Date</label>
+    <input id="endDateEntry" type="date" name="" value="" [max]='today' [(ngModel)]="filterEndDate">
+
+    <button id="submitFilters" (click)="submitFilters()">Submit</button>
+</div>
+
+
+<!-- <table id="receiptTable" [dtTrigger]="dtTrigger" datatable class="row-border hover"> -->
+<table #myTable datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" datatable class="row-border hover" >
+  <thead>
+    <tr>
+      <th>Date</th>
+      <th>Store Name</th>
+      <th>Customer name</th>
+      <th>Item name</th>
+      <th>Quantity</th>
+      <th>Amount</th>
+	    <th>Action</th>
+    </tr>
+  </thead>
+  <tbody *ngIf="itemList">
+
+
+      <tr *ngFor="let user of itemList">
+        <td>{{user.date}}</td>
+        <td>{{user.receiptOutletName}}</td>
+        <td>{{user.customerName}}</td>
+        <td>{{user.itemName}}</td>
+        <td>{{user.quantity}}</td>
+        <td>{{user.amount}}</td>
+        <td><button id="open-modal" #openModal (click)="getItems(user)" data-toggle="modal" data-target="#login-modal">Edit</button></td>
+      </tr>
+
+
+  </tbody>
+
+</table>

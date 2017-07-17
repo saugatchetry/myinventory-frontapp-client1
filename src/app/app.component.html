@@ -1,0 +1,62 @@
+<div class="navbar navbar-default">
+      <div class="container">
+        <div class="navbar-header">
+          <a href="../" class="navbar-brand">Shantanu's Inventory</a>
+          <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        </div>
+        <div class="navbar-collapse collapse" id="navbar-main">
+          <ul class="nav navbar-nav">
+
+            <!--<li>
+              <a routerLink="additem">Add New Item</a>
+            </li>-->
+            <li>
+              <a routerLink="editentry">Daily Sales Report</a>
+            </li>
+            <!--<li>-->
+              <li class="dropdown">
+              <a class="dropdown-toggle" data-toggle="dropdown">Reports
+              <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a routerLink="stocktransfer">Stock Transfer</a></li>
+                <li><a routerLink="vendorwise-inventory-status">Vendor Inventory</a></li>
+                <li><a routerLink="itemwise-inventory-status">Item Inventory</a></li>
+                <li><a routerLink="inventory-addition-report">Inventory Addition</a></li>
+                <li><a routerLink="drilldownstockreport">Drill Down Stock Report</a></li>
+              </ul>
+            </li>
+
+            <li class="dropdown">
+              <a class="dropdown-toggle" data-toggle="dropdown" >Add Items
+              <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a routerLink="fileupload">Bulk Entry</a></li>
+                <li><a routerLink="additem">Add Single Item</a></li>
+                <li><a routerLink="restockitem">Restock Item</a></li>
+
+              </ul>
+            </li>
+
+          </ul>
+
+          <ul class="nav navbar-nav navbar-right">
+
+            <!--<li><a href="#" data-toggle="modal" data-target="#login-modal" (click)="myFunc()">Login</a></li>-->
+            <li><a *ngIf="username === undefined" routerLink="login">Login</a></li>
+            <!--<li *ngIf = "username != undefined">Hey, {{username}} <a routerLink="logout">LogOut</a></li>-->
+            <!--<li><a *ngIf = "username != undefined" (click)="logoutClick()">LogOut</a></li>-->
+
+            <li><a *ngIf = "username != undefined" routerLink="logout">LogOut</a></li>
+          </ul>
+
+        </div>
+      </div>
+    </div>
+
+    <div class = "container">
+      <router-outlet></router-outlet>
+    </div>

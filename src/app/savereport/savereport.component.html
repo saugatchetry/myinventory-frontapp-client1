@@ -1,0 +1,41 @@
+<!--<div id="sidebar-wrapper">
+            <nav id="spy">
+                <ul class="sidebar-nav nav">
+                    <li>
+                        <a routerLink="savereport/stocktransfer">Stock Transfer</a>
+                    </li>
+                    <li>
+                        <a routerLink="savereport/vendorwise-inventory-status">Vendorwise Inventory</a>
+                    </li>
+                    <li>
+                        <a href="#anch3" data-scroll>
+                            <span class="fa fa-anchor solo">Anchor 3</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a routerLink="test-login">Login</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>-->
+<div id="mySidenav" #navigation class="sidenav">
+  <a href="javascript:void(0)" class="closebtn" (click)="closeNav()">&times;</a>
+  <a routerLink="savereport/stocktransfer">Stock Transfer</a>
+  <a routerLink="savereport/vendorwise-inventory-status">Vendorwise Inventory</a>
+  <a href="#">Clients</a>
+  <a href="#">Contact</a>
+</div>
+   
+
+<div class = "container" #content id="child-component">
+    <div class="row">
+        <div class="col-xs-12">
+           <button (click)="openNav()">Open Nav</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+</div>

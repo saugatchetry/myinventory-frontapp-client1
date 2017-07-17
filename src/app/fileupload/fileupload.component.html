@@ -1,0 +1,10 @@
+<!--<input type="file"
+       ngFileSelect
+       [options]="options"
+       (onUpload)="handleUpload($event)"
+       (beforeUpload)="beforeUpload($event)">
+
+<div>
+Response: {{ uploadFile | json }}
+</div>-->
+<input type="file" (change)="fileChange($event)" placeholder="Upload file" accept=".xls,.xlsx">

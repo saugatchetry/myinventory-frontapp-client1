@@ -1,0 +1,35 @@
+<!--<div>
+  <select [(ngModel)]="selectorVendor" >
+    <option *ngFor="let vendor of vendorList;" value= {{vendor.storeName}}>
+      {{vendor.storeName}}
+    </option>
+  </select>
+
+  <button id="submitStoreName" (click)="getInventory()">Go</button>
+</div>-->
+
+<table #myTable datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" datatable class="row-border hover" >
+  <thead>
+    <tr>
+      <th>Date</th>
+      <th>Customer name</th>
+      <th>Quantity</th>
+	    <th>Type</th>
+
+    </tr>
+  </thead>
+  <tbody *ngIf="itemHistoryList">
+
+
+      <tr *ngFor="let item of itemHistoryList">
+        <td>{{item.date | date:'dd-MMM-yyyy'}}</td>
+        <td>{{item.customerName}}</td>
+        <td>{{item.quantity}}</td>
+        <td>{{item.type}}</td>
+
+      </tr>
+
+
+  </tbody>
+
+</table>

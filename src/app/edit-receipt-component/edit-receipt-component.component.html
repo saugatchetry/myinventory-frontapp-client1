@@ -1,0 +1,111 @@
+<div class="container">
+    <h2>Item Details</h2>
+    <form #userForm="ngForm" (ngSubmit)="afterSave(userForm.value)" >
+       <!--<div class="form-group">
+            <label>Item Name</label>
+            <input type="text" #varName="ngModel" class="form-control" name="Name" ngModel required
+                   minlength="4" maxlength="10">
+             <b>{{varName.className}}</b>
+            <div *ngIf="varName.errors && (varName.dirty || varName.touched)"
+                    class="alert alert-danger">
+                    <div [hidden]="!varName.errors.required">
+                    Name is required
+                    </div>
+                    <div [hidden]="!varName.errors.minlength">
+                    Name must be at least 4 characters long.
+                    </div>
+                    <div [hidden]="!varName.errors.maxlength">
+                    Name cannot exceed 10 characters.
+                    </div>
+            </div>
+
+        </div>-->
+        <div class="form-group">
+            <label>Id</label>
+            <input type="text" class="form-control" name="id" [(ngModel)] = "id" readonly>
+        </div>
+        <div class="form-group">
+            <label>Item Name</label>
+            <input type="text" class="form-control" id="itemName" required name="itemName" [(ngModel)] = "itemName" #itmName="ngModel" ngModel>
+            <div *ngIf = "itmName.errors && (itmName.dirty || itmName.touched)" class="alert alert-danger">
+              <div>
+                Item Name is required!!
+              </div>
+            </div>
+
+
+        </div>
+
+        <div class="form-group">
+            <label>Quantity</label>
+            <input type="text" class="form-control" name="quantity" [(ngModel)] = "quantity" id="quantity" required #qtity="ngModel" ngModel>
+            <div *ngIf = "qtity.errors && (qtity.dirty || qtity.touched)" class="alert alert-danger">
+              <div>
+                Quantity is required!!
+              </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Customer Name</label>
+            <input type="text" class="form-control" name="customerName" [(ngModel)] = "customerName" id="customerName" required #custName="ngModel" ngModel>
+            <div *ngIf = "custName.errors && (custName.dirty || custName.touched)" class="alert alert-danger">
+              <div>
+                Customer Name is required!!
+              </div>
+            </div>
+
+        </div>
+        <div class="form-group">
+            <label>Store Name</label>
+            <input type="text" class="form-control" name="receiptOutletName" [(ngModel)] = "receiptOutletName" id="receiptOutletName" required #outletName="ngModel" ngModel>
+            <div *ngIf = "outletName.errors && (outletName.dirty || outletName.touched)" class="alert alert-danger">
+              <div>
+                Store Name is required!!
+              </div>
+            </div>
+
+        </div>
+         <div class="form-group">
+            <label>Amount</label>
+            <input type="text" class="form-control" name="amount" [(ngModel)] = "amount" id="amount" required #amt="ngModel" ngModel>
+            <div *ngIf = "amt.errors && (amt.dirty || amt.touched)" class="alert alert-danger">
+              <div>
+                Amount is required!!
+              </div>
+            </div>
+        </div>
+         <div class="form-group">
+            <label>Date</label>
+            <input type="text" class="form-control" name="date" [(ngModel)] = "date" id="date" required #dt="ngModel" ngModel>
+            <div *ngIf = "dt.errors && (dt.dirty || dt.touched)" class="alert alert-danger">
+              <div>
+                Date is required!!
+              </div>
+            </div>
+
+        </div>
+
+        <!--<div ngModelGroup="Address">
+            <div class="form-group">
+                <label>Street</label>
+                <input type="text" class="form-control" name="Street" ngModel>
+            </div>
+            <div class="form-group">
+                <label>City</label>
+                <input type="text" class="form-control" name="City" ngModel>
+            </div>
+            <div class="form-group">
+                <label>Postal Code</label>
+                <input type="text" #varpostalCode="ngModel" class="form-control" name="PostalCode" ngModel pattern="^[1-9][0-9]{4}$">
+                <div *ngIf="varpostalCode.errors && (varpostalCode.dirty || varpostalCode.touched)"
+                    class="alert alert-danger">
+                    <div [hidden]="!varpostalCode.errors.pattern">
+                        Invalid format for PostalCode
+                    </div>
+            </div>
+            </div>
+
+        </div> -->
+        <button [disabled]="!userForm.form.valid" type="submit" class="btn btn-primary" [disabled]="!userForm.form.valid">Submit</button>
+    </form>
+</div>
