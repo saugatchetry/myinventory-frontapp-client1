@@ -18,7 +18,6 @@ export class EditentryComponent implements OnInit {
 
 
   private itemList: any;
-  private baseURL:string= "http://localhost:4200/api/addItem";
 
   private vendorList: any;
   private selectorVendor:string;

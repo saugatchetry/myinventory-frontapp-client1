@@ -24,6 +24,12 @@ export class DdStockReportComponent implements OnInit, AfterViewInit {
   public dateTo: string;
   public show: any;
 
+  public dateFilterOn = false;
+  public filterStartDate:string = "";
+  public filterEndDate:string = "";
+  public today:string;
+  public priorDate:string;
+
   dtTrigger: Subject<any> = new Subject();
   
   constructor(private _http:Http, private networkservice : NetworkService,private router: Router) { }
@@ -115,5 +121,76 @@ export class DdStockReportComponent implements OnInit, AfterViewInit {
 				break;
 		}
 		return current_balance;
+  }
+
+  toggleDateFilter(){
+     this.dateFilterOn = !this.dateFilterOn;
+  }
+
+  submitFilters(){
+
+    var startDate:string = this.priorDate;
+    var endDate:string = this.today;
+
+    //var startDate = this.filterStartDate.split('-').reverse().join('/');
+    //var endDate = this.filterEndDate.split('-').reverse().join('/');
+    //console.log("selectorVendor = "+this.selectorVendor+" StartDate = "+startDate+" EndDate = "+endDate);
+    if(this.filterStartDate != '' && this.filterEndDate != ''){
+      var d1 = Date.parse(this.filterStartDate);
+      var d2 = Date.parse(this.filterEndDate);
+      if (d1 > d2) {
+          alert("End Date cannot be before Start Date");
+      }
+      else{
+        var ONE_DAY = 1000 * 60 * 60 * 24
+        var date_diff = (d2-d1)/ONE_DAY;
+
+        if(date_diff > 30){
+          alert("Date cannot be greater than 30 days");
+        }
+        else{
+          startDate = this.filterStartDate;
+          endDate = this.filterEndDate;
+          // this.makeTheApiCall(this.selectorVendor,startDate,endDate);
+        }
+      }
+    }
+
+    else if(this.filterStartDate != '' && this.filterEndDate == ''){
+        startDate = this.filterStartDate;
+        endDate = this.today;
+        var d1 = Date.parse(startDate);
+        var d2 = Date.parse(endDate);
+        var ONE_DAY = 1000 * 60 * 60 * 24
+        var date_diff = (d2-d1)/ONE_DAY;
+        if(date_diff > 30){
+          alert("Date cannot be greater than 30 days");
+        }
+        else{
+          // this.makeTheApiCall(this.selectorVendor,startDate,endDate);
+        }
+
+    }
+
+    else if(this.filterStartDate == '' && this.filterEndDate !=''){
+      startDate = this.priorDate;
+      endDate = this.filterEndDate;
+
+      var dateNew = new Date(endDate);
+      dateNew.setDate(dateNew.getDate() - 30);
+      //console.log("Abhi Kya karenge - "+dateNew.toISOString().split('T')[0]);
+      startDate = dateNew.toISOString().split('T')[0];
+
+      // this.makeTheApiCall(this.selectorVendor,startDate,endDate);
+    }
+
+    else{
+      startDate = this.priorDate;
+      endDate = this.today;
+      // this.makeTheApiCall(this.selectorVendor,startDate,endDate);
+    }
+  }
+
+  makeTheApiCall(storeName:string,startDate:string,endDate:string){
   }
 }
