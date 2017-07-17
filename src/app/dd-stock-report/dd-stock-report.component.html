@@ -53,7 +53,7 @@
 	</thead>	
 	<tbody *ngIf="show">
 		<tr>
-  	  <td></td>
+  	  <td>{{openingDate}}</td>
       <td></td>
       <td></td>
       <td></td>
@@ -62,16 +62,16 @@
   	  <td>{{opening}}</td>
   	</tr>
   	<tr *ngFor="let item of transactions">
-  	  <td>{{item.date}}</td>
-  	  <td>{{selectedItem}}</td>
-  	  <td>cow</td>
-      <td>cow</td>
-  	  <td>kg</td>
+      <td>{{item.date}}</td>
+      <td>{{selectedVendor}}</td>
+  	  <td>{{selectedItemDetails.itemName}}</td>
+  	  <td>{{selectedItemDetails.itemGroup}}</td>
+      <td>{{selectedItemDetails.uom}}</td>
   	  <td>{{item.type}}</td>
   	  <td>{{item.quantity}}</td>
   	</tr>
   	<tr>
-  	  <td></td>
+      <td>{{closingDate}}</td>
       <td></td>
       <td></td>
       <td></td>

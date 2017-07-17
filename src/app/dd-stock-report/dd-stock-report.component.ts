@@ -14,8 +14,10 @@ export class DdStockReportComponent implements OnInit, AfterViewInit {
 @ViewChild(DataTableDirective) dtElement:DataTableDirective;
 
   public allItemList: any;
+  public allItemDetailsList: any;
   public allVendorsList: any;
   public selectedItem: string;
+  public selectedItemDetails: any;
   public selectedVendor: string;
   public transactions: any;
   public opening: string;
@@ -23,6 +25,8 @@ export class DdStockReportComponent implements OnInit, AfterViewInit {
   public dateFrom: string;
   public dateTo: string;
   public show: any;
+  public openingDate:string = "";
+  public closingDate:string = "";
 
   public dateFilterOn = false;
   public filterStartDate:string = "";
@@ -35,7 +39,9 @@ export class DdStockReportComponent implements OnInit, AfterViewInit {
   constructor(private _http:Http, private networkservice : NetworkService,private router: Router) { }
 
   ngOnInit() {
-  	this.fetchItemAndVendors();
+  	this.getCurrentDate();
+    this.getPriorDate();
+    this.fetchItemAndVendors();
     this.show = false;
   }
 
@@ -52,18 +58,32 @@ export class DdStockReportComponent implements OnInit, AfterViewInit {
           this.selectedVendor = this.allVendorsList[0];
     });
 
-  	this.networkservice.getAllUniqueItemNames()
+  	this.networkservice.getAllUniqueItemDetails()
           .subscribe(
             res => {
-            	res.sort();
-              this.allItemList = res;
+              this.allItemList = res.map(function(item) {
+                return item[0];
+              });
+              this.allItemDetailsList = {};
+              for(var i = 0; i < res.length; i++) {
+                var item = res[i];
+                var itemDetails = {
+                  itemName: item[0],
+                  itemGroup: item[1],
+                  uom:item[2]
+                }
+                this.allItemDetailsList[item[0]] = itemDetails;
+              }
               this.selectedItem = this.allItemList[0];
     });
   }
 
-  getReport() {
+  getReport(vendor, item, startDate, endDate) {
 
-  	this.networkservice.getDrillDownReport(this.selectedVendor, this.selectedItem, '2017-07-15', '2017-07-15')
+    this.openingDate = startDate;
+    this.closingDate = endDate;
+    this.selectedItemDetails = this.allItemDetailsList[item];
+  	this.networkservice.getDrillDownReport(vendor, item, startDate, endDate)
   		.subscribe(res => {
   			this.show = false;
         this.transactions = [];
@@ -85,6 +105,7 @@ export class DdStockReportComponent implements OnInit, AfterViewInit {
 
   	var opening = res_list[0].opening;
 		var closing = opening;
+
 		for(var i = 0; i < res_list.length; i++) {
 			var trans_type = res_list[i].type;
 			var quantity = res_list[i].quantity;
@@ -92,7 +113,7 @@ export class DdStockReportComponent implements OnInit, AfterViewInit {
 			closing = this.updateClosingBalance(trans_type, quantity, closing);
 
 			var trans_item = {
-				date: date,
+        date: date,
 				type: trans_type,
 				quantity: quantity
 			}
@@ -110,7 +131,7 @@ export class DdStockReportComponent implements OnInit, AfterViewInit {
 			case 'Stock Received':
 				current_balance += quantity;
   			break;
-			case 'Stock Transferred':
+			case 'Stock Transfered':
 				current_balance -= quantity;
   			break;
 			case 'Item Sale':
@@ -121,6 +142,18 @@ export class DdStockReportComponent implements OnInit, AfterViewInit {
 				break;
 		}
 		return current_balance;
+  }
+
+  getEmptyTransItem() {
+    return {
+      date: "",
+      store: "",
+      itemName: "",
+      itemGroup: "",
+      uom: "",
+      type: "",
+      quantity: 0
+    }
   }
 
   toggleDateFilter(){
@@ -151,6 +184,7 @@ export class DdStockReportComponent implements OnInit, AfterViewInit {
         else{
           startDate = this.filterStartDate;
           endDate = this.filterEndDate;
+          this.getReport(this.selectedVendor, this.selectedItem, startDate, endDate);
           // this.makeTheApiCall(this.selectorVendor,startDate,endDate);
         }
       }
@@ -167,6 +201,7 @@ export class DdStockReportComponent implements OnInit, AfterViewInit {
           alert("Date cannot be greater than 30 days");
         }
         else{
+          this.getReport(this.selectedVendor, this.selectedItem, startDate, endDate);
           // this.makeTheApiCall(this.selectorVendor,startDate,endDate);
         }
 
@@ -180,17 +215,31 @@ export class DdStockReportComponent implements OnInit, AfterViewInit {
       dateNew.setDate(dateNew.getDate() - 30);
       //console.log("Abhi Kya karenge - "+dateNew.toISOString().split('T')[0]);
       startDate = dateNew.toISOString().split('T')[0];
-
-      // this.makeTheApiCall(this.selectorVendor,startDate,endDate);
+      this.getReport(this.selectedVendor, this.selectedItem, startDate, endDate);
     }
 
     else{
       startDate = this.priorDate;
       endDate = this.today;
-      // this.makeTheApiCall(this.selectorVendor,startDate,endDate);
+      this.getReport(this.selectedVendor, this.selectedItem, startDate, endDate);
     }
   }
 
-  makeTheApiCall(storeName:string,startDate:string,endDate:string){
+  getCurrentDate(){
+    var now = new Date();
+    var day = ("0" + now.getDate()).slice(-2);
+    var month = ("0" + (now.getMonth() + 1)).slice(-2);
+    this.today = now.getFullYear() + "-" + (month) + "-" + (day);
+    console.log("Calculated Date = "+this.today);
+  }
+
+
+  getPriorDate(){
+    var d = new Date();
+    d.setDate(d.getDate() - 30);
+    var day = ("0" + d.getDate()).slice(-2);
+    var month = ("0" + (d.getMonth() + 1)).slice(-2);
+    this.priorDate = d.getFullYear() + "-" + (month) + "-" + (day);
+    console.log("Prior Date Calculaed = "+this.priorDate);
   }
 }

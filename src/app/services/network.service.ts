@@ -61,6 +61,15 @@ export class NetworkService {
                   return data;
               });
   }
+
+  getAllUniqueItemDetails(){
+    return this._http.get(this.serverUrl + '/api/getallUniqueItemDetais').map(
+                res => {
+                  const data = res.json()
+                  console.log(data);
+                  return data;
+              });
+  }
   
 	getAllItems(){
 	return this._http.get(this.serverUrl + '/api/getAllItems').map(
