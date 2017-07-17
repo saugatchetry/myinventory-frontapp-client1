@@ -57,19 +57,38 @@ export class FileuploadComponent implements OnInit {
     let fileList: FileList = event.target.files;
     if(fileList.length > 0) {
         let file: File = fileList[0];
-        let formData:FormData = new FormData();
-        formData.append('file', file, file.name);
-        let headers = new Headers();
-        headers.append('Accept', 'application/json');
-        let options = new RequestOptions({ headers: headers });
-        this.http.post(this.url, formData, options)
-            .map(res => null)
-            .catch(error => Observable.throw(error))
-            .subscribe(
-                data => console.log('success'),
-                error => console.log(error)
-            )
+        const reader = new FileReader();
+        reader.onload = function (e:any) {
+          console.log("Hello there");
+          // /* read workbook */
+          // const bstr = e.target.result;
+          // const wb = XLSX.read(bstr, {type:'binary'});
+
+          // /* grab first sheet */
+          // const wsname = wb.SheetNames[0];
+          // const ws = wb.Sheets[wsname];
+
+          // /* save data to scope */
+          // scope.data = (<AOA>(XLSX.utils.sheet_to_json(ws, {header:1})));
+        };
+
+        reader.readAsBinaryString(file);
+
+
+
+        // let formData:FormData = new FormData();
+        // formData.append('file', file, file.name);
+        // let headers = new Headers();
+        // headers.append('Accept', 'application/json');
+        // let options = new RequestOptions({ headers: headers });
+        // this.http.post(this.url, formData, options)
+        //     .map(res => null)
+        //     .catch(error => Observable.throw(error))
+        //     .subscribe(
+        //         data => console.log('success'),
+        //         error => console.log(error)
+        //     )
     }
-}
+  }
 
 }
