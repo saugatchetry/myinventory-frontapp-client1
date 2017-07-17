@@ -21,13 +21,14 @@ import { LoadingIndicatorComponent } from './loading-indicator/loading-indicator
 import { InventoryDetailsComponent } from './inventory-details/inventory-details.component';
 import { RestockitemComponent } from './restockitem/restockitem.component';
 import { ItemwiseInventoryStatusComponent } from './itemwise-inventory-status/itemwise-inventory-status.component';
+import { ItemMasterComponent } from './item-master/item-master.component';
 import { LogoutComponent } from './logout/logout.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { ToastModule, ToastOptions } from 'ng2-toastr';
 import { CustomOption } from './custom-option';
 import { InventoryAdditionReportComponent } from './inventory-addition-report/inventory-addition-report.component';
-import { DrilldownstockreportComponent } from './drilldownstockreport/drilldownstockreport.component';
+import { DdStockReportComponent } from './dd-stock-report/dd-stock-report.component';
 
 @NgModule({
   declarations: [
@@ -44,11 +45,12 @@ import { DrilldownstockreportComponent } from './drilldownstockreport/drilldowns
     LoadingIndicatorComponent,
     InventoryDetailsComponent,
     RestockitemComponent,
+    ItemMasterComponent,
     ItemwiseInventoryStatusComponent,
     LogoutComponent,
     ResetPasswordComponent,
     InventoryAdditionReportComponent,
-    DrilldownstockreportComponent
+    DdStockReportComponent
   ],
   imports: [
     BrowserModule,

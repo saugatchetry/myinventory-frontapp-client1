@@ -1,14 +1,14 @@
 <div class="navbar navbar-default">
       <div class="container">
         <div class="navbar-header">
-          <a href="../" class="navbar-brand">Shantanu's Inventory</a>
+          <a href="../" class="navbar-brand">Admin</a>
           <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
         </div>
-        <div class="navbar-collapse collapse" id="navbar-main">
+        <div *ngIf="username != undefined" class="navbar-collapse collapse" id="navbar-main">
           <ul class="nav navbar-nav">
 
             <!--<li>
@@ -25,7 +25,9 @@
                 <li><a routerLink="stocktransfer">Stock Transfer</a></li>
                 <li><a routerLink="vendorwise-inventory-status">Vendor Inventory</a></li>
                 <li><a routerLink="itemwise-inventory-status">Item Inventory</a></li>
-                <li><a routerLink="inventory-addition-report">Inventory Addition</a></li>
+                <li><a routerLink="item-master">Item Master</a></li>
+                <li><a routerLink="dd-stock-report">Drill Down Stock Report</a></li>
+				<li><a routerLink="inventory-addition-report">Inventory Addition</a></li>
                 <li><a routerLink="drilldownstockreport">Drill Down Stock Report</a></li>
               </ul>
             </li>

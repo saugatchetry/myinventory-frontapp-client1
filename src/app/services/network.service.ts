@@ -10,6 +10,7 @@ export class NetworkService {
 
   private _url: string = "http://localhost:4200/api/addNewItem";
   private updateReceiptUrl: string = "http://localhost:4200/api/updateReceipts";
+  private serverUrl: string;
 
   //private _url: string = "https://myinventory-test.herokuapp.com/api/addItem";
   //private updateReceiptUrl: string = "https://myinventory-test.herokuapp.com/api/updateReceipts";
@@ -42,21 +43,32 @@ export class NetworkService {
   public allVendorNames: any;
 
   constructor(private _http:Http) {
-   }
+    // this.serverUrl = "https://6ccd8ae4.ngrok.io";
+    this.serverUrl = "https://myinventory-test.herokuapp.com"
+  }
 
   //  getAllItems(){
-  //    return this._http.get('/api/list').map(data => data.json());
+  //    return this._http.get(this.serverUrl + '/api/list').map(data => data.json());
   //    //return this._http.get('https://myinventory-test.herokuapp.com/api/list').map(data => data.json());
   //  }
 
 
-  getAllItem(){
-    return this._http.get('/api/getAllUniqueItemNames').map(
+  getAllUniqueItemNames(){
+    return this._http.get(this.serverUrl + '/api/getAllUniqueItemNames').map(
                 res => {
                   const data = res.json()
                   console.log(data);
                   return data;
               });
+  }
+  
+	getAllItems(){
+	return this._http.get(this.serverUrl + '/api/getAllItems').map(
+	        res => {
+	          const data = res.json()
+	          console.log(data);
+	          return data;
+	      });
   }
 
 
@@ -88,7 +100,7 @@ export class NetworkService {
     //  let requestOptions = new RequestOptions();
     //  requestOptions.search = params;
 
-     return this._http.get('/api/getAllReceipts').map(
+     return this._http.get(this.serverUrl + '/api/getAllReceipts').map(
                 res => {
                   const data = res.json()
                   console.log(data);
@@ -114,7 +126,7 @@ export class NetworkService {
       let requestOptions = new RequestOptions();
       requestOptions.search = params;
 
-     return this._http.get('/api/getAllReceiptsToday',requestOptions).map(
+     return this._http.get(this.serverUrl + '/api/getAllReceiptsToday',requestOptions).map(
                 res => {
                   const data = res.json()
                   console.log(data);
@@ -139,7 +151,7 @@ export class NetworkService {
       let requestOptions = new RequestOptions();
       requestOptions.search = params;
 
-     return this._http.get('/api/getAllStockTranfersToday',requestOptions).map(
+     return this._http.get(this.serverUrl + '/api/getAllStockTranfersToday',requestOptions).map(
                 res => {
                   const data = res.json()
                   console.log(data);
@@ -157,7 +169,7 @@ export class NetworkService {
 
    getAllVendorsName(){
 
-     return this._http.get('/api/getAllVendors').map(
+     return this._http.get(this.serverUrl + '/api/getAllVendors').map(
                 res => {
 
                   const data = res.json();
@@ -190,7 +202,7 @@ export class NetworkService {
      requestOptions.search = params;
      console.log(" service layer vendorName = "+vendorName+" startDate = "+selectedStartDate+" endDate = "+selectedEndDate);
 
-     return this._http.get('/api/getAllReceiptsWithFilters',requestOptions).map(data => data.json());
+     return this._http.get(this.serverUrl + '/api/getAllReceiptsWithFilters',requestOptions).map(data => data.json());
 
    }
 
@@ -217,12 +229,25 @@ export class NetworkService {
      requestOptions.search = params;
      console.log(" service layer sourceVendor = "+vendorName+" startDate = "+selectedStartDate+" endDate = "+selectedEndDate);
 
-     return this._http.get('/api/getAllStockTransfersFilters',requestOptions).map(data => data.json());
+     return this._http.get(this.serverUrl + '/api/getAllStockTransfersFilters',requestOptions).map(data => data.json());
 
+   }
+   
+   getDrillDownReport(storeName, itemName, startDate, endDate) {
+    let params: URLSearchParams = new URLSearchParams();
+    params.set('storeName', storeName);
+    params.set('itemName', itemName);
+    params.set('startDate', startDate);
+    params.set('endDate', endDate);
+
+    let requestOptions = new RequestOptions();
+    requestOptions.search = params;
+
+    return this._http.get(this.serverUrl + '/api/getDrillDownReortForVendorAndItem',requestOptions).map(data => data.json());
    }
 
    getAllStockTranfers(){
-      return this._http.get('/api/getEveryStockTransfers').map(
+      return this._http.get(this.serverUrl + '/api/getEveryStockTransfers').map(
                 res => {
                   const data = res.json()
                   console.log(data);
@@ -244,7 +269,7 @@ export class NetworkService {
         console.log("encoded_data = "+encoded_data);
         let headers = new Headers({ 'Content-Type': 'application/json;charset=utf-8' });
         let options = new RequestOptions({ headers: headers });
-        return this._http.post(this._url, encoded_data, options)/*.map(
+        return this._http.post(this.serverUrl + "/api/addNewItem", encoded_data, options)/*.map(
             (res: Response) => res.json() || {}
         )*/;
 
@@ -257,7 +282,7 @@ export class NetworkService {
         console.log("encoded_data = "+encoded_data);
         let headers = new Headers({ 'Content-Type': 'application/json;charset=utf-8' });
         let options = new RequestOptions({ headers: headers });
-        return this._http.post("http://localhost:4200/api/refillItemInInventory", encoded_data, options)/*.map(
+        return this._http.post(this.serverUrl + "/api/refillItemInInventory", encoded_data, options)/*.map(
              (res: Response) => res.json() || {}
          )*/;
 
@@ -271,7 +296,7 @@ export class NetworkService {
         let headers = new Headers({ 'Content-Type': 'application/json;charset=utf-8' });
         let options = new RequestOptions({ headers: headers });
 
-        return this._http.post(this.updateReceiptUrl, encoded_data, options)/*.map(
+        return this._http.post(this.serverUrl + "/api/updateReceipts", encoded_data, options)/*.map(
              (res: Response) => res.json() || {}
          )*/;
 
@@ -285,7 +310,7 @@ export class NetworkService {
         let headers = new Headers({ 'Content-Type': 'application/json;charset=utf-8' });
         let options = new RequestOptions({ headers: headers });
 
-        return this._http.post("http://localhost:4200/api/resetPassword", encoded_data, options)/*.map(
+        return this._http.post(this.serverUrl + "/api/resetPassword", encoded_data, options)/*.map(
              (res: Response) => res.json() || {}
          )*/;
 
@@ -299,7 +324,7 @@ export class NetworkService {
         let headers = new Headers({ 'Content-Type': 'application/json;charset=utf-8' });
         let options = new RequestOptions({ headers: headers });
 
-        return this._http.post("http://localhost:4200/api/loginRequest", encoded_data, options)/*.map(
+        return this._http.post(this.serverUrl + "/api/loginRequest", encoded_data, options)/*.map(
              (res: Response) => res.json() || {}
          )*/;
 
@@ -327,7 +352,7 @@ export class NetworkService {
      let requestOptions = new RequestOptions();
      requestOptions.search = params;
 
-     return this._http.get('/api/getCurrentInventoryOfVendor',requestOptions).map(data => data.json());
+     return this._http.get(this.serverUrl + '/api/getCurrentInventoryOfVendor',requestOptions).map(data => data.json());
    }
 
 
@@ -338,7 +363,7 @@ export class NetworkService {
      let requestOptions = new RequestOptions();
      requestOptions.search = params;
 
-     return this._http.get('/api/getCurrentInventoryOfItem',requestOptions).map(data => data.json());
+     return this._http.get(this.serverUrl + '/api/getCurrentInventoryOfItem',requestOptions).map(data => data.json());
    }
 
 
@@ -350,7 +375,7 @@ export class NetworkService {
   //    let requestOptions = new RequestOptions();
   //    requestOptions.search = params;
    //
-  //    return this._http.get('/api/getItemHistory',requestOptions).map(data => data.json());
+  //    return this._http.get(this.serverUrl + '/api/getItemHistory',requestOptions).map(data => data.json());
   //  }
 
    getHistoryOfItem(storeName,itemName,date){
@@ -361,7 +386,7 @@ export class NetworkService {
     let requestOptions = new RequestOptions();
     requestOptions.search = params;
 
-    return this._http.get('/api/getItemHistory',requestOptions).map(data => data.json());
+    return this._http.get(this.serverUrl + '/api/getItemHistory',requestOptions).map(data => data.json());
   }
 
    getItemToEdit(){
@@ -370,7 +395,7 @@ export class NetworkService {
 
 
    getAllRestockInventoryData(){
-     return this._http.get('/api/getAllRestockInventoryData').map(
+     return this._http.get(this.serverUrl + '/api/getAllRestockInventoryData').map(
                res => {
                  const data = res.json()
                  console.log(data);
@@ -386,7 +411,7 @@ export class NetworkService {
      params.set('endDate', endDate);
      let requestOptions = new RequestOptions();
      requestOptions.search = params;
-     return this._http.get('/api/getCurrentInventoryOfVendorsWithFilters',requestOptions).map(data => data.json());
+     return this._http.get(this.serverUrl + '/api/getCurrentInventoryOfVendorsWithFilters',requestOptions).map(data => data.json());
    }
 
 
@@ -398,7 +423,7 @@ export class NetworkService {
      params.set('endDate', endDate);
      let requestOptions = new RequestOptions();
      requestOptions.search = params;
-     return this._http.get('/api/getCurrentInventoryOfItemWithFilters',requestOptions).map(data => data.json());
+     return this._http.get(this.serverUrl + '/api/getCurrentInventoryOfItemWithFilters',requestOptions).map(data => data.json());
    }
 
    getDrillDownReortForVendorAndItem(storeName:string,itemName:string,startDate:string,endDate:string){
@@ -410,7 +435,7 @@ export class NetworkService {
      params.set('endDate', endDate);
      let requestOptions = new RequestOptions();
      requestOptions.search = params;
-     return this._http.get('/api/getDrillDownReortForVendorAndItem',requestOptions).map(data => data.json());
+     return this._http.get(this.serverUrl + '/api/getDrillDownReortForVendorAndItem',requestOptions).map(data => data.json());
    }
 
 

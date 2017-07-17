@@ -65,7 +65,7 @@ export class ItemwiseInventoryStatusComponent implements OnInit,AfterViewInit {
 
   fetchAllItems(){
 
-    this.networkservice.getAllItem()
+    this.networkservice.getAllUniqueItemNames()
           .subscribe(
 
             res => {
