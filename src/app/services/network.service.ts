@@ -45,7 +45,7 @@ export class NetworkService {
 
   constructor(private _http:Http) {
     this.serverUrl = "https://6ccd8ae4.ngrok.io";
-    // this.serverUrl = "https://myinventory-test.herokuapp.com"
+    this.serverUrl = "https://myinventory-test.herokuapp.com"
   }
 
   //  getAllItems(){

@@ -25,12 +25,21 @@
            
         </div>-->
 
-        <div class="radio-div form-group">
+        <!-- <div class="radio-div form-group">
             <label>Outlet Name</label>
             <div *ngFor="let item of allVendorsList;" class="form-control">
                 <input type="radio" id=outlet value={{item}} name="outlet" ngModel>
                 <label for="outlet" class="radio-label">{{item}}</label>
             </div>
+        </div> -->
+
+        <div class="form-group">
+            <label>Select Store Name</label>
+            <select [(ngModel)]="selectedVendor" name="outlet" >
+                <option *ngFor="let item of allVendorsList;" value= {{item}}>
+                    {{item}}
+                </option>
+            </select>
         </div>
 
         <div class="form-group">

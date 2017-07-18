@@ -15,6 +15,7 @@ export class RestockitemComponent implements OnInit {
   public allItemList: any;
   public selectedVendor: String;
   public selectedItem: String;
+  public selectedDate;
   public init: false;
   public currentForm;
   
@@ -27,6 +28,23 @@ export class RestockitemComponent implements OnInit {
   ngOnInit() {
     this.fetchVendors();    
     this.fetchAllItems();
+    this.selectedDate = this.fetchToday();
+  }
+
+  fetchToday() {
+    var now = new Date();
+    var month = (now.getMonth() + 1);               
+    var day = now.getDate();
+
+    var d = String(day);
+    var m = String(month);
+    
+    if(month < 10) 
+        m = "0" + String(month);
+    if(day < 10) 
+        d = "0" + String(day);
+
+    return String(now.getFullYear()) + '-' + m + '-' + d;
   }
 
   fetchVendors(){
@@ -37,15 +55,18 @@ export class RestockitemComponent implements OnInit {
                 console.log(res);
                 this.allVendorsList = res;
                 this.selectedVendor = this.allVendorsList[0].storeName;
+                this.allVendorsList = this.allVendorsList.map(function(item) {
+                  return item.storeName;
+                });  
               });
     }   
     else {
       this.allVendorsList = this.networkservice.allVendorNames;
+      this.selectedVendor = this.allVendorsList[0].storeName;
+      this.allVendorsList = this.allVendorsList.map(function(item) {
+        return item.storeName;
+      });  
     }  
-
-    this.allVendorsList = this.allVendorsList.map(function(item) {
-      return item.storeName;
-    });  
   }
 
   fetchAllItems() {
@@ -55,11 +76,12 @@ export class RestockitemComponent implements OnInit {
               res => {
                 console.log(res);
                 this.allItemList = res;
-                this.selectedItem = this.allItemList[0].storeName;
+                this.selectedItem = this.allItemList[0];
               });
     }   
     else {
       this.allItemList = this.networkservice.allItemList;
+      this.selectedItem = this.allItemList[0];
     }    
   }
 

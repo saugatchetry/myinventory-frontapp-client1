@@ -1,25 +1,6 @@
 <div class="container">
     <h2>Restock Item</h2>
     <form #userForm="ngForm" (ngSubmit)="onSubmit(userForm)" >
-       <!--<div class="form-group">
-            <label>Item Name</label>
-            <input type="text" #varName="ngModel" class="form-control" name="Name" ngModel required
-                   minlength="4" maxlength="10">
-             <b>{{varName.className}}</b>
-            <div *ngIf="varName.errors && (varName.dirty || varName.touched)"
-                    class="alert alert-danger">
-                    <div [hidden]="!varName.errors.required">
-                    Name is required
-                    </div>
-                    <div [hidden]="!varName.errors.minlength">
-                    Name must be at least 4 characters long.
-                    </div>
-                    <div [hidden]="!varName.errors.maxlength">
-                    Name cannot exceed 10 characters.
-                    </div>
-            </div>
-
-        </div>-->
 
         <div class="form-group">
             <label>Select Item</label>
@@ -81,13 +62,18 @@
 
         <div class="form-group">
             <label>Date</label>
+            <input type="date" class="form-control" name="date" id="date" [(ngModel)]="selectedDate">
+        </div>
+
+        <!-- <div class="form-group">
+            <label>Date</label>
             <input type="date" class="form-control" name="date" id="date" required #date="ngModel" ngModel>
             <div *ngIf = "date.errors && (date.dirty || date.touched)" class="alert alert-danger">
               <div>
                 Date is required!!
               </div>
             </div>
-        </div>
+        </div> -->
         <!--<div ngModelGroup="Address">
             <div class="form-group">
                 <label>Street</label>

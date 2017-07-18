@@ -12,6 +12,7 @@ export class AdditemComponent implements OnInit {
 
   public allVendorsList: any;
   public currentForm;
+  public selectedVendor;
 
   constructor(private networkservice: NetworkService,private router: Router,
               private toastr: ToastsManager,vRef: ViewContainerRef)
@@ -20,20 +21,31 @@ export class AdditemComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.networkservice.allVendorNames === undefined) {
-      this.fetchVendors();
-    }
-    else {
-      this.allVendorsList = this.networkservice.allVendorNames;
-    }
+    this.fetchVendors();
   }
 
-  fetchVendors() {
-    this.networkservice.getAllVendorsName()
-      .subscribe(
-        res => {
-          this.allVendorsList = res.map(function (item) {return item.storeName});          
-    });
+  fetchVendors(){
+    if (this.networkservice.allVendorNames === undefined) {
+      this.networkservice.getAllVendorsName()
+            .subscribe(
+              res => {
+                console.log(res);
+                this.allVendorsList = res;
+                this.selectedVendor = this.allVendorsList[0].storeName;
+                this.allVendorsList = this.allVendorsList.map(function(item) {
+                  return item.storeName;
+                });
+              });
+    }   
+    else {
+      this.allVendorsList = this.networkservice.allVendorNames;
+      this.selectedVendor = this.allVendorsList[0].storeName;
+      this.allVendorsList = this.allVendorsList.map(function(item) {
+        return item.storeName;
+      });
+    }  
+
+      
   } 
 
   onSubmit(form:any){
@@ -47,7 +59,7 @@ export class AdditemComponent implements OnInit {
       for (var key in dataFromForm) {
         dataFromForm[key] = this.networkservice.capitalize(dataFromForm[key])
       }
-      
+
       dataFromForm.quantity = 0;
         this.networkservice.sendData(dataFromForm).subscribe(
 
