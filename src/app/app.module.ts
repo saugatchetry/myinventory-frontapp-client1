@@ -29,6 +29,7 @@ import { ToastModule, ToastOptions } from 'ng2-toastr';
 import { CustomOption } from './custom-option';
 import { InventoryAdditionReportComponent } from './inventory-addition-report/inventory-addition-report.component';
 import { DdStockReportComponent } from './dd-stock-report/dd-stock-report.component';
+import { RestockBulkUploadComponent } from './restock-bulk-upload/restock-bulk-upload.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,8 @@ import { DdStockReportComponent } from './dd-stock-report/dd-stock-report.compon
     LogoutComponent,
     ResetPasswordComponent,
     InventoryAdditionReportComponent,
-    DdStockReportComponent
+    DdStockReportComponent,
+    RestockBulkUploadComponent
   ],
   imports: [
     BrowserModule,

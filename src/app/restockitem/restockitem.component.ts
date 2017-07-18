@@ -12,21 +12,26 @@ export class RestockitemComponent implements OnInit {
 
   public vendorNames: any;
   public selectedVendor: String;
+  public init: false;
+  
 
   constructor(private networkservice : NetworkService,private router: Router) { }
 
   ngOnInit() {
-
-    this.getAllVendorNames();
-
-
+    this.getAllDetails();
   }
 
 
-  getAllVendorNames(){
+  getAllDetails(){
     this.networkservice.getAllVendorsName()
           .subscribe(
-
+            res => {
+              console.log(res);
+              this.vendorNames = res;
+              this.selectedVendor = this.vendorNames[0].storeName;
+            });
+    this.networkservice.getAllVendorsName()
+          .subscribe(
             res => {
               console.log(res);
               this.vendorNames = res;

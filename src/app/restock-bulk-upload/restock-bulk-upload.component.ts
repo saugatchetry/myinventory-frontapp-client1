@@ -6,16 +6,19 @@ import { Observable } from 'rxjs/Observable';
 import * as XLSX from 'xlsx';
 
 @Component({
-  selector: 'app-fileupload',
-  templateUrl: './fileupload.component.html',
-  styleUrls: ['./fileupload.component.css']
+  selector: 'app-restock-bulk-upload',
+  templateUrl: './restock-bulk-upload.component.html',
+  styleUrls: ['./restock-bulk-upload.component.css']
 })
-export class FileuploadComponent implements OnInit {
+
+export class RestockBulkUploadComponent implements OnInit {
 
   private url:string = "/api/bulkEntry";
   public data:any;
   public header:any;
   public show;
+  public path: String;
+
   constructor(private networkService : NetworkService, 
     private toastr: ToastsManager,vRef: ViewContainerRef) 
   {
@@ -23,6 +26,7 @@ export class FileuploadComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.path = '';
     this.show = false;
   }
 
@@ -30,7 +34,7 @@ export class FileuploadComponent implements OnInit {
   Submit() {
     this.show = false;
     console.log("Submitting");
-    this.networkService.sendBulkData(this.data).subscribe(
+    this.networkService.sendBulkRestockData(this.data).subscribe(
       response => function(){
         this.okSuccess();
       }, // success
@@ -44,7 +48,9 @@ export class FileuploadComponent implements OnInit {
   }
 
   fileChange(event) {
+    console.log(this.path);
     const scope = this;
+    scope.show = false;
     let fileList: FileList = event.target.files;
     if(fileList.length > 0) {
         let file: File = fileList[0];
@@ -61,22 +67,41 @@ export class FileuploadComponent implements OnInit {
 
           // /* save data to scope */
           const data = (XLSX.utils.sheet_to_json(ws, {header:1}));
+
           scope.header = data[0];
           data.splice(0,1);
+
+          //Date Validation
+          if(!scope.CheckDateFormatting(data))
+          	return;
+
           scope.data = data.map(function(item) {
             return {
               itemName:item[0],
-              itemGroup:item[1],
+              outlet:item[1],
               quantity:item[2],
-              outlet:item[3],
-              uom:item[4],
-              rate:item[5]
+              seller:item[3],
+              date:item[4],
             };
           });
           scope.show = true;
         };
         reader.readAsBinaryString(file);
     }
+  }
+
+  CheckDateFormatting(data) {
+  	var dateReg = /^\d{4}[-]\d{2}[-]\d{2}$/;
+
+  	for(let i in data) {
+  		let item = data[i];
+  		if (!item[4].match(dateReg)) {
+  			var error_string = "Date format invalid for " + item[0] + " - Please specify in yyyy-mm-dd format";
+  			this.toastr.error(error_string, 'Date Format!', {toastLife: 20000, showCloseButton: true});
+  			return false;
+  		}
+  	}
+  	return true;
   }
 
   okSuccess(){
@@ -92,6 +117,6 @@ export class FileuploadComponent implements OnInit {
       this.toastr.error(error_string, 'Server Submission Error!', {toastLife: 20000, showCloseButton: true});
     }
     console.log("Failed");
-    
   }
 }
+

@@ -5,6 +5,7 @@ import { ItemMasterComponent } from './item-master/item-master.component';
 import { ItemwiseInventoryStatusComponent } from './itemwise-inventory-status/itemwise-inventory-status.component';
 import { FileuploadComponent } from './fileupload/fileupload.component';
 import { RestockitemComponent } from './restockitem/restockitem.component';
+import { RestockBulkUploadComponent } from './restock-bulk-upload/restock-bulk-upload.component';
 import { InventoryDetailsComponent } from './inventory-details/inventory-details.component';
 import { VendorwiseInventoryStatusComponent } from './vendorwise-inventory-status/vendorwise-inventory-status.component';
 import { AuthGuard } from './guards/auth.guard';
@@ -42,6 +43,7 @@ export const router: Routes = [
     { path: 'editreceipt', component: EditReceiptComponentComponent},
     { path: 'inventorydetails', component: InventoryDetailsComponent},
     { path: 'restockitem', component: RestockitemComponent,canActivate:[AuthGuard]},
+    { path: 'restock-bulk', component: RestockBulkUploadComponent,canActivate:[AuthGuard]},
     { path: 'fileupload', component: FileuploadComponent, canActivate:[AuthGuard]},
     { path: 'additem', component: AdditemComponent, canActivate:[AuthGuard]}
 ];

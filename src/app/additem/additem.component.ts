@@ -10,6 +10,9 @@ import {ToastsManager, Toast} from 'ng2-toastr';
 })
 export class AdditemComponent implements OnInit {
 
+  public allVendorsList: any;
+  public currentForm;
+
   constructor(private networkservice: NetworkService,private router: Router,
               private toastr: ToastsManager,vRef: ViewContainerRef)
   {
@@ -17,12 +20,28 @@ export class AdditemComponent implements OnInit {
   }
 
   ngOnInit() {
-
+    if (this.networkservice.allVendorNames === undefined) {
+      this.fetchVendors();
+    }
+    else {
+      this.allVendorsList = this.networkservice.allVendorNames;
+    }
   }
 
-  onSubmit(value:any){
-    //console.log(value);
-    this.sendDataToServer(value);
+  fetchVendors() {
+    this.networkservice.getAllVendorsName()
+      .subscribe(
+        res => {
+          this.allVendorsList = res.map(function (item) {return item.storeName});
+          this.allVendorsList.sort();
+          this.networkservice.allVendorNames = this.allVendorsList;
+    });
+  } 
+
+  onSubmit(form:any){
+    this.currentForm = form;
+    console.log(form.value);
+    this.sendDataToServer(form.value);
   }
 
 
@@ -34,8 +53,13 @@ export class AdditemComponent implements OnInit {
             response => function(){
               this.okSuccess();
             }, // success
-            error => this.okFailed(),       // error
-            () => console.log('completed'))   // complete
+            error => {
+              if (error.status === 400) 
+                  this.okFailed(error.json());
+              else
+                this.showError();
+            },       // error
+            () => this.okSuccess());   // complete
 
   }
 
@@ -44,18 +68,23 @@ export class AdditemComponent implements OnInit {
     this.showSuccess();
   }
 
-  okFailed(){
-    console.log("Failed Method called");
-    this.showError();
+  okFailed(error){
+    let error_string = "";
+    let item = error;
+    error_string = item["itemName"] + " in " + item["storeName"] + " - " + item["reason"];
+    this.toastr.error(error_string, 'Server Submission Error!', {toastLife: 20000, showCloseButton: true});
+    
+    console.log("Failed");
   }
 
   showSuccess() {
     console.log("toastr method called");
-    this.toastr.success('You are awesome!', 'Success!', {toastLife: 3000, showCloseButton: false});
+    this.currentForm.reset();
+    this.toastr.success('Added item to server!', 'Success!', {toastLife: 3000, showCloseButton: false});
   }
 
   showError() {
-    this.toastr.error('This is not good!', 'Oops!');
+    this.toastr.error('Could not add data!', 'Oops!');
   }
 
 

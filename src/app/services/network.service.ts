@@ -43,8 +43,8 @@ export class NetworkService {
   public allVendorNames: any;
 
   constructor(private _http:Http) {
-    // this.serverUrl = "https://6ccd8ae4.ngrok.io";
-    this.serverUrl = "https://myinventory-test.herokuapp.com"
+    this.serverUrl = "https://6ccd8ae4.ngrok.io";
+    // this.serverUrl = "https://myinventory-test.herokuapp.com"
   }
 
   //  getAllItems(){
@@ -262,13 +262,30 @@ export class NetworkService {
                   console.log(data);
                   return data;
               });
+   }
 
-      // return this._http.get('https://myinventory-test.herokuapp.com/api/getEveryStockTransfers').map(
-      //           res => {
-      //             const data = res.json()
-      //             console.log(data);
-      //             return data;
-      //         });
+   sendBulkData(data): Observable<Object> {
+
+        let encoded_data = JSON.stringify(data);
+        console.log("encoded_data = " + encoded_data);
+        let headers = new Headers({ 'Content-Type': 'application/json;charset=utf-8' });
+        let options = new RequestOptions({ headers: headers });
+        return this._http.post(this.serverUrl + "/api/bulkEntry", encoded_data, options).map(
+            (res: Response) => res.json() || {}
+        );
+
+   }
+
+   sendBulkRestockData(data): Observable<Object> {
+
+        let encoded_data = JSON.stringify(data);
+        console.log("encoded_data = " + encoded_data);
+        let headers = new Headers({ 'Content-Type': 'application/json;charset=utf-8' });
+        let options = new RequestOptions({ headers: headers });
+        return this._http.post(this.serverUrl + "/api/bulkRestock", encoded_data, options).map(
+            (res: Response) => res.json() || {}
+        );
+
    }
 
    sendData(data): Observable<Object> {

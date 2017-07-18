@@ -64,6 +64,7 @@ export class DdStockReportComponent implements OnInit, AfterViewInit {
               this.allItemList = res.map(function(item) {
                 return item[0];
               });
+              this.allItemList.sort();
               this.allItemDetailsList = {};
               for(var i = 0; i < res.length; i++) {
                 var item = res[i];
