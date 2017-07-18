@@ -2,7 +2,7 @@
   <div class="row">
     <a class="btn btn-success col" href="https://obamawhitehouse.archives.gov/sites/default/files/omb/budget/fy2014/assets/receipts.xls">Sample Spreadsheet</a>
     <div class="col btn btn-primary btn-file">
-    	Upload Restock Excel Sheet
+    	Upload New Item Excel Sheet
     	<input type="file" #file (change)="fileChange($event);file.value=''" placeholder="Upload file" accept=".xls,.xlsx"  multiple>
 	</div>
   </div>
@@ -19,10 +19,8 @@
 	  	<tr *ngFor="let item of data">
 	  		<td>{{item.itemName}}</td>
 	  		<td>{{item.itemGroup}}</td>
-	  		<td>{{item.quantity}}</td>
 	  		<td>{{item.outlet}}</td>
 	  		<td>{{item.uom}}</td>
-	  		<td>{{item.rate}}</td>
 		</tr>
 	  </tbody>
 	</table>

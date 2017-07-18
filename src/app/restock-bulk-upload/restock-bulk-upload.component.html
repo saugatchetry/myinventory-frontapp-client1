@@ -3,7 +3,7 @@
     <a class="btn btn-success col" href="https://obamawhitehouse.archives.gov/sites/default/files/omb/budget/fy2014/assets/receipts.xls">Sample Spreadsheet</a>
     <div class="col btn btn-primary btn-file">
     	Upload Restock Excel Sheet
-    	<input type="file" #file (change)="fileChange($event);debug(file.files);file.value=''" placeholder="Upload file" accept=".xls,.xlsx" [(ngModel)]="path">
+    	<input type="file" #file (change)="fileChange($event);file.value=''" placeholder="Upload file" accept=".xls,.xlsx" [(ngModel)]="path">
 	</div>
   </div>
 </div>

@@ -41,6 +41,7 @@ export class NetworkService {
   public allItemsInventoryList: any;
 
   public allVendorNames: any;
+  public allItemList: any;
 
   constructor(private _http:Http) {
     this.serverUrl = "https://6ccd8ae4.ngrok.io";
@@ -58,7 +59,9 @@ export class NetworkService {
                 res => {
                   const data = res.json()
                   console.log(data);
-                  return data;
+                  data.sort();
+                  this.allItemList = data;
+                  return this.allItemList;
               });
   }
 
@@ -180,9 +183,10 @@ export class NetworkService {
 
      return this._http.get(this.serverUrl + '/api/getAllVendors').map(
                 res => {
-
                   const data = res.json();
-                  return data;
+                  this.allVendorNames = data;
+                  this.allVendorNames.sort();
+                  return this.allVendorNames;
               });
 
    }
@@ -464,6 +468,15 @@ export class NetworkService {
      return this._http.get(this.serverUrl + '/api/getDrillDownReortForVendorAndItem',requestOptions).map(data => data.json());
    }
 
+   // util
+
+  capitalize(item) {
+    if (typeof(item) ===  'string')
+      return item.toLowerCase();
+      // return item.charAt(0).toUpperCase() + item.slice(1).toLowerCase();
+    else
+      return item;
+  }
 
 
 }

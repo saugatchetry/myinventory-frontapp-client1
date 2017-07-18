@@ -63,14 +63,13 @@ export class FileuploadComponent implements OnInit {
           const data = (XLSX.utils.sheet_to_json(ws, {header:1}));
           scope.header = data[0];
           data.splice(0,1);
+
           scope.data = data.map(function(item) {
             return {
-              itemName:item[0],
-              itemGroup:item[1],
-              quantity:item[2],
-              outlet:item[3],
-              uom:item[4],
-              rate:item[5]
+              itemName:scope.networkService.capitalize(item[0]),
+              itemGroup:scope.networkService.capitalize(item[1]),
+              outlet:scope.networkService.capitalize(item[2]),
+              uom:scope.networkService.capitalize(item[3])
             };
           });
           scope.show = true;

@@ -32,22 +32,23 @@ export class AdditemComponent implements OnInit {
     this.networkservice.getAllVendorsName()
       .subscribe(
         res => {
-          this.allVendorsList = res.map(function (item) {return item.storeName});
-          this.allVendorsList.sort();
-          this.networkservice.allVendorNames = this.allVendorsList;
+          this.allVendorsList = res.map(function (item) {return item.storeName});          
     });
   } 
 
   onSubmit(form:any){
     this.currentForm = form;
-    console.log(form.value);
     this.sendDataToServer(form.value);
   }
 
 
   sendDataToServer(dataFromForm) {
       console.log("About to send");
-      console.log(dataFromForm);
+      for (var key in dataFromForm) {
+        dataFromForm[key] = this.networkservice.capitalize(dataFromForm[key])
+      }
+      
+      dataFromForm.quantity = 0;
         this.networkservice.sendData(dataFromForm).subscribe(
 
             response => function(){

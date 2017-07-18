@@ -77,10 +77,10 @@ export class RestockBulkUploadComponent implements OnInit {
 
           scope.data = data.map(function(item) {
             return {
-              itemName:item[0],
-              outlet:item[1],
+              itemName:scope.networkService.capitalize(item[0]),
+              outlet:scope.networkService.capitalize(item[1]),
               quantity:item[2],
-              seller:item[3],
+              seller:scope.networkService.capitalize(item[3]),
               date:item[4],
             };
           });
@@ -95,6 +95,7 @@ export class RestockBulkUploadComponent implements OnInit {
 
   	for(let i in data) {
   		let item = data[i];
+      
   		if (!item[4].match(dateReg)) {
   			var error_string = "Date format invalid for " + item[0] + " - Please specify in yyyy-mm-dd format";
   			this.toastr.error(error_string, 'Date Format!', {toastLife: 20000, showCloseButton: true});
