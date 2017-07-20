@@ -44,7 +44,7 @@ export class NetworkService {
   public allItemList: any;
 
   constructor(private _http:Http) {
-    this.serverUrl = "https://6ccd8ae4.ngrok.io";
+    // this.serverUrl = "https://0c4e36eb.ngrok.io";
     this.serverUrl = "https://myinventory-test.herokuapp.com"
   }
 
@@ -472,8 +472,8 @@ export class NetworkService {
 
   capitalize(item) {
     if (typeof(item) ===  'string')
-      return item.toLowerCase();
-      // return item.charAt(0).toUpperCase() + item.slice(1).toLowerCase();
+      // return item.toLowerCase();
+      return item.charAt(0).toUpperCase() + item.slice(1).toLowerCase();
     else
       return item;
   }
