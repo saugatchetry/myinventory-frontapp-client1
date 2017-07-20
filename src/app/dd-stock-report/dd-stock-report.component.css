@@ -1,0 +1,36 @@
+.dateFilterSpace{
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding: 10px;
+  border-size:2px;
+  border-style:solid;
+  border-color:#9ED3F7;
+}
+
+.dateFilterButton{
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.mainTable{
+  padding:12px;
+  border-size:2px;
+  border-style:solid;
+  border-color:#9ED3F7;
+}
+
+#startDateLabel{
+  margin-right: 5px;
+}
+
+#startDateEntry{
+  margin-right: 15px;
+}
+
+#endDateLabel{
+  margin-right: 5px;
+}
+
+#endDateEntry{
+  margin-right: 25px;
+}
