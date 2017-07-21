@@ -31,6 +31,7 @@ import { InventoryAdditionReportComponent } from './inventory-addition-report/in
 import { DdStockReportComponent } from './dd-stock-report/dd-stock-report.component';
 import { RestockBulkUploadComponent } from './restock-bulk-upload/restock-bulk-upload.component';
 import { StockTransferAnomalyComponent } from './stock-transfer-anomaly/stock-transfer-anomaly.component';
+import { DateFilterComponent } from './date-filter/date-filter.component';
 
 @NgModule({
   declarations: [
@@ -54,7 +55,8 @@ import { StockTransferAnomalyComponent } from './stock-transfer-anomaly/stock-tr
     InventoryAdditionReportComponent,
     DdStockReportComponent,
     RestockBulkUploadComponent,
-    StockTransferAnomalyComponent
+    StockTransferAnomalyComponent,
+    DateFilterComponent
   ],
   imports: [
     BrowserModule,

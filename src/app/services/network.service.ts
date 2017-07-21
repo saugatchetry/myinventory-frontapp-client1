@@ -246,8 +246,8 @@ export class NetworkService {
 
    }
 
-   getAllFailedOutGoingStockTransfers(vendorName:string,startDate:string,endDate:string) {
-    console.log("service + vendorName = "+vendorName+" startDate = "+startDate+" endDate = "+endDate);
+   getAllFailedOutGoingStockTransfers(startDate:string,endDate:string) {
+    
      var selectedStartDate : string;
      var selectedEndDate : string;
 
@@ -261,13 +261,12 @@ export class NetworkService {
      }
 
      let params: URLSearchParams = new URLSearchParams();
-     params.set('storeName', vendorName);
      params.set('startDate', selectedStartDate);
      params.set('endDate', selectedEndDate)
 
      let requestOptions = new RequestOptions();
      requestOptions.search = params;
-     console.log(" service layer sourceVendor = "+vendorName+" startDate = "+selectedStartDate+" endDate = "+selectedEndDate);
+  
 
      return this._http.get(this.serverUrl + '/api/getAllFailedOutGoingStockTransfers',requestOptions).map(data => data.json());
    }
@@ -502,6 +501,22 @@ export class NetworkService {
       return item.charAt(0).toUpperCase() + item.slice(1).toLowerCase();
     else
       return item;
+  }
+
+  getTodayDate(){
+    var now = new Date();
+    var day = ("0" + now.getDate()).slice(-2);
+    var month = ("0" + (now.getMonth() + 1)).slice(-2);
+    return now.getFullYear() + "-" + (month) + "-" + (day);
+  }
+
+
+  getPriorDate(){
+    var d = new Date();
+    d.setDate(d.getDate() - 30);
+    var day = ("0" + d.getDate()).slice(-2);
+    var month = ("0" + (d.getMonth() + 1)).slice(-2);
+    return d.getFullYear() + "-" + (month) + "-" + (day);
   }
 
 

@@ -1,0 +1,10 @@
+<!-- <div *ngIf="dateFilterOn" class="dateFilterSpace"> -->
+
+<div class="dateFilterSpace">
+
+    <label id="startDateLabel">Starting Date</label>
+    <input id="startDateEntry" type="date" name="" value="" [max]='today' [min] = 'dateString' [(ngModel)]="filterStartDate">
+    <label id="endDateLabel">End Date</label>
+    <input id="endDateEntry" type="date" name="" value="" [max]='today' [min] = 'dateString' [(ngModel)]="filterEndDate">
+    <button id="submitFilters" (click)="submitFilters()">Submit</button>
+</div>

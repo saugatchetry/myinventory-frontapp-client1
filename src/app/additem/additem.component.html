@@ -5,33 +5,6 @@
 <div class="container">
     <h2>Add New Item</h2>
     <form *ngIf="allVendorsList" #userForm="ngForm" (ngSubmit)="onSubmit(userForm);" >
-       <!--<div class="form-group">
-            <label>Item Name</label>
-            <input type="text" #varName="ngModel" class="form-control" name="Name" ngModel required
-                   minlength="4" maxlength="10">
-             <b>{{varName.className}}</b>
-            <div *ngIf="varName.errors && (varName.dirty || varName.touched)"
-                    class="alert alert-danger">
-                    <div [hidden]="!varName.errors.required">
-                    Name is required
-                    </div>
-                    <div [hidden]="!varName.errors.minlength">
-                    Name must be at least 4 characters long.
-                    </div>
-                    <div [hidden]="!varName.errors.maxlength">
-                    Name cannot exceed 10 characters.
-                    </div>
-            </div>    
-           
-        </div>-->
-
-        <!-- <div class="radio-div form-group">
-            <label>Outlet Name</label>
-            <div *ngFor="let item of allVendorsList;" class="form-control">
-                <input type="radio" id=outlet value={{item}} name="outlet" ngModel>
-                <label for="outlet" class="radio-label">{{item}}</label>
-            </div>
-        </div> -->
 
         <div class="form-group">
             <label>Select Store Name</label>

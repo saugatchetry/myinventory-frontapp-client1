@@ -1,47 +1,32 @@
-<div class="dateFilterButton">
-  <button id="toggleFilters" (click)="toggleDateFilter()">Filters</button>
+<div class="dateFilterSpace">
+  <app-date-filter (clicked)="onClicked($event)"></app-date-filter>
 </div>
 
-<div *ngIf="dateFilterOn" class="dateFilterSpace">
 
-    <select [(ngModel)]="selectorVendor" id = "vendorDropDown">
-      <option *ngFor="let vendor of vendorList;" value= {{vendor.storeName}}>
-        {{vendor.storeName}}
-      </option>
-    </select>
-
-    <label id="startDateLabel">Starting Date</label>
-    <input id="startDateEntry" type="date" name="" value="" [max]='today' [min] = 'dateString' [(ngModel)]="filterStartDate">
-    <label id="endDateLabel">End Date</label>
-    <input id="endDateEntry" type="date" name="" value="" [max]='today' [min] = 'dateString' [(ngModel)]="filterEndDate">
-
-    <button id="submitFilters" (click)="submitFilters()">Submit</button>
-</div>
-
+<h2 align="center"> Stock Transfer Anomaly Report</h2>
 <!-- <table id="receiptTable" [dtTrigger]="dtTrigger" datatable class="row-border hover"> -->
-<table #myTable datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" datatable class="row-border hover" >
+<table #myTable datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" datatable class="table-bordered hover table" >
   <thead>
     <tr>
-      <th>ID</th>
+      <th>Date</th>
       <th>Source Vendor</th>
       <th>Target Vendor</th>
-      <th>Date </th>
-      <th>Item Name</th>
-	    <th>Quantity</th>
-      <th>Status</th>
+      <th>Item Name </th>
+      <th>Quantity</th>
+	    <th>Status</th>
+      <th>Reason</th>
     </tr>
   </thead>
   <tbody *ngIf="itemList">
 
-
-      <tr *ngFor="let user of itemList">
-        <td>{{user.transferId}}</td>
-        <td>{{user.sourceVendor}}</td>
-        <td>{{user.targetVendor}}</td>
-        <td>{{user.date}}</td>
-        <td>{{user.itemName}}</td>
-        <td>{{user.quantity}}</td>
-        <td>{{user.status}}</td>
+      <tr *ngFor="let transfer of itemList">
+        <td>{{transfer.date}}</td>
+        <td>{{transfer.sourceVendor}}</td>
+        <td>{{transfer.targetVendor}}</td>
+        <td>{{transfer.itemName}}</td>
+        <td>{{transfer.quantity}}</td>
+        <td>{{transfer.status}}</td>
+        <td>{{transfer.reason}}</td>
       </tr>
 
 
