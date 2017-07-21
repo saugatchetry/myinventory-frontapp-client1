@@ -1,0 +1,326 @@
+Searching 89 files for "position"
+
+/Users/zakoi/Code/Saugat/SuperToasts/CHANGELOG.md:
+   12  - Unified managers into a single 'Toaster' class that handles both SuperToasts and SuperActivityToasts
+   13  - Removed unnecessary XML resources
+   14: - Added support for SuperActivityToast gravity/position changes
+   15  - Added accessibility support
+   16  - Added support for Lollipop-style SnackBars
+
+/Users/zakoi/Code/Saugat/SuperToasts/demo/src/main/java/com/github/johnpersano/supertoasts/demo/fragments/AttributeSpinnerFragment.java:
+   90  
+   91              @Override
+   92:             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+   93                  PreferenceManager.getDefaultSharedPreferences(getActivity())
+   94:                         .edit().putInt(getArguments().getString(ARG_TITLE), position).commit();
+   95              }
+   96  
+
+/Users/zakoi/Code/Saugat/SuperToasts/demo/src/main/java/com/github/johnpersano/supertoasts/demo/fragments/PagerFragment.java:
+  101  
+  102          @Override
+  103:         public Fragment getItem(int position) {
+  104:             return PagerFragment.this.mFragments.get(position);
+  105          }
+  106  
+  107          @Override
+  108:         public CharSequence getPageTitle(int position) {
+  109:             return (PagerFragment.this.mFragmentTitles.get(position));
+  110          }
+  111      }
+
+/Users/zakoi/Code/Saugat/SuperToasts/demo/src/main/java/com/github/johnpersano/supertoasts/demo/Playground.java:
+  151          final int iconArbiter = random.nextInt(10);
+  152          switch (iconArbiter) {
+  153:             case 1: superToast.setIconResource(Style.ICONPOSITION_BOTTOM, R.drawable.ic_about); break;
+  154:             case 2: superToast.setIconResource(Style.ICONPOSITION_LEFT, R.drawable.ic_about); break;
+  155:             case 3: superToast.setIconResource(Style.ICONPOSITION_RIGHT, R.drawable.ic_about); break;
+  156:             case 4: superToast.setIconResource(Style.ICONPOSITION_TOP, R.drawable.ic_about); break;
+  157              default: break;
+  158          }
+  ...
+  237          final int iconArbiter = random.nextInt(10);
+  238          switch (iconArbiter) {
+  239:             case 1: superActivityToast.setIconResource(Style.ICONPOSITION_BOTTOM, R.drawable.ic_about); break;
+  240:             case 2: superActivityToast.setIconResource(Style.ICONPOSITION_LEFT, R.drawable.ic_about); break;
+  241:             case 3: superActivityToast.setIconResource(Style.ICONPOSITION_RIGHT, R.drawable.ic_about); break;
+  242:             case 4: superActivityToast.setIconResource(Style.ICONPOSITION_TOP, R.drawable.ic_about); break;
+  243              default: break;
+  244          }
+
+/Users/zakoi/Code/Saugat/SuperToasts/demo/src/main/java/com/github/johnpersano/supertoasts/demo/views/TabStrip.java:
+   49  
+   50      public interface IconTabProvider {
+   51:         int getPageIconResId(int position);
+   52      }
+   53  
+   ..
+   70      private int tabCount;
+   71  
+   72:     private int currentPosition = 0;
+   73:     private float currentPositionOffset = 0f;
+   74  
+   75      private final Paint rectPaint;
+   ..
+  209                  }
+  210  
+  211:                 currentPosition = pager.getCurrentItem();
+  212:                 scrollToChild(currentPosition, 0);
+  213              }
+  214          });
+  215      }
+  216  
+  217:     private void addTextTab(final int position, String title) {
+  218  
+  219          TextView tab = new TextView(getContext());
+  ...
+  223          tab.setAllCaps(true);
+  224  
+  225:         addTab(position, tab);
+  226      }
+  227  
+  228:     private void addIconTab(final int position, int resId) {
+  229  
+  230          ImageButton tab = new ImageButton(getContext());
+  231          tab.setImageResource(resId);
+  232  
+  233:         addTab(position, tab);
+  234      }
+  235  
+  236:     private void addTab(final int position, View tab) {
+  237          tab.setFocusable(true);
+  238          tab.setOnClickListener(new OnClickListener() {
+  239              @Override
+  240              public void onClick(View v) {
+  241:                 pager.setCurrentItem(position);
+  242              }
+  243          });
+  ...
+  245          tab.setPadding(tabPadding, 0, tabPadding, 0);
+  246  
+  247:         tabsContainer.addView(tab, position, shouldExpand ? expandedTabLayoutParams : defaultTabLayoutParams);
+  248      }
+  249  
+  ...
+  262                  int tabTypefaceStyle = Typeface.BOLD;
+  263                  tab.setTypeface(tabTypeface, tabTypefaceStyle);
+  264:                 tab.setTextColor(i == currentPosition ? tabTextColor : tabDeactivateTextColor);
+  265  
+  266              }
+  ...
+  270      }
+  271  
+  272:     private void updateActivateTab(final int position) {
+  273  
+  274          for (int i = 0; i < tabCount; i++) {
+  ...
+  278              if (v instanceof TextView) {
+  279                  TextView tab = (TextView) v;
+  280:                 tab.setTextColor(position == i ? tabTextColor : tabDeactivateTextColor);
+  281              } else {
+  282:                 v.setSelected(position == i);
+  283              }
+  284          }
+  285      }
+  286  
+  287:     private void scrollToChild(int position, int offset) {
+  288  
+  289          if (tabCount == 0) {
+  ...
+  291          }
+  292  
+  293:         int newScrollX = tabsContainer.getChildAt(position).getLeft() + offset;
+  294  
+  295:         if (position > 0 || offset > 0) {
+  296              newScrollX -= scrollOffset;
+  297          }
+  ...
+  319  
+  320          // default: line below current tab
+  321:         View currentTab = tabsContainer.getChildAt(currentPosition);
+  322  
+  323          float lineLeft = currentTab.getLeft();
+  ...
+  328  
+  329          // if there is an offset, start interpolating left and right coordinates between current and next tab
+  330:         if (currentPositionOffset > 0f && currentPosition < tabCount - 1) {
+  331  
+  332:             View nextTab = tabsContainer.getChildAt(currentPosition + 1);
+  333              float nextTabLeft = nextTab.getLeft();
+  334              nextTabLeft += indicatorPadding;
+  ...
+  337              nextTabRight -= indicatorPadding;
+  338  
+  339:             lineLeft = (currentPositionOffset * nextTabLeft + (1f - currentPositionOffset) * lineLeft);
+  340:             lineRight = (currentPositionOffset * nextTabRight + (1f - currentPositionOffset) * lineRight);
+  341  
+  342          }
+  ...
+  354  
+  355          @Override
+  356:         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+  357  
+  358:             currentPosition = position;
+  359:             currentPositionOffset = positionOffset;
+  360  
+  361:             scrollToChild(position, (int) (positionOffset * tabsContainer.getChildAt(position).getWidth()));
+  362  
+  363              invalidate();
+  364  
+  365              if (delegatePageListener != null) {
+  366:                 delegatePageListener.onPageScrolled(position, positionOffset, positionOffsetPixels);
+  367              }
+  368          }
+  ...
+  380  
+  381          @Override
+  382:         public void onPageSelected(int position) {
+  383  
+  384:             updateActivateTab(position);
+  385  
+  386              if (delegatePageListener != null) {
+  387:                 delegatePageListener.onPageSelected(position);
+  388              }
+  389          }
+  ...
+  395          SavedState savedState = (SavedState) state;
+  396          super.onRestoreInstanceState(savedState.getSuperState());
+  397:         currentPosition = savedState.currentPosition;
+  398          requestLayout();
+  399      }
+  ...
+  403          Parcelable superState = super.onSaveInstanceState();
+  404          SavedState savedState = new SavedState(superState);
+  405:         savedState.currentPosition = currentPosition;
+  406          return savedState;
+  407      }
+  408  
+  409      static class SavedState extends BaseSavedState {
+  410:         int currentPosition;
+  411  
+  412          public SavedState(Parcelable superState) {
+  ...
+  416          private SavedState(Parcel in) {
+  417              super(in);
+  418:             currentPosition = in.readInt();
+  419          }
+  420  
+  ...
+  422          public void writeToParcel(@NonNull Parcel dest, int flags) {
+  423              super.writeToParcel(dest, flags);
+  424:             dest.writeInt(currentPosition);
+  425          }
+  426  
+
+/Users/zakoi/Code/Saugat/SuperToasts/library/src/main/java/com/github/johnpersano/supertoasts/library/Style.java:
+   50  
+   51      @Retention(RetentionPolicy.SOURCE)
+   52:     @IntDef({ICONPOSITION_LEFT, ICONPOSITION_RIGHT, ICONPOSITION_BOTTOM, ICONPOSITION_TOP})
+   53:     public @interface IconPosition {}
+   54  
+   55      @Retention(RetentionPolicy.SOURCE)
+   ..
+   89      public static final int TEXTSIZE_VERY_LARGE = 20;
+   90  
+   91:     public static final int ICONPOSITION_LEFT = 1;
+   92:     public static final int ICONPOSITION_RIGHT = 2;
+   93:     public static final int ICONPOSITION_BOTTOM = 3;
+   94:     public static final int ICONPOSITION_TOP = 4;
+   95  
+   96      public static final int FRAME_STANDARD = 1;
+   ..
+  134      public int messageTextColor;
+  135      public int messageTextSize;
+  136:     public int messageIconPosition;
+  137      public int messageIconResource;
+  138  
+  ...
+  177          this.messageTextColor = PaletteUtils.getSolidColor(PaletteUtils.WHITE);
+  178          this.messageTextSize = TEXTSIZE_SMALL;
+  179:         this.messageIconPosition = ICONPOSITION_LEFT;
+  180  
+  181          // SuperActivityToast Button items
+  ...
+  219          parcel.writeInt(messageTextColor);
+  220          parcel.writeInt(messageTextSize);
+  221:         parcel.writeInt(messageIconPosition);
+  222          parcel.writeInt(messageIconResource);
+  223  
+  ...
+  282          this.messageTextColor = parcel.readInt();
+  283          this.messageTextSize = parcel.readInt();
+  284:         this.messageIconPosition = parcel.readInt();
+  285          this.messageIconResource = parcel.readInt();
+  286  
+
+/Users/zakoi/Code/Saugat/SuperToasts/library/src/main/java/com/github/johnpersano/supertoasts/library/SuperToast.java:
+  171          this.mTextView.setTextSize(this.mStyle.messageTextSize);
+  172          if (this.mStyle.messageIconResource > 0) {
+  173:             if (this.mStyle.messageIconPosition == Style.ICONPOSITION_LEFT) {
+  174                  this.mTextView.setCompoundDrawablesWithIntrinsicBounds(
+  175                          this.mStyle.messageIconResource, 0, 0, 0);
+  176:             } else if (this.mStyle.messageIconPosition == Style.ICONPOSITION_TOP) {
+  177                  this.mTextView.setCompoundDrawablesWithIntrinsicBounds(
+  178                          0, this.mStyle.messageIconResource, 0, 0);
+  179:             } else if (this.mStyle.messageIconPosition == Style.ICONPOSITION_RIGHT) {
+  180                  this.mTextView.setCompoundDrawablesWithIntrinsicBounds(
+  181                          0, 0, this.mStyle.messageIconResource, 0);
+  182:             } else if (this.mStyle.messageIconPosition == Style.ICONPOSITION_BOTTOM) {
+  183                  this.mTextView.setCompoundDrawablesWithIntrinsicBounds(
+  184                          0, 0, 0, this.mStyle.messageIconResource);
+  ...
+  422  
+  423      /**
+  424:      * Sets the icon position and icon resource of the main TextView.
+  425:      * The recommended icon position for most applications is
+  426:      * {@link Style#ICONPOSITION_LEFT}.
+  427       *
+  428:      * @param iconPosition The desired icon position
+  429       * @param iconResource The desired icon resource
+  430       * @return The current SuperToast instance
+  431       * 
+  432:      * @see #setIconPosition(int) 
+  433       * @see #setIconResource(int)  
+  434       */
+  435:     public SuperToast setIconResource(@Style.IconPosition int iconPosition,
+  436                                        @DrawableRes int iconResource) {
+  437:         this.mStyle.messageIconPosition = iconPosition;
+  438          this.mStyle.messageIconResource = iconResource;
+  439          return this;
+  ...
+  441  
+  442      /**
+  443:      * Sets the icon position of the main TextView.
+  444:      * The recommended icon position for most applications is
+  445:      * {@link Style#ICONPOSITION_LEFT}.
+  446       *
+  447:      * @param iconPosition The desired icon position
+  448       * @return The current SuperToast instance
+  449       *
+  ...
+  451       * @see #setIconResource(int)
+  452       */
+  453:     public SuperToast setIconPosition(@Style.IconPosition int iconPosition) {
+  454:         this.mStyle.messageIconPosition = iconPosition;
+  455          return this;
+  456      }
+  ...
+  463       *
+  464       * @see #setIconResource(int, int)
+  465:      * @see #setIconPosition(int)
+  466       */
+  467      public SuperToast setIconResource(@DrawableRes int iconResource) {
+  ...
+  481  
+  482      /**
+  483:      * Returns the icon position of the main TextView.
+  484       *
+  485:      * @return The icon position value
+  486       */
+  487:     @Style.IconPosition
+  488:     public int getIconPosition() {
+  489:         return this.mStyle.messageIconPosition;
+  490      }
+  491  
+
+113 matches across 7 files

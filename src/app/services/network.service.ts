@@ -245,6 +245,32 @@ export class NetworkService {
      return this._http.get(this.serverUrl + '/api/getAllStockTransfersFilters',requestOptions).map(data => data.json());
 
    }
+
+   getAllFailedOutGoingStockTransfers(vendorName:string,startDate:string,endDate:string) {
+    console.log("service + vendorName = "+vendorName+" startDate = "+startDate+" endDate = "+endDate);
+     var selectedStartDate : string;
+     var selectedEndDate : string;
+
+     if(startDate == undefined || endDate == undefined){
+       selectedStartDate = '';
+       selectedEndDate = '';
+     }
+     else{
+       selectedStartDate = startDate;
+       selectedEndDate = endDate;
+     }
+
+     let params: URLSearchParams = new URLSearchParams();
+     params.set('storeName', vendorName);
+     params.set('startDate', selectedStartDate);
+     params.set('endDate', selectedEndDate)
+
+     let requestOptions = new RequestOptions();
+     requestOptions.search = params;
+     console.log(" service layer sourceVendor = "+vendorName+" startDate = "+selectedStartDate+" endDate = "+selectedEndDate);
+
+     return this._http.get(this.serverUrl + '/api/getAllFailedOutGoingStockTransfers',requestOptions).map(data => data.json());
+   }
    
    getDrillDownReport(storeName, itemName, startDate, endDate) {
     let params: URLSearchParams = new URLSearchParams();

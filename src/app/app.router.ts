@@ -14,6 +14,7 @@ import { EditReceiptComponentComponent } from './edit-receipt-component/edit-rec
 import { LoginComponent } from './login/login.component';
 import { ModuleWithProviders } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { StockTransferAnomalyComponent } from './stock-transfer-anomaly/stock-transfer-anomaly.component';
 
 import { AppComponent } from './app.component';
 import { AdditemComponent } from './additem/additem.component';
@@ -31,6 +32,7 @@ export const router: Routes = [
     { path: 'itemwise-inventory-status',component: ItemwiseInventoryStatusComponent,canActivate:[AuthGuard]},
     { path: 'item-master',component: ItemMasterComponent,canActivate:[AuthGuard]},
     { path: 'dd-stock-report',component: DdStockReportComponent,canActivate:[AuthGuard]},
+    { path: 'stock-transfer-anomaly',component: StockTransferAnomalyComponent,canActivate:[AuthGuard]},
     { path: 'inventory-addition-report',component: InventoryAdditionReportComponent,canActivate:[AuthGuard]},
     { path: 'savereport', component: SavereportComponent,children:[
         {path:'',redirectTo:'savereport/stocktransfer',pathMatch: 'full'},

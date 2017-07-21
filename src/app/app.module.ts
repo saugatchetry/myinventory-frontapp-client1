@@ -30,6 +30,7 @@ import { CustomOption } from './custom-option';
 import { InventoryAdditionReportComponent } from './inventory-addition-report/inventory-addition-report.component';
 import { DdStockReportComponent } from './dd-stock-report/dd-stock-report.component';
 import { RestockBulkUploadComponent } from './restock-bulk-upload/restock-bulk-upload.component';
+import { StockTransferAnomalyComponent } from './stock-transfer-anomaly/stock-transfer-anomaly.component';
 
 @NgModule({
   declarations: [
@@ -52,7 +53,8 @@ import { RestockBulkUploadComponent } from './restock-bulk-upload/restock-bulk-u
     ResetPasswordComponent,
     InventoryAdditionReportComponent,
     DdStockReportComponent,
-    RestockBulkUploadComponent
+    RestockBulkUploadComponent,
+    StockTransferAnomalyComponent
   ],
   imports: [
     BrowserModule,
