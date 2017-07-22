@@ -47,9 +47,15 @@ export class NetworkService {
   public allItemList: any;
   public wopts:XLSX.WritingOptions = { bookType:'xlsx', type:'binary' };
 
+  // Caching implemented
+  public cache_allVendorResponse;
+
   constructor(private _http:Http) {
     // this.serverUrl = "https://9138d64c.ngrok.io";//"https://0c4e36eb.ngrok.io";
     this.serverUrl = "https://myinventory-test.herokuapp.com"
+
+    // Initialize Cache
+    this.cache_allVendorResponse = null;
   }
 
   //  getAllItems(){
@@ -194,7 +200,6 @@ export class NetworkService {
               });
 
    }
-
 
    getReceiptsWithFilter(vendorName:string,startDate:string,endDate:string){
      console.log("service + vendorName = "+vendorName+" startDate = "+startDate+" endDate = "+endDate);

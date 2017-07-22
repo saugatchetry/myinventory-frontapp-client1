@@ -161,8 +161,8 @@ getInventoryDetails(itm){
         var ONE_DAY = 1000 * 60 * 60 * 24
         var date_diff = (d2-d1)/ONE_DAY;
 
-        if(date_diff > 30){
-          alert("Date cannot be greater than 30 days");
+        if(date_diff > 90){
+          alert("Date cannot be greater than 90 days");
         }
         else{
           startDate = this.filterStartDate;
@@ -179,8 +179,8 @@ getInventoryDetails(itm){
         var d2 = Date.parse(endDate);
         var ONE_DAY = 1000 * 60 * 60 * 24
         var date_diff = (d2-d1)/ONE_DAY;
-        if(date_diff > 30){
-          alert("Date cannot be greater than 30 days");
+        if(date_diff > 90){
+          alert("Date cannot be greater than 90 days");
         }
         else{
           this.makeTheApiCall(this.selectorVendor,startDate,endDate);

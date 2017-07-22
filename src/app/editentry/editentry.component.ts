@@ -209,8 +209,8 @@ export class EditentryComponent implements OnInit {
         var ONE_DAY = 1000 * 60 * 60 * 24
         var date_diff = (d2-d1)/ONE_DAY;
 
-        if(date_diff > 30){
-          alert("Date cannot be greater than 30 days");
+        if(date_diff > 90){
+          alert("Date cannot be greater than 90 days");
         }
         else{
           startDate = this.filterStartDate;
@@ -227,8 +227,8 @@ export class EditentryComponent implements OnInit {
         var d2 = Date.parse(endDate);
         var ONE_DAY = 1000 * 60 * 60 * 24
         var date_diff = (d2-d1)/ONE_DAY;
-        if(date_diff > 30){
-          alert("Date cannot be greater than 30 days");
+        if(date_diff > 90){
+          alert("Date cannot be greater than 90 days");
         }
         else{
           this.makeTheApiCall(this.selectorVendor,startDate,endDate);
@@ -253,57 +253,14 @@ export class EditentryComponent implements OnInit {
       endDate = this.today;
       this.makeTheApiCall(this.selectorVendor,startDate,endDate);
     }
+  }
 
-    // if(this.filterEndDate != '' && this.filterStartDate == ''){
-    //    alert("Please Select Start Date");
-    // }
-    // else if(this.filterEndDate != '' && this.filterStartDate != ''){
-    //
-    //     console.log("start date = "+this.filterStartDate);
-    //     console.log("end date = "+this.filterEndDate);
-    //
-    //     var d1 = Date.parse(this.filterStartDate);
-    //     var d2 = Date.parse(this.filterEndDate);
-    //     if (d1 > d2) {
-    //         alert("End Date cannot be before Start Date");
-    //     }
-    //     else{
-    //       startDate = this.filterStartDate;
-    //       endDate = this.filterEndDate;
-    //     }
-    // }
-
-    // if(this.itemList != null){
-    //   console.log("Item List has data");
-    //
-    //     this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
-    //     // Destroy the table first
-    //     dtInstance.destroy();
-    //     // Call the dtTrigger to rerender again
-    //     this.dtTrigger.next();
-    //   });
-    //
-    // }
-    // else{
-    //   console.log("Item List doesn't have data");
-    //
-    //   this.networkservice.getReceiptsWithFilter(this.selectorVendor,startDate,endDate)
-    //   .subscribe(
-    //       res => {
-    //         this.itemList = [];
-    //         console.log(res);
-    //         this.itemList = res;
-    //
-    //         this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
-    //         // Destroy the table first
-    //         dtInstance.destroy();
-    //         // Call the dtTrigger to rerender again
-    //         this.dtTrigger.next();
-    //       });
-    //       //this.selectorVendor = this.vendorList[0].storeName;
-    //     });
-    // }
-
+  getDateDiff(start, end) {
+    var d1 = Date.parse(start);
+    var d2 = Date.parse(end);
+    var ONE_DAY = 1000 * 60 * 60 * 24;
+    var date_diff = (d2-d1)/ONE_DAY;
+    return date_diff;
   }
 
 
@@ -318,6 +275,12 @@ export class EditentryComponent implements OnInit {
           this.itemList = [];
           console.log(res);
           this.itemList = res;
+          const scope = this;
+          this.itemList = this.itemList.map(function(item) {
+            item.edit = (scope.getDateDiff(item.date, scope.today) > 30) ? false : true;
+            return item;
+          });
+
 
           this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
           // Destroy the table first

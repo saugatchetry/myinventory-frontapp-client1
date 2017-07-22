@@ -34,6 +34,7 @@ export class DdStockReportComponent implements OnInit, AfterViewInit {
   public today:string;
   public priorDate:string;
   public transactionCount;
+  public storeItemDict;
 
   dtTrigger: Subject<any> = new Subject();
   
@@ -51,6 +52,14 @@ export class DdStockReportComponent implements OnInit, AfterViewInit {
     this.today = this.filterEndDate = this.networkservice.getTodayDate();
   }
 
+  onVendorChanged(e) {
+    this.allItemList = this.storeItemDict[this.selectedVendor];
+    
+    if(this.allItemList.length > 0) {
+      this.selectedItem = this.allItemList[0];
+    }
+  }
+
 	fetchItemAndVendors() {
     this.networkservice.getAllVendorsName()
       .subscribe(
@@ -58,27 +67,63 @@ export class DdStockReportComponent implements OnInit, AfterViewInit {
           this.allVendorsList = res.map(function (item) {return item.storeName});
           this.allVendorsList.sort();
           this.selectedVendor = this.allVendorsList[0];
+
+          this.networkservice.getAllItems()
+            .subscribe(
+              res => {
+                this.allItemList = this.processRecords(res);
+                if(this.allItemList.length > 0) {
+                  this.selectedItem = this.allItemList[0];
+                }
+            });
     });
 
-  	this.networkservice.getAllUniqueItemDetails()
-          .subscribe(
-            res => {
-              this.allItemList = res.map(function(item) {
-                return item[0];
-              });
-              this.allItemList.sort();
-              this.allItemDetailsList = {};
-              for(var i = 0; i < res.length; i++) {
-                var item = res[i];
-                var itemDetails = {
-                  itemName: item[0],
-                  itemGroup: item[1],
-                  uom:item[2]
-                }
-                this.allItemDetailsList[item[0]] = itemDetails;
-              }
-              this.selectedItem = this.allItemList[0];
+  	// this.networkservice.getAllUniqueItemDetails()
+   //        .subscribe(
+   //          res => {
+   //            this.allItemList = res.map(function(item) {
+   //              return item[0];
+   //            });
+   //            this.allItemList.sort();
+   //            this.allItemDetailsList = {};
+   //            for(var i = 0; i < res.length; i++) {
+   //              var item = res[i];
+   //              var itemDetails = {
+   //                itemName: item[0],
+   //                itemGroup: item[1],
+   //                uom:item[2]
+   //              }
+   //              this.allItemDetailsList[item[0]] = itemDetails;
+   //            }
+   //            this.selectedItem = this.allItemList[0];
+   //  });
+  
+    
+  }
+
+  processRecords(records_list) {
+    var tempDict = {} 
+    for(var i = 0; i < this.allVendorsList.length; i++) {
+      tempDict[this.allVendorsList[i]] = [];
+    }
+
+    for(var i = 0; i < records_list.length; i++) {
+      var element = records_list[i];
+      var current_item = element.itemName;
+      
+      // Sanity Check
+      if (tempDict[element.outlet] === undefined) {
+        tempDict[element.outlet] = [];
+      }
+      tempDict[element.outlet].push(current_item);
+    }
+
+    Object.keys(tempDict).forEach(function(currentKey) {
+      tempDict[currentKey].sort();
     });
+
+    this.storeItemDict = tempDict;
+    return this.storeItemDict[this.selectedVendor];
   }
 
   getReport(vendor, item, startDate, endDate) {
@@ -184,8 +229,8 @@ export class DdStockReportComponent implements OnInit, AfterViewInit {
         var ONE_DAY = 1000 * 60 * 60 * 24
         var date_diff = (d2-d1)/ONE_DAY;
 
-        if(date_diff > 30){
-          alert("Date cannot be greater than 30 days");
+        if(date_diff > 90){
+          alert("Date cannot be greater than 90 days");
         }
         else{
           startDate = this.filterStartDate;
@@ -203,8 +248,8 @@ export class DdStockReportComponent implements OnInit, AfterViewInit {
         var d2 = Date.parse(endDate);
         var ONE_DAY = 1000 * 60 * 60 * 24
         var date_diff = (d2-d1)/ONE_DAY;
-        if(date_diff > 30){
-          alert("Date cannot be greater than 30 days");
+        if(date_diff > 90){
+          alert("Date cannot be greater than 90 days");
         }
         else{
           this.getReport(this.selectedVendor, this.selectedItem, startDate, endDate);

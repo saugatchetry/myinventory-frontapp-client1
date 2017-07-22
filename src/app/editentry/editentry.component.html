@@ -46,7 +46,9 @@
           <td>{{user.itemName}}</td>
           <td>{{user.quantity}}</td>
           <td>{{user.amount}}</td>
-          <td><button id="open-modal" #openModal (click)="getItems(user)" data-toggle="modal" data-target="#login-modal">Edit</button></td>
+          <td *ngIf="user.edit" ><button id="open-modal" #openModal (click)="getItems(user)" data-toggle="modal" 
+          data-target="#login-modal">Edit</button></td>
+          <td *ngIf="!user.edit">Edit Disabled</td>
         </tr>
 
 

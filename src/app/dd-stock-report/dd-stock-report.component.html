@@ -1,25 +1,26 @@
-<button (click)="DownloadToExcel()">Export to excel</button>
-<div align="center" class="dateFilterSpace">
-  <h4 align="center">Filters</h4>
-   <label id="itemLabel">Select Item</label>
-   <select [(ngModel)]="selectedItem" >
-      <option *ngFor="let item of allItemList;" value= {{item}}>
-        {{item}}
-      </option>
-    </select>
-    <label id="vendorLabel">Vendor</label>
-    <select [(ngModel)]="selectedVendor" id = "vendorDropDown" >
-      <option *ngFor="let item of allVendorsList;" value= {{item}}>
-        {{item}}
-      </option>
-    </select>
-    <label id="startDateLabel">Starting Date</label>
-    <input id="startDateEntry" type="date" name="" value="" [max]='today' [(ngModel)]="filterStartDate">
-    <label id="endDateLabel">End Date</label>
-    <input id="endDateEntry" type="date" name="" value="" [max]='today' [(ngModel)]="filterEndDate">
-    <button id="submitFilters" (click)="submitFilters()">Get Report</button>
+<div *ngIf="allItemList">
+  <button (click)="DownloadToExcel()">Export to excel</button>
+  <div align="center" class="dateFilterSpace">
+    <h4 align="center">Filters</h4>
+     <label id="itemLabel">Select Item</label>
+     <select [(ngModel)]="selectedItem" >
+        <option *ngFor="let item of allItemList;" value= {{item}}>
+          {{item}}
+        </option>
+      </select>
+      <label id="vendorLabel">Vendor</label>
+      <select [(ngModel)]="selectedVendor" id = "vendorDropDown" (change)="onVendorChanged($event)" >
+        <option *ngFor="let item of allVendorsList;" value= {{item}}>
+          {{item}}
+        </option>
+      </select>
+      <label id="startDateLabel">Starting Date</label>
+      <input id="startDateEntry" type="date" name="" value="" [max]='today' [(ngModel)]="filterStartDate">
+      <label id="endDateLabel">End Date</label>
+      <input id="endDateEntry" type="date" name="" value="" [max]='today' [(ngModel)]="filterEndDate">
+      <button id="submitFilters" (click)="submitFilters()">Get Report</button>
+  </div>
 </div>
-
 <h2 align="center"> Drill Down Stock Report</h2>
 <div class="borderLine">
 
