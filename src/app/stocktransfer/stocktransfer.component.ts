@@ -148,7 +148,7 @@ export class StocktransferComponent implements OnInit {
   }
 
   DownloadToExcel() {
-    var fileName = "Stock_transfer_report.xlsx";
+    var fileName = "Stock_transfer_report" + "__" + this.filterStartDate + "--" + this.filterEndDate+ ".xlsx";
     var data = [];
 
     var header = ["Date", "Source Vendor", "Target Vendor", "Item Name", "Quantity","Status"];

@@ -222,7 +222,7 @@ export class ItemwiseInventoryStatusComponent implements OnInit,AfterViewInit {
   }
 
   DownloadToExcel() {
-    var fileName = this.selectedItem + "_item_wise_inventory.xlsx";
+    var fileName = this.selectedItem + "_item_wise_inventory"+ "__" + this.filterStartDate + "--" + this.filterEndDate+ ".xlsx";
     var data = [];
 
     var header = ["Date", "Item Name", "Item Group", "Store Name", "Quantity"];

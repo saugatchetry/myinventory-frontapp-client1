@@ -88,7 +88,7 @@ export class EditentryComponent implements OnInit {
   }
 
   DownloadToExcel() {
-    var fileName = "Daily_Sales_Report.xlsx";
+    var fileName = "Daily_Sales_Report" + "__" + this.filterStartDate + "--" + this.filterEndDate+ ".xlsx";;
     var data = [];
 
     var header = ["Date", "Store Name", "Customer name","Item Name", "Quantity", "Amount"];

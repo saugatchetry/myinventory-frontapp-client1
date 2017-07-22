@@ -235,7 +235,7 @@ getInventoryDetails(itm){
   }
 
   DownloadToExcel() {
-    var fileName = this.selectorVendor + "_vendor_wise_inventory.xlsx";
+    var fileName = this.selectorVendor + "_vendor_wise_inventory" + "__" + this.filterStartDate + "--" + this.filterEndDate+ ".xlsx";
     var data = [];
 
     var header = ["Date", "Item Name", "Item Group", "Store Name", "Quantity"];

@@ -235,7 +235,7 @@ export class DdStockReportComponent implements OnInit, AfterViewInit {
     if(this.transactions === undefined)
       return;
 
-    var fileName = this.selectedVendor + "_" + this.selectedItem + "_drill_down_stock_report" + this.today + ".xlsx";
+    var fileName = this.selectedVendor + "_" + this.selectedItem + "_drill_down_stock_report" +"__" + this.filterStartDate + "--" + this.filterEndDate+ ".xlsx";
     var data = [];
 
     var header = ["Date", "Retail Outlet", "Item Name", "Item Group", "UOM", "Nature", "Quantity"];
