@@ -24,15 +24,28 @@
             <label>Id</label>
             <input type="text" class="form-control" name="id" [(ngModel)] = "id" readonly>
         </div>
+         <div class="form-group">
+            <label>Date</label>
+            <input type="text" class="form-control" name="date" [(ngModel)] = "date" id="date" required #dt="ngModel" ngModel readonly="">
+        </div>
+        
+        <div class="form-group">
+            <label>Store Name</label>
+            <input type="text" class="form-control" name="receiptOutletName" [(ngModel)] = "receiptOutletName" id="receiptOutletName" required #outletName="ngModel" ngModel readonly>
+        </div>
         <div class="form-group">
             <label>Item Name</label>
-            <input type="text" class="form-control" id="itemName" required name="itemName" [(ngModel)] = "itemName" #itmName="ngModel" ngModel>
-            <div *ngIf = "itmName.errors && (itmName.dirty || itmName.touched)" class="alert alert-danger">
+            <input type="text" class="form-control" id="itemName" required name="itemName" [(ngModel)] = "itemName" #itmName="ngModel" ngModel readonly>
+        </div>
+
+        <div class="form-group">
+            <label>Customer Name</label>
+            <input type="text" class="form-control" name="customerName" [(ngModel)] = "customerName" id="customerName" required #custName="ngModel" ngModel>
+            <div *ngIf = "custName.errors && (custName.dirty || custName.touched)" class="alert alert-danger">
               <div>
-                Item Name is required!!
+                Customer Name is required!!
               </div>
             </div>
-
 
         </div>
 
@@ -45,26 +58,8 @@
               </div>
             </div>
         </div>
-        <div class="form-group">
-            <label>Customer Name</label>
-            <input type="text" class="form-control" name="customerName" [(ngModel)] = "customerName" id="customerName" required #custName="ngModel" ngModel>
-            <div *ngIf = "custName.errors && (custName.dirty || custName.touched)" class="alert alert-danger">
-              <div>
-                Customer Name is required!!
-              </div>
-            </div>
-
-        </div>
-        <div class="form-group">
-            <label>Store Name</label>
-            <input type="text" class="form-control" name="receiptOutletName" [(ngModel)] = "receiptOutletName" id="receiptOutletName" required #outletName="ngModel" ngModel>
-            <div *ngIf = "outletName.errors && (outletName.dirty || outletName.touched)" class="alert alert-danger">
-              <div>
-                Store Name is required!!
-              </div>
-            </div>
-
-        </div>
+        
+        
          <div class="form-group">
             <label>Amount</label>
             <input type="text" class="form-control" name="amount" [(ngModel)] = "amount" id="amount" required #amt="ngModel" ngModel>
@@ -74,16 +69,7 @@
               </div>
             </div>
         </div>
-         <div class="form-group">
-            <label>Date</label>
-            <input type="text" class="form-control" name="date" [(ngModel)] = "date" id="date" required #dt="ngModel" ngModel>
-            <div *ngIf = "dt.errors && (dt.dirty || dt.touched)" class="alert alert-danger">
-              <div>
-                Date is required!!
-              </div>
-            </div>
-
-        </div>
+        
 
         <!--<div ngModelGroup="Address">
             <div class="form-group">
