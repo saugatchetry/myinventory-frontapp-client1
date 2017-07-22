@@ -5,6 +5,7 @@ import { NetworkService } from './../services/network.service';
 import { Subject } from 'rxjs/Rx';
 import { Router } from '@angular/router';
 import { DataTableDirective } from 'angular-datatables';
+
 @Component({
   selector: 'app-editentry',
   templateUrl: './editentry.component.html',
@@ -16,7 +17,6 @@ export class EditentryComponent implements OnInit {
 @ViewChild(DataTableDirective) dtElement:DataTableDirective;
 @ViewChild('something') something:ElementRef;
 
-
   private itemList: any;
 
   private vendorList: any;
@@ -24,6 +24,9 @@ export class EditentryComponent implements OnInit {
 
   dtTrigger: Subject<any> = new Subject();
   dtOptions: DataTables.Settings = {};
+
+  public download_fileName = "editentry";
+  public excel_data;
 
   public dateFilterOn = false;
 
@@ -38,15 +41,17 @@ export class EditentryComponent implements OnInit {
   public vendorNameArray = ["Select"];
 
   constructor(private _http:Http, private networkservice : NetworkService,private router: Router) {
-
   }
 
   ngOnInit():void {
 
 
 
-    this.getCurrentDate();
-    this.getPriorDate();
+    // this.getCurrentDate();
+    // this.getPriorDate();
+
+    this.priorDate = this.filterStartDate = this.networkservice.getPriorDate();
+    this.today = this.filterEndDate = this.networkservice.getTodayDate();
 
 
 
@@ -80,6 +85,29 @@ export class EditentryComponent implements OnInit {
     //         // () => this.showData()
     //       );
 
+  }
+
+  DownloadToExcel() {
+    var fileName = "Daily_Sales_Report.xlsx";
+    var data = [];
+
+    var header = ["Date", "Store Name", "Customer name","Item Name", "Quantity", "Amount"];
+    data.push(header);
+
+    var store_data = this.itemList.map(function(item) {
+      var return_item = [];
+      return_item.push(item.date);
+      return_item.push(item.receiptOutletName);
+      return_item.push(item.customerName);
+      return_item.push(item.itemName);
+      return_item.push(item.quantity);
+      return_item.push(item.amount);
+      return return_item;
+    });
+
+    data = data.concat(store_data);
+
+    this.networkservice.DownloadToExcel(fileName, data);
   }
 
   ngAfterViewInit(): void {

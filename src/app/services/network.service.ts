@@ -4,6 +4,9 @@ import 'rxjs/add/operator/map';
 import { Observable } from 'rxjs/Observable';
 import { Http, Response, Headers, RequestOptions, URLSearchParams } from '@angular/http';
 import { DatePipe } from '@angular/common';
+import * as XLSX from 'xlsx';
+
+import { saveAs } from 'file-saver';
 
 @Injectable()
 export class NetworkService {
@@ -42,9 +45,10 @@ export class NetworkService {
 
   public allVendorNames: any;
   public allItemList: any;
+  public wopts:XLSX.WritingOptions = { bookType:'xlsx', type:'binary' };
 
   constructor(private _http:Http) {
-    // this.serverUrl = "https://0c4e36eb.ngrok.io";
+    // this.serverUrl = "https://9138d64c.ngrok.io";//"https://0c4e36eb.ngrok.io";
     this.serverUrl = "https://myinventory-test.herokuapp.com"
   }
 
@@ -305,6 +309,16 @@ export class NetworkService {
 
    }
 
+   sendFailedOutGoingStockTransfer(data): Observable<Object> {
+     let encoded_data = JSON.stringify(data);
+      console.log("encoded_data = " + encoded_data);
+      let headers = new Headers({ 'Content-Type': 'application/json;charset=utf-8' });
+      let options = new RequestOptions({ headers: headers });
+      return this._http.post(this.serverUrl + "/api/pushFailedOutGoingStockTransfer", encoded_data, options).map(
+          (res: Response) => res.json() || {}
+      );
+   } 
+
    sendBulkRestockData(data): Observable<Object> {
 
         let encoded_data = JSON.stringify(data);
@@ -513,10 +527,32 @@ export class NetworkService {
 
   getPriorDate(){
     var d = new Date();
-    d.setDate(d.getDate() - 30);
+    d.setDate(d.getDate() - 1);
     var day = ("0" + d.getDate()).slice(-2);
     var month = ("0" + (d.getMonth() + 1)).slice(-2);
     return d.getFullYear() + "-" + (month) + "-" + (day);
+  }
+
+  DownloadToExcel(fileName, data) {
+      /* generate worksheet */
+    const ws = XLSX.utils.aoa_to_sheet(data);
+    
+    /* generate workbook and add the worksheet */
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+    /* save to file */
+    const wbout = XLSX.write(wb, this.wopts);
+    saveAs(new Blob([this.s2ab(wbout)]), fileName);
+  }
+
+  s2ab(s:string):ArrayBuffer {
+    const buf = new ArrayBuffer(s.length);
+    const view = new Uint8Array(buf);
+    for (let i = 0; i !== s.length; ++i) {
+      view[i] = s.charCodeAt(i) & 0xFF;
+    };
+    return buf;
   }
 
 

@@ -1,1 +1,67 @@
 /* You can add global styles to this file, and also import other style files */
+
+.dateFilterSpace{
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding: 10px;
+  border-size:2px;
+  border-style:solid;
+  border-color:rgba(128, 128, 128, 0.09);
+}
+
+.borderLine{
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding: 10px;
+  border-size:2px;
+  border-style:dotted;
+  border-color: rgba(128, 128, 128, 0.09);
+}
+
+.table td {
+   text-align: center;   
+}
+
+.table th {
+   text-align: center;   
+}
+
+.dateFilterButton{
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.mainTable{
+  padding:12px;
+  border-size:2px;
+  border-style:solid;
+  border-color:#9ED3F7;
+}
+
+#vendorDropDown{
+  margin-left: 5px;
+  margin-right: 15px;
+}
+
+#vendorLabel{
+  margin-left: 5px;
+  margin-right: 15px;
+}
+
+#startDateLabel{
+  margin-right: 5px;
+  margin-left: 15px;
+}
+
+#startDateEntry{
+  margin-right: 15px;
+}
+
+#endDateLabel{
+  margin-right: 5px;
+}
+
+#endDateEntry{
+  margin-right: 25px;
+}
+

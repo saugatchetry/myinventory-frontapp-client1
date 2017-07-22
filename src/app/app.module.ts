@@ -32,6 +32,7 @@ import { DdStockReportComponent } from './dd-stock-report/dd-stock-report.compon
 import { RestockBulkUploadComponent } from './restock-bulk-upload/restock-bulk-upload.component';
 import { StockTransferAnomalyComponent } from './stock-transfer-anomaly/stock-transfer-anomaly.component';
 import { DateFilterComponent } from './date-filter/date-filter.component';
+import { ExcelDownloaderComponent } from './excel-downloader/excel-downloader.component';
 
 @NgModule({
   declarations: [
@@ -56,7 +57,8 @@ import { DateFilterComponent } from './date-filter/date-filter.component';
     DdStockReportComponent,
     RestockBulkUploadComponent,
     StockTransferAnomalyComponent,
-    DateFilterComponent
+    DateFilterComponent,
+    ExcelDownloaderComponent
   ],
   imports: [
     BrowserModule,

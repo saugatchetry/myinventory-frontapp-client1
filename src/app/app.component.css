@@ -1,3 +1,11 @@
 .dropdown:hover .dropdown-menu {
     display: block;
 }
+
+.table td {
+   text-align: center;   
+}
+
+.table th {
+   text-align: center;   
+}

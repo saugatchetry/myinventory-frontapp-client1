@@ -5,6 +5,7 @@ import { NetworkService } from './../services/network.service';
 import { Subject } from 'rxjs/Rx';
 import { Router } from '@angular/router';
 import { DataTableDirective } from 'angular-datatables';
+import { LoadingIndicatorComponent } from '../loading-indicator/loading-indicator.component';
 
 @Component({
   selector: 'app-vendorwise-inventory-status',
@@ -34,8 +35,8 @@ export class VendorwiseInventoryStatusComponent implements OnInit,AfterViewInit 
   dtOptions: DataTables.Settings = {};
 
   public today:string;
-
   public priorDate:string;
+  public loading;
 
   constructor(private _http:Http, private networkservice : NetworkService,private router: Router) {
 
@@ -48,8 +49,10 @@ export class VendorwiseInventoryStatusComponent implements OnInit,AfterViewInit 
     //  this.dtOptions = {
     //  destroy:true
     // };
-    this.getCurrentDate();
-    this.getPriorDate();
+    this.loading = false;
+    this.priorDate = this.filterStartDate = this.networkservice.getPriorDate();
+    this.today = this.filterEndDate = this.networkservice.getTodayDate();
+
 
 
 
@@ -91,7 +94,7 @@ export class VendorwiseInventoryStatusComponent implements OnInit,AfterViewInit 
   }
 
   fetchCurrentInventoryOfVendor(){
-
+    this.loading = true;
     this.networkservice.getCurrentInventoryOfVendors(this.selectorVendor)
           .subscribe(
 
@@ -103,7 +106,9 @@ export class VendorwiseInventoryStatusComponent implements OnInit,AfterViewInit 
               this.networkservice.currentItemList = res;
               console.log("size of currentInventory = "+this.currentInventory.length);
               //this.dtTrigger.next();
-
+              
+              //setTimeout(function(){ this.loading = false; }, 3000);
+              //this.loading = false;
               console.log("dtElement = "+this.dtElement);
                   this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
                   // Destroy the table first
@@ -205,10 +210,12 @@ getInventoryDetails(itm){
   }
 
   makeTheApiCall(name:string,startDate:string,endDate:string){
+    this.loading = true;
     this.networkservice.getCurrentInventoryOfVendorsWithFilters(name,startDate,endDate)
           .subscribe(
 
             res => {
+              this.loading = false;
               this.currentInventory = [];
               console.log(res);
               this.currentInventory = res;
@@ -227,22 +234,26 @@ getInventoryDetails(itm){
             });
   }
 
-  getCurrentDate(){
-    var now = new Date();
-    var day = ("0" + now.getDate()).slice(-2);
-    var month = ("0" + (now.getMonth() + 1)).slice(-2);
-    this.today = now.getFullYear() + "-" + (month) + "-" + (day);
-    console.log("Calculated Date = "+this.today);
-  }
+  DownloadToExcel() {
+    var fileName = this.selectorVendor + "_vendor_wise_inventory.xlsx";
+    var data = [];
 
+    var header = ["Date", "Item Name", "Item Group", "Store Name", "Quantity"];
+    data.push(header);
 
-  getPriorDate(){
-    var d = new Date();
-    d.setDate(d.getDate() - 30);
-    var day = ("0" + d.getDate()).slice(-2);
-    var month = ("0" + (d.getMonth() + 1)).slice(-2);
-    this.priorDate = d.getFullYear() + "-" + (month) + "-" + (day);
-    console.log("Prior Date Calculaed = "+this.priorDate);
+    var store_data = this.currentInventory.map(function(item) {
+      var return_item = [];
+      return_item.push(item.date);
+      return_item.push(item.itemName);
+      return_item.push(item.itemGroup);
+      return_item.push(item.outlet);
+      return_item.push(item.quantity);
+      return return_item;
+    });
+
+    data = data.concat(store_data);
+
+    this.networkservice.DownloadToExcel(fileName, data);
   }
 
 }

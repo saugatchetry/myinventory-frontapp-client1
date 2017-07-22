@@ -1,48 +1,33 @@
-<!-- <div>
-  <select [(ngModel)]="selectedItem" >
-    <option *ngFor="let item of allItemList;" value= {{item}}>
-      {{item}}
-    </option>
-  </select>
-  <select [(ngModel)]="selectedVendor" >
-    <option *ngFor="let item of allVendorsList;" value= {{item}}>
-      {{item}}
-    </option>
-  </select>
-  <button id="b_GetReport" (click)="getReport()">Go</button>
-</div> -->
-<br>
-
-<div class="dateFilterSpace">
+<button (click)="DownloadToExcel()">Export to excel</button>
+<div align="center" class="dateFilterSpace">
+  <h4 align="center">Filters</h4>
    <label id="itemLabel">Select Item</label>
    <select [(ngModel)]="selectedItem" >
       <option *ngFor="let item of allItemList;" value= {{item}}>
         {{item}}
       </option>
     </select>
-    <br>
-    <label id="vendorLabel">Select Vendor</label>
-    <select [(ngModel)]="selectedVendor" >
+    <label id="vendorLabel">Vendor</label>
+    <select [(ngModel)]="selectedVendor" id = "vendorDropDown" >
       <option *ngFor="let item of allVendorsList;" value= {{item}}>
         {{item}}
       </option>
     </select>
-    <br>
     <label id="startDateLabel">Starting Date</label>
     <input id="startDateEntry" type="date" name="" value="" [max]='today' [(ngModel)]="filterStartDate">
-    <br>
     <label id="endDateLabel">End Date</label>
     <input id="endDateEntry" type="date" name="" value="" [max]='today' [(ngModel)]="filterEndDate">
-    <br>
-
     <button id="submitFilters" (click)="submitFilters()">Get Report</button>
 </div>
-<br>
 
-<table id="dd-table" [dtTrigger]="dtTrigger" datatable class="table-bordered hover table">
+<h2 align="center"> Drill Down Stock Report</h2>
+<div class="borderLine">
+
+<table id="dd-table" [dtTrigger]="dtTrigger" datatable class="table-bordered hover tablee">
   	<thead>
       <tr>
-      	<th>Date</th>
+      	<th>Sl.No</th>
+        <th>Date</th>
       	<th>Retail Outlet</th>
       	<th>Item Name</th>
       	<th>Item Group</th>
@@ -53,6 +38,7 @@
 	</thead>	
 	<tbody *ngIf="show">
 		<tr>
+      <td>0</td>
   	  <td>{{openingDate}}</td>
       <td></td>
       <td></td>
@@ -62,6 +48,7 @@
   	  <td>{{opening}}</td>
   	</tr>
   	<tr *ngFor="let item of transactions">
+      <td>{{item.id}}</td>
       <td>{{item.date}}</td>
       <td>{{selectedVendor}}</td>
   	  <td>{{selectedItemDetails.itemName}}</td>
@@ -71,6 +58,7 @@
   	  <td>{{item.quantity}}</td>
   	</tr>
   	<tr>
+      <td>{{transactionCount}}</td>
       <td>{{closingDate}}</td>
       <td></td>
       <td></td>
@@ -81,3 +69,4 @@
   	</tr>
 	</tbody>  
 </table>
+</div>

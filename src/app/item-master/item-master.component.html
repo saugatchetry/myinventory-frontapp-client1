@@ -1,22 +1,28 @@
-<table id="item-master" [dtTrigger]="dtTrigger" datatable class="table-bordered hover table">
-  <thead>
-      <tr>
-        <th rowspan="2">Item Name</th>
-        <th rowspan="2">Item Group</th>
-        <th rowspan="2">UOM</th>
-        <th colspan="4">Retail Outlet Tagged</th>
-      </tr>
-      <tr>
-        <th *ngFor="let item of allVendorsList">{{item}}</th>
-      </tr>
-  </thead>
-  <tbody *ngIf="allItemList">
-      <tr *ngFor="let item of allItemList">
-        <td>{{item.itemName}}</td>
-        <td>{{item.itemGroup}}</td>
-        <td>{{item.uom}}</td>
-        <td *ngFor="let store of item.stores">{{store}}</td>
-      </tr>
-  </tbody>  
-</table>
+<button (click)="DownloadToExcel()">Export to excel</button>
+<h2 align="center"> Item Master Report</h2>
+<br>
+
+<div class="borderLine">
+  <table id="item-master" [dtTrigger]="dtTrigger" datatable class="table-bordered hover table">
+    <thead>
+        <tr>
+          <th rowspan="2">Item Name</th>
+          <th rowspan="2">Item Group</th>
+          <th rowspan="2">UOM</th>
+          <th colspan="4">Retail Outlet Tagged</th>
+        </tr>
+        <tr>
+          <th *ngFor="let item of allVendorsList">{{item}}</th>
+        </tr>
+    </thead>
+    <tbody *ngIf="allItemList">
+        <tr *ngFor="let item of allItemList">
+          <td>{{item.itemName}}</td>
+          <td>{{item.itemGroup}}</td>
+          <td>{{item.uom}}</td>
+          <td *ngFor="let store of item.stores">{{store}}</td>
+        </tr>
+    </tbody>  
+  </table>
+</div>
 

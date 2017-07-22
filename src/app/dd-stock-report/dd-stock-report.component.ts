@@ -33,20 +33,22 @@ export class DdStockReportComponent implements OnInit, AfterViewInit {
   public filterEndDate:string = "";
   public today:string;
   public priorDate:string;
+  public transactionCount;
 
   dtTrigger: Subject<any> = new Subject();
   
   constructor(private _http:Http, private networkservice : NetworkService,private router: Router) { }
 
   ngOnInit() {
-  	this.getCurrentDate();
-    this.getPriorDate();
     this.fetchItemAndVendors();
     this.show = false;
+    this.transactionCount = 0;
   }
 
   ngAfterViewInit(): void {
-      this.dtTrigger.next();
+    this.dtTrigger.next();
+    this.priorDate = this.filterStartDate = this.networkservice.getPriorDate();
+    this.today = this.filterEndDate = this.networkservice.getTodayDate();
   }
 
 	fetchItemAndVendors() {
@@ -114,6 +116,7 @@ export class DdStockReportComponent implements OnInit, AfterViewInit {
 			closing = this.updateClosingBalance(trans_type, quantity, closing);
 
 			var trans_item = {
+        id: i+1,
         date: date,
 				type: trans_type,
 				quantity: quantity
@@ -122,6 +125,8 @@ export class DdStockReportComponent implements OnInit, AfterViewInit {
 		}
     this.opening = opening;
     this.closing = closing;
+    this.transactionCount = res_list.length + 1;
+
   }
 
   updateClosingBalance(trans_type, quantity, current_balance) {
@@ -226,21 +231,35 @@ export class DdStockReportComponent implements OnInit, AfterViewInit {
     }
   }
 
-  getCurrentDate(){
-    var now = new Date();
-    var day = ("0" + now.getDate()).slice(-2);
-    var month = ("0" + (now.getMonth() + 1)).slice(-2);
-    this.today = now.getFullYear() + "-" + (month) + "-" + (day);
-    console.log("Calculated Date = "+this.today);
-  }
+  DownloadToExcel() {
+    if(this.transactions === undefined)
+      return;
 
+    var fileName = this.selectedVendor + "_" + this.selectedItem + "_drill_down_stock_report" + this.today + ".xlsx";
+    var data = [];
 
-  getPriorDate(){
-    var d = new Date();
-    d.setDate(d.getDate() - 30);
-    var day = ("0" + d.getDate()).slice(-2);
-    var month = ("0" + (d.getMonth() + 1)).slice(-2);
-    this.priorDate = d.getFullYear() + "-" + (month) + "-" + (day);
-    console.log("Prior Date Calculaed = "+this.priorDate);
+    var header = ["Date", "Retail Outlet", "Item Name", "Item Group", "UOM", "Nature", "Quantity"];
+    data.push(header);
+    header = [this.openingDate, "", "", "", "","Opening", this.opening];
+    data.push(header);
+    const scope = this;
+
+    for(var i = 0; i < this.transactions.length; i++) {
+      var item = this.transactions[i];
+      var return_item = [];
+      return_item.push(item.date);
+      return_item.push(scope.selectedVendor);
+      return_item.push(scope.selectedItemDetails.itemName);
+      return_item.push(scope.selectedItemDetails.itemGroup);
+      return_item.push(scope.selectedItemDetails.uom);
+      return_item.push(item.type);
+      return_item.push(item.quantity);
+      data.push(return_item);
+    };
+
+    header = [this.closingDate, "", "", "", "","Closing", this.closing];
+    data.push(header);
+
+    this.networkservice.DownloadToExcel(fileName, data);
   }
 }

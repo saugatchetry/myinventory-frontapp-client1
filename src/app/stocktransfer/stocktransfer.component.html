@@ -1,9 +1,8 @@
-<div class="dateFilterButton">
-  <button id="toggleFilters" (click)="toggleDateFilter()">Filters</button>
-</div>
+<button (click)="DownloadToExcel()">Export to excel</button>
 
-<div *ngIf="dateFilterOn" class="dateFilterSpace">
-
+<div align="center" class="dateFilterSpace">
+    <h4 align="center">Filters</h4>
+    <label>Source Vendor</label>
     <select [(ngModel)]="selectorVendor" id = "vendorDropDown">
       <option *ngFor="let vendor of vendorList;" value= {{vendor.storeName}}>
         {{vendor.storeName}}
@@ -18,14 +17,16 @@
     <button id="submitFilters" (click)="submitFilters()">Submit</button>
 </div>
 
+<h2 align="center"> Stock Transfer Report</h2>
+
+<div class="borderLine">
 <!-- <table id="receiptTable" [dtTrigger]="dtTrigger" datatable class="row-border hover"> -->
-<table #myTable datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" datatable class="row-border hover" >
+<table #myTable datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" datatable class="table-bordered hover table" >
   <thead>
     <tr>
-      <th>ID</th>
+      <th>Date </th>
       <th>Source Vendor</th>
       <th>Target Vendor</th>
-      <th>Date </th>
       <th>Item Name</th>
 	    <th>Quantity</th>
       <th>Status</th>
@@ -35,10 +36,9 @@
 
 
       <tr *ngFor="let user of itemList">
-        <td>{{user.transferId}}</td>
+        <td>{{user.date}}</td>
         <td>{{user.sourceVendor}}</td>
         <td>{{user.targetVendor}}</td>
-        <td>{{user.date}}</td>
         <td>{{user.itemName}}</td>
         <td>{{user.quantity}}</td>
         <td>{{user.status}}</td>
@@ -48,3 +48,4 @@
   </tbody>
 
 </table>
+</div>

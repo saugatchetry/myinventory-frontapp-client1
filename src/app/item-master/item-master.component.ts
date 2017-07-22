@@ -68,4 +68,27 @@ export class ItemMasterComponent implements OnInit {
 
     return return_array;
   }
+
+  DownloadToExcel() {
+    var fileName = "Item_master.xlsx";
+    var data = [];
+
+    var header = ["Item Name", "Item Group", "UOM"];
+    header = header.concat(this.allVendorsList);
+    data.push(header);
+    
+    for(var i = 0; i < this.allItemList.length; i++) {
+      var return_item = [];
+      var item = this.allItemList[i];
+      var stores = item.stores;
+      return_item.push(item.itemName);
+      return_item.push(item.itemGroup);
+      return_item.push(item.uom);
+      for(var j = 0; j < stores.length; j++) {
+        return_item.push(stores[j]);
+      }
+      data.push(return_item);
+    }
+    this.networkservice.DownloadToExcel(fileName, data);
+  }
 }

@@ -34,4 +34,26 @@ export class InventoryAdditionReportComponent implements OnInit {
                       });
     }
 
+  DownloadToExcel() {
+    var fileName = "Inventory_Addition_report.xlsx";
+    var data = [];
+
+    var header = ["Date", "Retail Outlet", "Name of Vendor", "Item Name","Quantity"];
+    data.push(header);
+
+    var store_data = this.itemHistoryList.map(function(item) {
+      var return_item = [];
+      return_item.push(item.date);
+      return_item.push(item.outlet);
+      return_item.push(item.seller);
+      return_item.push(item.itemName);
+      return_item.push(item.quantity);
+      return return_item;
+    });
+
+    data = data.concat(store_data);
+
+    this.networkservice.DownloadToExcel(fileName, data);
+  }
+
 }

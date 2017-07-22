@@ -1,35 +1,36 @@
-<div class="dateFilterSpace">
-  <app-date-filter (clicked)="onClicked($event)"></app-date-filter>
-</div>
+<button (click)="DownloadToExcel()">Export to excel</button>
 
+<app-date-filter (clicked)="onClicked($event)"></app-date-filter>
 
 <h2 align="center"> Stock Transfer Anomaly Report</h2>
-<!-- <table id="receiptTable" [dtTrigger]="dtTrigger" datatable class="row-border hover"> -->
-<table #myTable datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" datatable class="table-bordered hover table" >
-  <thead>
-    <tr>
-      <th>Date</th>
-      <th>Source Vendor</th>
-      <th>Target Vendor</th>
-      <th>Item Name </th>
-      <th>Quantity</th>
-	    <th>Status</th>
-      <th>Reason</th>
-    </tr>
-  </thead>
-  <tbody *ngIf="itemList">
 
-      <tr *ngFor="let transfer of itemList">
-        <td>{{transfer.date}}</td>
-        <td>{{transfer.sourceVendor}}</td>
-        <td>{{transfer.targetVendor}}</td>
-        <td>{{transfer.itemName}}</td>
-        <td>{{transfer.quantity}}</td>
-        <td>{{transfer.status}}</td>
-        <td>{{transfer.reason}}</td>
+<div class="borderLine">
+  <!-- <table id="receiptTable" [dtTrigger]="dtTrigger" datatable class="row-border hover"> -->
+  <table #myTable datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" datatable class="table-bordered hover table" >
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Source Vendor</th>
+        <th>Target Vendor</th>
+        <th>Item Name </th>
+        <th>Quantity</th>
+  	    <th>Status</th>
+        <th>Reason</th>
+        <th>Action</th>
       </tr>
+    </thead>
+    <tbody *ngIf="itemList">
 
-
-  </tbody>
-
-</table>
+        <tr *ngFor="let transfer of itemList">
+          <td>{{transfer.date}}</td>
+          <td>{{transfer.sourceVendor}}</td>
+          <td>{{transfer.targetVendor}}</td>
+          <td>{{transfer.itemName}}</td>
+          <td>{{transfer.quantity}}</td>
+          <td>{{transfer.status}}</td>
+          <td>{{transfer.reason}}</td>
+          <td><button (click)="retry(transfer)">Retry</button></td>
+        </tr>
+    </tbody>
+  </table>
+</div>

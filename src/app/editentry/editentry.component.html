@@ -1,9 +1,11 @@
-<div class="dateFilterButton">
+<!-- <div class="dateFilterButton">
   <button id="toggleFilters" (click)="toggleDateFilter()">Filters</button>
-</div>
+</div> -->
+<button (click)="DownloadToExcel()">Export to excel</button>
 
-<div *ngIf="dateFilterOn" class="dateFilterSpace">
-
+<div align="center" class="dateFilterSpace">
+    <h4 align="center">Filters</h4>
+    <label>Vendor</label>
     <select [(ngModel)]="selectorVendor" id = "vendorDropDown">
       <option *ngFor="let vendor of vendorNameArray;" value= {{vendor}}>
         {{vendor}}
@@ -16,34 +18,39 @@
     <button id="submitFilters" (click)="submitFilters()">Submit</button>
 </div>
 
+<h2 align="center"> Daily Sales Report</h2>
 
-<!-- <table id="receiptTable" [dtTrigger]="dtTrigger" datatable class="row-border hover"> -->
-<table #myTable datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" datatable class="row-border hover" >
-  <thead>
-    <tr>
-      <th>Date</th>
-      <th>Store Name</th>
-      <th>Customer name</th>
-      <th>Item name</th>
-      <th>Quantity</th>
-      <th>Amount</th>
-	    <th>Action</th>
-    </tr>
-  </thead>
-  <tbody *ngIf="itemList">
+<div class="borderLine">
+  
 
-
-      <tr *ngFor="let user of itemList">
-        <td>{{user.date}}</td>
-        <td>{{user.receiptOutletName}}</td>
-        <td>{{user.customerName}}</td>
-        <td>{{user.itemName}}</td>
-        <td>{{user.quantity}}</td>
-        <td>{{user.amount}}</td>
-        <td><button id="open-modal" #openModal (click)="getItems(user)" data-toggle="modal" data-target="#login-modal">Edit</button></td>
+  <!-- <table id="receiptTable" [dtTrigger]="dtTrigger" datatable class="row-border hover"> -->
+  <table #myTable datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" datatable class="table-bordered hover table" >
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Store Name</th>
+        <th>Customer name</th>
+        <th>Item name</th>
+        <th>Quantity</th>
+        <th>Amount</th>
+  	    <th>Action</th>
       </tr>
+    </thead>
+    <tbody *ngIf="itemList">
 
 
-  </tbody>
+        <tr *ngFor="let user of itemList">
+          <td>{{user.date}}</td>
+          <td>{{user.receiptOutletName}}</td>
+          <td>{{user.customerName}}</td>
+          <td>{{user.itemName}}</td>
+          <td>{{user.quantity}}</td>
+          <td>{{user.amount}}</td>
+          <td><button id="open-modal" #openModal (click)="getItems(user)" data-toggle="modal" data-target="#login-modal">Edit</button></td>
+        </tr>
 
-</table>
+
+    </tbody>
+
+  </table>
+</div>

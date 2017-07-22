@@ -4,6 +4,7 @@ import { NetworkService } from './../services/network.service';
 import { Subject } from 'rxjs/Rx';
 import { Router } from '@angular/router';
 import { DataTableDirective } from 'angular-datatables';
+import { LoadingIndicatorComponent } from '../loading-indicator/loading-indicator.component';
 
 @Component({
   selector: 'app-itemwise-inventory-status',
@@ -26,6 +27,7 @@ export class ItemwiseInventoryStatusComponent implements OnInit,AfterViewInit {
   dtTrigger: Subject<any> = new Subject();
 
   dtOptions: DataTables.Settings = {};
+  public loading;
 
   public today:string;
 
@@ -36,8 +38,9 @@ export class ItemwiseInventoryStatusComponent implements OnInit,AfterViewInit {
 
   ngOnInit() {
 
-    this.getCurrentDate();
-    this.getPriorDate();
+    this.priorDate = this.filterStartDate = this.networkservice.getPriorDate();
+    this.today = this.filterEndDate = this.networkservice.getTodayDate();
+    this.loading = false;
 
     if(this.allItemList == null){
       console.log("vendorlist is empty .... gettting it please wait");
@@ -79,7 +82,7 @@ export class ItemwiseInventoryStatusComponent implements OnInit,AfterViewInit {
 
 
   fetchCurrentInventoryOfVendor(){
-
+    
     this.networkservice.getCurrentInventoryOfItem(this.selectedItem)
           .subscribe(
 
@@ -87,6 +90,7 @@ export class ItemwiseInventoryStatusComponent implements OnInit,AfterViewInit {
               this.itemCurrentInventory = [];
               console.log(res);
               this.itemCurrentInventory = res;
+              //this.loading = false;
 
               this.networkservice.allItemsInventoryList = res;
               console.log("size of currentInventory = "+this.itemCurrentInventory.length);
@@ -110,44 +114,24 @@ export class ItemwiseInventoryStatusComponent implements OnInit,AfterViewInit {
   }
 
 
-getInventoryDetails(itm){
-    this.networkservice.historyStoreName = itm.outlet;
-    this.networkservice.historyItemName = itm.itemName;
+  getInventoryDetails(itm){
+      this.networkservice.historyStoreName = itm.outlet;
+      this.networkservice.historyItemName = itm.itemName;
 
-    if(itm.date == undefined){
-      //console.log("vendor dates = "+this.today);
-      this.networkservice.workingDate = this.today;
+      if(itm.date == undefined){
+        //console.log("vendor dates = "+this.today);
+        this.networkservice.workingDate = this.today;
+      }
+      else{
+        //console.log("vendor dates = "+itm.date);
+        this.networkservice.workingDate = itm.date;
+      }
+      
+      this.router.navigate(['/inventorydetails']);
     }
-    else{
-      //console.log("vendor dates = "+itm.date);
-      this.networkservice.workingDate = itm.date;
-    }
-    
-    this.router.navigate(['/inventorydetails']);
-  }
 
-toggleDateFilter(){
-   this.dateFilterOn = !this.dateFilterOn;
-}
-
-
-
-  getCurrentDate(){
-    var now = new Date();
-    var day = ("0" + now.getDate()).slice(-2);
-    var month = ("0" + (now.getMonth() + 1)).slice(-2);
-    this.today = now.getFullYear() + "-" + (month) + "-" + (day);
-    console.log("Calculated Date = "+this.today);
-  }
-
-
-  getPriorDate(){
-    var d = new Date();
-    d.setDate(d.getDate() - 30);
-    var day = ("0" + d.getDate()).slice(-2);
-    var month = ("0" + (d.getMonth() + 1)).slice(-2);
-    this.priorDate = d.getFullYear() + "-" + (month) + "-" + (day);
-    console.log("Prior Date Calculaed = "+this.priorDate);
+  toggleDateFilter(){
+     this.dateFilterOn = !this.dateFilterOn;
   }
 
   submitFilters(){
@@ -214,6 +198,7 @@ toggleDateFilter(){
   }
 
   makeTheApiCall(name:string,startDate:string,endDate:string){
+    this.loading = true;
     this.networkservice.getCurrentInventoryOfItemWithFilters(name,startDate,endDate)
           .subscribe(
 
@@ -225,7 +210,7 @@ toggleDateFilter(){
               this.networkservice.currentItemList = res;
               console.log("size of currentInventory = "+this.itemCurrentInventory.length);
               //this.dtTrigger.next();
-
+              this.loading = false;
               console.log("dtElement = "+this.dtElement);
                   this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
                   // Destroy the table first
@@ -236,6 +221,25 @@ toggleDateFilter(){
             });
   }
 
+  DownloadToExcel() {
+    var fileName = this.selectedItem + "_item_wise_inventory.xlsx";
+    var data = [];
 
+    var header = ["Date", "Item Name", "Item Group", "Store Name", "Quantity"];
+    data.push(header);
 
+    var store_data = this.itemCurrentInventory.map(function(item) {
+      var return_item = [];
+      return_item.push(item.date);
+      return_item.push(item.itemName);
+      return_item.push(item.itemGroup);
+      return_item.push(item.outlet);
+      return_item.push(item.quantity);
+      return return_item;
+    });
+
+    data = data.concat(store_data);
+
+    this.networkservice.DownloadToExcel(fileName, data);
+  }
 }

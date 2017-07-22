@@ -48,6 +48,9 @@ export class StocktransferComponent implements OnInit {
       //fetch data for today
       this.fetchData();
 
+      this.filterStartDate = this.networkservice.getPriorDate();
+      this.filterEndDate = this.networkservice.getTodayDate();
+
       //get all vendornames
 
       if(this.networkservice.allVendorNames != null){
@@ -142,6 +145,29 @@ export class StocktransferComponent implements OnInit {
           //this.selectorVendor = this.vendorList[0].storeName;
       });;
 
+  }
+
+  DownloadToExcel() {
+    var fileName = "Stock_transfer_report.xlsx";
+    var data = [];
+
+    var header = ["Date", "Source Vendor", "Target Vendor", "Item Name", "Quantity","Status"];
+    data.push(header);
+
+    var store_data = this.itemList.map(function(item) {
+      var return_item = [];
+      return_item.push(item.date);
+      return_item.push(item.sourceVendor);
+      return_item.push(item.targetVendor);
+      return_item.push(item.itemName);
+      return_item.push(item.quantity);
+      return_item.push(item.status);
+      return return_item;
+    });
+
+    data = data.concat(store_data);
+
+    this.networkservice.DownloadToExcel(fileName, data);
   }
 
 }

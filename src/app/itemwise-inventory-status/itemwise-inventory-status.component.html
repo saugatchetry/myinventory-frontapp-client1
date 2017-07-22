@@ -1,38 +1,36 @@
-<div>
-  <select [(ngModel)]="selectedItem" >
+<button (click)="DownloadToExcel()">Export to excel</button>
+
+<div align="center" class="dateFilterSpace">
+    <h4 align="center">Filters</h4>
+    <label>Item</label>
+    <select [(ngModel)]="selectedItem" >
       <option *ngFor="let item of allItemList;" value= {{item}}>
         {{item}}
       </option>
     </select>
-    <button id="submitStoreName" (click)="getInventory()">Go</button>
-</div>
-
-<div *ngIf="itemCurrentInventory" class="dateFilterButton">
-  <button id="toggleFilters" (click)="toggleDateFilter()">Filters</button>
-</div>
-
-<div *ngIf="dateFilterOn" class="dateFilterSpace">
-
     <label id="startDateLabel">Starting Date</label>
-    <input id="startDateEntry" type="date" name="" value="" [(ngModel)]="filterStartDate">
+    <input id="startDateEntry" type="date" name="" value="" [max]='today' [(ngModel)]="filterStartDate">
     <label id="endDateLabel">End Date</label>
-    <input id="endDateEntry" type="date" name="" value="" [(ngModel)]="filterEndDate">
-
-    <button id="submitFilters" (click)="submitFilters()">Submit</button>
+    <input id="endDateEntry" type="date" name="" value="" [max]='today' [(ngModel)]="filterEndDate">
+    <button *ngIf="!loading" id="submitStoreName" (click)="submitFilters()">Go</button>
 </div>
-<div class="mainTable">
 
+<h2 align="center"> Item Wise Inventory Report</h2>
 
-<table #myTable datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" datatable class="row-border hover" >
+<div class="borderLine">
+
+<div *ngIf="loading">
+<app-loading-indicator ></app-loading-indicator>
+</div>
+
+<table #myTable datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" datatable class="table-bordered hover table" >
   <thead>
     <tr>
-      <th>ID</th>
       <th>Date</th>
       <th>Item name</th>
       <th>Item Group</th>
       <th>Store Name</th>
       <th>Quantity</th>
-	    <th>Rate</th>
       <th>Action</th>
     </tr>
   </thead>
@@ -40,7 +38,6 @@
 
 
       <tr *ngFor="let item of itemCurrentInventory">
-        <td>{{item.id}}</td>
         <ng-template #loading><td>{{today | date:'dd-MMM-yyyy'}}</td></ng-template>
         <td *ngIf="item.date;else loading;">
             {{item.date | date:'dd-MMM-yyyy'}}
@@ -49,7 +46,6 @@
         <td>{{item.itemGroup}}</td>
         <td>{{item.outlet}}</td>
         <td>{{item.quantity}}</td>
-        <td>{{item.rate}}</td>
         <td><button id="Details" (click)="getInventoryDetails(item)">Details</button></td>
       </tr>
 
