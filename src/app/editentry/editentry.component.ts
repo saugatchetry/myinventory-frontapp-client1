@@ -183,7 +183,7 @@ export class EditentryComponent implements OnInit {
       console.log("Clicked = "+id);
       var iName = id.itemName;
       var q = id.quantity;
-      this.networkservice.setItemToEdit(id.id,id.customerName,id.itemName,id.quantity,id.receiptOutletName,id.amount,id.date  );
+      this.networkservice.setItemToEdit(id.id,id.customerName,id.itemName,id.quantity,id.receiptOutletName,id.amount,id.date);
       this.router.navigate(['/editreceipt']);
   }
 

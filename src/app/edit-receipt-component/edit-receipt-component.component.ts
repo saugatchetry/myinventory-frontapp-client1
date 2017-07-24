@@ -1,6 +1,7 @@
 import { EditModel } from './../model/edit-receipt-model';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { NetworkService } from './../services/network.service';
+import {ToastsManager, Toast} from 'ng2-toastr';
 
 @Component({
   selector: 'app-edit-receipt-component',
@@ -18,10 +19,11 @@ export class EditReceiptComponentComponent implements OnInit {
   public receiptOutletName: String;
   public amount: String;
   public date: String;
+  public currentForm;
 
   private editModel:EditModel;
-  constructor(private networkservice : NetworkService) { 
-    
+  constructor(private networkservice : NetworkService, private toastr: ToastsManager,vRef: ViewContainerRef) { 
+    this.toastr.setRootViewContainerRef(vRef);
   }
 
   ngOnInit() {
@@ -42,18 +44,30 @@ export class EditReceiptComponentComponent implements OnInit {
      this.sendDataToServer(value);
    }
 
-
-   
-
-
-  sendDataToServer(dataFromForm) {
+  sendDataToServer(form) {
+      this.currentForm = form;
+      let dataFromForm = form.value;
       console.log("About to send");
       console.log(dataFromForm);
         this.networkservice.sendUpdatedReceipt(dataFromForm).subscribe(
 
-             response => console.log(response), // success
-             error => console.log(error),       // error
-             () => console.log('completed'));   // complete
+             response => function(){
+              this.showSuccess();
+            }, // success
+            error => {
+              this.showError();
+            },       // error
+            () => this.showSuccess());   // complete
+  }
 
+  
+  showSuccess() {
+    console.log("toastr method called");
+    this.currentForm.reset();
+    this.toastr.success('Receipt editted!', 'Success!', {toastLife: 3000, showCloseButton: false});
+  }
+
+  showError() {
+    this.toastr.error('Could not edit receipt', 'Error!', {toastLife: 20000, showCloseButton: true});
   }
 }
