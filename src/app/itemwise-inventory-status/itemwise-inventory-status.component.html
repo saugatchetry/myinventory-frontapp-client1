@@ -1,17 +1,17 @@
 <button (click)="DownloadToExcel()">Export to excel</button>
 
 <div align="center" class="dateFilterSpace">
-    <h4 align="center">Filters</h4>
+    <h4 align="center">Selected Item</h4>
     <label>Item</label>
     <select [(ngModel)]="selectedItem" >
       <option *ngFor="let item of allItemList;" value= {{item}}>
         {{item}}
       </option>
     </select>
-    <label id="startDateLabel">Starting Date</label>
+    <!-- <label id="startDateLabel">Starting Date</label>
     <input id="startDateEntry" type="date" name="" value="" [max]='today' [(ngModel)]="filterStartDate">
     <label id="endDateLabel">End Date</label>
-    <input id="endDateEntry" type="date" name="" value="" [max]='today' [(ngModel)]="filterEndDate">
+    <input id="endDateEntry" type="date" name="" value="" [max]='today' [(ngModel)]="filterEndDate"> -->
     <button *ngIf="!loading" id="submitStoreName" (click)="submitFilters()">Go</button>
 </div>
 
@@ -26,7 +26,6 @@
 <table #myTable datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" datatable class="table-bordered hover table" >
   <thead>
     <tr>
-      <th>Date</th>
       <th>Item name</th>
       <th>Item Group</th>
       <th>Store Name</th>
@@ -39,9 +38,6 @@
 
       <tr *ngFor="let item of itemCurrentInventory">
         <ng-template #loading><td>{{today | date:'dd-MMM-yyyy'}}</td></ng-template>
-        <td *ngIf="item.date;else loading;">
-            {{item.date | date:'dd-MMM-yyyy'}}
-        </td>
         <td>{{item.itemName}}</td>
         <td>{{item.itemGroup}}</td>
         <td>{{item.outlet}}</td>

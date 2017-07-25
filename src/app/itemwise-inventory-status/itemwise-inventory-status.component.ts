@@ -199,7 +199,7 @@ export class ItemwiseInventoryStatusComponent implements OnInit,AfterViewInit {
 
   makeTheApiCall(name:string,startDate:string,endDate:string){
     this.loading = true;
-    this.networkservice.getCurrentInventoryOfItemWithFilters(name,startDate,endDate)
+    this.networkservice.getCurrentInventoryOfItem(name)
           .subscribe(
 
             res => {
@@ -222,15 +222,14 @@ export class ItemwiseInventoryStatusComponent implements OnInit,AfterViewInit {
   }
 
   DownloadToExcel() {
-    var fileName = this.selectedItem + "_item_wise_inventory"+ "__" + this.filterStartDate + "--" + this.filterEndDate+ ".xlsx";
+    var fileName = this.selectedItem + "_item_wise_inventory"+ "__" + this.today + ".xlsx";
     var data = [];
 
-    var header = ["Date", "Item Name", "Item Group", "Store Name", "Quantity"];
+    var header = ["Item Name", "Item Group", "Store Name", "Quantity"];
     data.push(header);
 
     var store_data = this.itemCurrentInventory.map(function(item) {
       var return_item = [];
-      return_item.push(item.date);
       return_item.push(item.itemName);
       return_item.push(item.itemGroup);
       return_item.push(item.outlet);

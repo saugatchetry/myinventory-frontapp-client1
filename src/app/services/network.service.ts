@@ -51,8 +51,8 @@ export class NetworkService {
   public cache_allVendorResponse;
 
   constructor(private _http:Http) {
-    //this.serverUrl = "https://892947e5.ngrok.io";
-    this.serverUrl = "https://myinventory-test.herokuapp.com"
+    this.serverUrl = "https://1695e08d.ngrok.io";
+    // this.serverUrl = "https://myinventory-test.herokuapp.com"
 
     // Initialize Cache
     this.cache_allVendorResponse = null;
@@ -487,7 +487,6 @@ export class NetworkService {
      requestOptions.search = params;
      return this._http.get(this.serverUrl + '/api/getCurrentInventoryOfVendorsWithFilters',requestOptions).map(data => data.json());
    }
-
 
    getCurrentInventoryOfItemWithFilters(itemName:string,startDate:string,endDate:string){
      console.log("storeName = "+itemName+" startDate = "+startDate+" endDate = "+endDate);

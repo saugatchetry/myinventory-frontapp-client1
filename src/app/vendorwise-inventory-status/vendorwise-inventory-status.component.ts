@@ -211,7 +211,7 @@ getInventoryDetails(itm){
 
   makeTheApiCall(name:string,startDate:string,endDate:string){
     this.loading = true;
-    this.networkservice.getCurrentInventoryOfVendorsWithFilters(name,startDate,endDate)
+    this.networkservice.getCurrentInventoryOfVendors(name)
           .subscribe(
 
             res => {
@@ -235,15 +235,14 @@ getInventoryDetails(itm){
   }
 
   DownloadToExcel() {
-    var fileName = this.selectorVendor + "_vendor_wise_inventory" + "__" + this.filterStartDate + "--" + this.filterEndDate+ ".xlsx";
+    var fileName = this.selectorVendor + "_vendor_wise_inventory" + "__" + this.today + ".xlsx";
     var data = [];
 
-    var header = ["Date", "Item Name", "Item Group", "Store Name", "Quantity"];
+    var header = ["Item Name", "Item Group", "Store Name", "Quantity"];
     data.push(header);
 
     var store_data = this.currentInventory.map(function(item) {
       var return_item = [];
-      return_item.push(item.date);
       return_item.push(item.itemName);
       return_item.push(item.itemGroup);
       return_item.push(item.outlet);
