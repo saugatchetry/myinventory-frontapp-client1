@@ -76,29 +76,7 @@ export class DdStockReportComponent implements OnInit, AfterViewInit {
                   this.selectedItem = this.allItemList[0];
                 }
             });
-    });
-
-  	// this.networkservice.getAllUniqueItemDetails()
-   //        .subscribe(
-   //          res => {
-   //            this.allItemList = res.map(function(item) {
-   //              return item[0];
-   //            });
-   //            this.allItemList.sort();
-   //            this.allItemDetailsList = {};
-   //            for(var i = 0; i < res.length; i++) {
-   //              var item = res[i];
-   //              var itemDetails = {
-   //                itemName: item[0],
-   //                itemGroup: item[1],
-   //                uom:item[2]
-   //              }
-   //              this.allItemDetailsList[item[0]] = itemDetails;
-   //            }
-   //            this.selectedItem = this.allItemList[0];
-   //  });
-  
-    
+    });  
   }
 
   processRecords(records_list) {
@@ -107,10 +85,11 @@ export class DdStockReportComponent implements OnInit, AfterViewInit {
       tempDict[this.allVendorsList[i]] = [];
     }
 
+    this.allItemDetailsList = {};
     for(var i = 0; i < records_list.length; i++) {
       var element = records_list[i];
       var current_item = element.itemName;
-      
+      this.allItemDetailsList[current_item] = element;
       // Sanity Check
       if (tempDict[element.outlet] === undefined) {
         tempDict[element.outlet] = [];
@@ -151,14 +130,14 @@ export class DdStockReportComponent implements OnInit, AfterViewInit {
 
   updateReport(res_list) {
 
-  	var opening = res_list[0].opening;
-		var closing = opening;
+  	var closing = res_list[0].opening; // saugat laziness
+		var opening = closing;
 
 		for(var i = 0; i < res_list.length; i++) {
 			var trans_type = res_list[i].type;
 			var quantity = res_list[i].quantity;
 			var date = res_list[i].date;
-			closing = this.updateClosingBalance(trans_type, quantity, closing);
+			opening = this.updateOpeningBalance(trans_type, quantity, opening);
 
 			var trans_item = {
         id: i+1,
@@ -174,19 +153,19 @@ export class DdStockReportComponent implements OnInit, AfterViewInit {
 
   }
 
-  updateClosingBalance(trans_type, quantity, current_balance) {
+  updateOpeningBalance(trans_type, quantity, current_balance) {
   	switch(trans_type) {
   		case 'Restock Inventory':
-  			current_balance += quantity;
+  			current_balance -= quantity;
   			break;
 			case 'Stock Received':
-				current_balance += quantity;
+				current_balance -= quantity;
   			break;
 			case 'Stock Transfered':
-				current_balance -= quantity;
+				current_balance += quantity;
   			break;
 			case 'Item Sale':
-				current_balance -= quantity;
+				current_balance += quantity;
   			break;
 			default:
 				console.error("Unknown trans_type found" + trans_type);
