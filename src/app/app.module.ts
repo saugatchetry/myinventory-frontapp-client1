@@ -5,7 +5,6 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule , JsonpModule} from '@angular/http';
 import { routes } from './app.router';
 import { ModalModule } from 'angular2-modal';
-import { Modal } from 'angular2-modal/plugins/bootstrap';
 import { BootstrapModalModule } from 'angular2-modal/plugins/bootstrap';
 import { AppComponent } from './app.component';
 import { AboutComponent } from './about/about.component';
@@ -76,7 +75,7 @@ import { ExcelDownloaderComponent } from './excel-downloader/excel-downloader.co
     BootstrapModalModule,
     routes
   ],
-  providers: [NetworkService, Modal, AuthGuard,{provide: ToastOptions, useClass: CustomOption}],
+  providers: [NetworkService, AuthGuard,{provide: ToastOptions, useClass: CustomOption}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

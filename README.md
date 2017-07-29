@@ -1,3 +1,14 @@
+#Important
+
+The data table has dependency to a previous angular version, 
+therefore while runnig you might face issues - 
+
+Steps to solve -
+1. Copy contents of package_datatable.json to node_modules/angular-datatable/package.json
+2. Remove @angular folder present inside node_modules/angular-datatable/node_modules folder
+3. After that you should be good to go 
+4. Enjoy
+
 # ClientApp
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.0.6.
