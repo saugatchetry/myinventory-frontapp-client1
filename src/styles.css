@@ -38,6 +38,11 @@
   border-color:#9ED3F7;
 }
 
+.btn-excel {
+  color: white;
+  background: #36b164;
+}
+
 #vendorDropDown{
   margin-left: 5px;
   margin-right: 15px;
