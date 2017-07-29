@@ -16,7 +16,7 @@ import {ToastsManager, Toast} from 'ng2-toastr';
 export class StockTransferAnomalyComponent implements OnInit {
     @ViewChild(DataTableDirective) dtElement:DataTableDirective;
 
-  private itemList: any;
+  public itemList: any;
   
   public dateFilterOn = false;
   public filterStartDate:string = "";

@@ -1,0 +1,26 @@
+.container-shrink{
+    min-width: 322px;
+    border-style: solid;
+    border-color: rgba(128, 128, 128, 0.09);
+    padding: 10px;
+}
+
+label {
+    display: inline-block;
+    width: 30%;
+    margin-bottom: 5px;
+    font-weight: bold;
+    text-align: right;
+    margin-right: 10px;
+}
+
+.form-control {
+	display: inline-block;
+    width: 54%;
+}
+
+.btn-cross {
+    position: absolute;
+    top: 1%;
+    right: 1%;
+}

@@ -2,6 +2,8 @@ import { EditModel } from './../model/edit-receipt-model';
 import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { NetworkService } from './../services/network.service';
 import {ToastsManager, Toast} from 'ng2-toastr';
+import { DialogRef, ModalComponent, CloseGuard } from 'angular2-modal';
+import { BSModalContext } from 'angular2-modal/plugins/bootstrap';
 
 @Component({
   selector: 'app-edit-receipt-component',
@@ -10,7 +12,9 @@ import {ToastsManager, Toast} from 'ng2-toastr';
   //providers : [NetworkService]
 
 })
-export class EditReceiptComponentComponent implements OnInit {
+
+export class EditReceiptComponentComponent implements OnInit, ModalComponent<BSModalContext> {
+
 
   public id:number;
   public itemName:String;
@@ -21,9 +25,12 @@ export class EditReceiptComponentComponent implements OnInit {
   public date: String;
   public currentForm;
 
+
   private editModel:EditModel;
-  constructor(private networkservice : NetworkService, private toastr: ToastsManager,vRef: ViewContainerRef) { 
+  private context: BSModalContext;
+  constructor(private networkservice : NetworkService, private toastr: ToastsManager,vRef: ViewContainerRef, public dialog: DialogRef<BSModalContext>) { 
     this.toastr.setRootViewContainerRef(vRef);
+    this.context = dialog.context;
   }
 
   ngOnInit() {
@@ -60,9 +67,13 @@ export class EditReceiptComponentComponent implements OnInit {
             () => this.showSuccess());   // complete
   }
 
+  cancel() {
+    this.dialog.close();
+  }
   
   showSuccess() {
     console.log("toastr method called");
+    this.dialog.close();
     this.currentForm.reset();
     this.toastr.success('Receipt editted!', 'Success!', {toastLife: 3000, showCloseButton: false});
   }

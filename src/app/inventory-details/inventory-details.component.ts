@@ -1,31 +1,34 @@
 import { NetworkService } from './../services/network.service';
 import { Component, OnInit } from '@angular/core';
 import { Subject } from 'rxjs/Rx';
+import { DialogRef, ModalComponent, CloseGuard } from 'angular2-modal';
+import { BSModalContext } from 'angular2-modal/plugins/bootstrap';
 
 @Component({
   selector: 'app-inventory-details',
   templateUrl: './inventory-details.component.html',
   styleUrls: ['./inventory-details.component.css']
 })
-export class InventoryDetailsComponent implements OnInit {
+export class InventoryDetailsComponent implements OnInit, ModalComponent<BSModalContext> {
 
-  private itemHistoryList: any;
+  public itemHistoryList: any;
+  private context: BSModalContext;
 
   dtTrigger: Subject<any> = new Subject();
   dtOptions: DataTables.Settings = {};
 
-  constructor(private networkService: NetworkService) {
-
+  constructor(private networkService: NetworkService, public dialog: DialogRef<BSModalContext>) {
+    this.context = dialog.context;
   }
 
   ngOnInit() {
-
-
-
       this.getItemHistory();
 
   }
 
+  cancel() {
+    this.dialog.close();
+  }
 
   getItemHistory(){
     console.log("Working date in layout= "+this.networkService.workingDate);

@@ -6,6 +6,9 @@ import { Subject } from 'rxjs/Rx';
 import { Router } from '@angular/router';
 import { DataTableDirective } from 'angular-datatables';
 import { LoadingIndicatorComponent } from '../loading-indicator/loading-indicator.component';
+import { Overlay, overlayConfigFactory } from 'angular2-modal';
+import { Modal, BSModalContext } from 'angular2-modal/plugins/bootstrap';
+import { InventoryDetailsComponent } from './../inventory-details/inventory-details.component';
 
 @Component({
   selector: 'app-vendorwise-inventory-status',
@@ -19,26 +22,20 @@ export class VendorwiseInventoryStatusComponent implements OnInit,AfterViewInit 
 
   public vendorList: any;
   public selectorVendor:string;
-
   public currentInventory: any;
-
-  //public workingDate:string;
-  //dtElement: DataTableDirective;
-
   public dateFilterOn = false;
-
   public filterStartDate:string = "";
   public filterEndDate:string = "";
-
-  dtTrigger: Subject<any> = new Subject();
-
-  dtOptions: DataTables.Settings = {};
-
   public today:string;
   public priorDate:string;
   public loading;
 
-  constructor(private _http:Http, private networkservice : NetworkService,private router: Router) {
+  dtTrigger: Subject<any> = new Subject();
+  dtOptions: DataTables.Settings = {};
+
+  
+
+  constructor(private _http:Http, private networkservice : NetworkService,private router: Router, public modal: Modal) {
 
 
 
@@ -139,7 +136,8 @@ getInventoryDetails(itm){
       //console.log("vendor dates = "+itm.date);
       this.networkservice.workingDate = itm.date;
     }
-    this.router.navigate(['/inventorydetails']);
+    // this.router.navigate(['/inventorydetails']);
+    this.modal.open(InventoryDetailsComponent, overlayConfigFactory({}, BSModalContext));
   }
 
   toggleDateFilter(){

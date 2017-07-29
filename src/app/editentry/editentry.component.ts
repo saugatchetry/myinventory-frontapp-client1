@@ -1,26 +1,29 @@
 import { EditModel } from './../model/edit-receipt-model';
 import { Component, OnInit, ElementRef, ViewChild  } from '@angular/core';
+import { EditReceiptComponentComponent } from './../edit-receipt-component/edit-receipt-component.component';
+import { Overlay, overlayConfigFactory } from 'angular2-modal';
 import { Http } from '@angular/http';
 import { NetworkService } from './../services/network.service';
 import { Subject } from 'rxjs/Rx';
 import { Router } from '@angular/router';
 import { DataTableDirective } from 'angular-datatables';
+import { Modal, BSModalContext } from 'angular2-modal/plugins/bootstrap';
+
 
 @Component({
   selector: 'app-editentry',
   templateUrl: './editentry.component.html',
   styleUrls: ['./editentry.component.css'],
-  //providers : [NetworkService]
 })
 
 export class EditentryComponent implements OnInit {
 @ViewChild(DataTableDirective) dtElement:DataTableDirective;
 @ViewChild('something') something:ElementRef;
 
-  private itemList: any;
+  public itemList: any;
 
   private vendorList: any;
-  private selectorVendor:string;
+  public selectorVendor:string;
 
   dtTrigger: Subject<any> = new Subject();
   dtOptions: DataTables.Settings = {};
@@ -40,7 +43,7 @@ export class EditentryComponent implements OnInit {
 
   public vendorNameArray = ["Select"];
 
-  constructor(private _http:Http, private networkservice : NetworkService,private router: Router) {
+  constructor(private _http:Http, private networkservice : NetworkService,private router: Router, public modal: Modal) {
   }
 
   ngOnInit():void {
@@ -64,56 +67,42 @@ export class EditentryComponent implements OnInit {
       console.log(this.vendorList);
     }
 
-
     this.fetchData();
-    // setTimeout(function (){$(function (){
-    //   $('receiptTable').DataTable();
-    // });},5000);
-
-
-
-    //  console.log("called");
-    //  this.networkservice.getAllReceipts()
-    //       .subscribe(
-
-    //         res => {
-    //           console.log(res);
-    //           this.itemList = res;
-    //         }
-    //         // data => this.itemList = JSON.stringify(data),
-    //         // error => alert(error),
-    //         // () => this.showData()
-    //       );
-
-  }
-
-  DownloadToExcel() {
-    var fileName = "Daily_Sales_Report" + "__" + this.filterStartDate + "--" + this.filterEndDate+ ".xlsx";;
-    var data = [];
-
-    var header = ["Date", "Store Name", "Customer name","Item Name", "Quantity", "Amount"];
-    data.push(header);
-
-    var store_data = this.itemList.map(function(item) {
-      var return_item = [];
-      return_item.push(item.date);
-      return_item.push(item.receiptOutletName);
-      return_item.push(item.customerName);
-      return_item.push(item.itemName);
-      return_item.push(item.quantity);
-      return_item.push(item.amount);
-      return return_item;
-    });
-
-    data = data.concat(store_data);
-
-    this.networkservice.DownloadToExcel(fileName, data);
   }
 
   ngAfterViewInit(): void {
       //this.dtTrigger.next();
 
     //this.dtElement = this.myTable;
+  }
+
+
+  getItems(id){
+      console.log("Clicked = "+id);
+      var iName = id.itemName;
+      var q = id.quantity;
+      this.networkservice.setItemToEdit(id.id,id.customerName,id.itemName,id.quantity,id.receiptOutletName,id.amount,id.date);
+      //this.router.navigate(['/editreceipt']);
+      this.modal.open(EditReceiptComponentComponent, overlayConfigFactory({}, BSModalContext))
+        .then(dialog => dialog.result)
+        .then(result => this.submitFilters());
+
+    // this.modal.alert()
+    //         .size('lg')
+    //         .showClose(true)
+    //         .title('A simple Alert style modal window')
+    //         .body(`
+    //             <h4>Alert is a classic (title/body/footer) 1 button modal window that 
+    //             does not block.</h4>
+    //             <b>Configuration:</b>
+    //             <ul>
+    //                 <li>Non blocking (click anywhere outside to dismiss)</li>
+    //                 <li>Size large</li>
+    //                 <li>Dismissed with default keyboard key (ESC)</li>
+    //                 <li>Close wth button click</li>
+    //                 <li>HTML content</li>
+    //             </ul>`)
+    //         .open();
   }
 
   getCurrentDate(){
@@ -177,14 +166,6 @@ export class EditentryComponent implements OnInit {
     for(var i = 0; i < 5; i++){
         console.log("Experiment = "+this.vendorNameArray[i]);
     }
-  }
-
-  getItems(id){
-      console.log("Clicked = "+id);
-      var iName = id.itemName;
-      var q = id.quantity;
-      this.networkservice.setItemToEdit(id.id,id.customerName,id.itemName,id.quantity,id.receiptOutletName,id.amount,id.date);
-      this.router.navigate(['/editreceipt']);
   }
 
   toggleDateFilter(){
@@ -281,6 +262,9 @@ export class EditentryComponent implements OnInit {
             return item;
           });
 
+          this.itemList.sort(function(a, b) {
+            return a.id - b.id;
+          });
 
           this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
           // Destroy the table first
@@ -290,6 +274,29 @@ export class EditentryComponent implements OnInit {
         });
         //this.selectorVendor = this.vendorList[0].storeName;
       });
+  }
+
+  DownloadToExcel() {
+    var fileName = "Daily_Sales_Report" + "__" + this.filterStartDate + "--" + this.filterEndDate+ ".xlsx";;
+    var data = [];
+
+    var header = ["Date", "Store Name", "Customer name","Item Name", "Quantity", "Amount"];
+    data.push(header);
+
+    var store_data = this.itemList.map(function(item) {
+      var return_item = [];
+      return_item.push(item.date);
+      return_item.push(item.receiptOutletName);
+      return_item.push(item.customerName);
+      return_item.push(item.itemName);
+      return_item.push(item.quantity);
+      return_item.push(item.amount);
+      return return_item;
+    });
+
+    data = data.concat(store_data);
+
+    this.networkservice.DownloadToExcel(fileName, data);
   }
 
 }

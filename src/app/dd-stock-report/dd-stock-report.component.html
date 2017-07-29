@@ -2,15 +2,15 @@
   <button (click)="DownloadToExcel()">Export to excel</button>
   <div align="center" class="dateFilterSpace">
     <h4 align="center">Filters</h4>
-     <label id="itemLabel">Select Item</label>
-     <select [(ngModel)]="selectedItem" >
-        <option *ngFor="let item of allItemList;" value= {{item}}>
-          {{item}}
-        </option>
-      </select>
       <label id="vendorLabel">Vendor</label>
       <select [(ngModel)]="selectedVendor" id = "vendorDropDown" (change)="onVendorChanged($event)" >
         <option *ngFor="let item of allVendorsList;" value= {{item}}>
+          {{item}}
+        </option>
+      </select>
+      <label id="itemLabel">Select Item</label>
+      <select [(ngModel)]="selectedItem" >
+        <option *ngFor="let item of allItemList;" value= {{item}}>
           {{item}}
         </option>
       </select>

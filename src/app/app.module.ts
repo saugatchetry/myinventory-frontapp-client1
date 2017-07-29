@@ -4,6 +4,9 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule , JsonpModule} from '@angular/http';
 import { routes } from './app.router';
+import { ModalModule } from 'angular2-modal';
+import { Modal } from 'angular2-modal/plugins/bootstrap';
+import { BootstrapModalModule } from 'angular2-modal/plugins/bootstrap';
 import { AppComponent } from './app.component';
 import { AboutComponent } from './about/about.component';
 import { AdditemComponent } from './additem/additem.component';
@@ -24,7 +27,7 @@ import { ItemwiseInventoryStatusComponent } from './itemwise-inventory-status/it
 import { ItemMasterComponent } from './item-master/item-master.component';
 import { LogoutComponent } from './logout/logout.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { ToastModule, ToastOptions } from 'ng2-toastr';
 import { CustomOption } from './custom-option';
 import { InventoryAdditionReportComponent } from './inventory-addition-report/inventory-addition-report.component';
@@ -69,9 +72,11 @@ import { ExcelDownloaderComponent } from './excel-downloader/excel-downloader.co
     Ng2UploaderModule,
     BrowserAnimationsModule,
     ToastModule.forRoot(),
+    ModalModule.forRoot(),
+    BootstrapModalModule,
     routes
   ],
-  providers: [NetworkService,AuthGuard,{provide: ToastOptions, useClass: CustomOption}],
+  providers: [NetworkService, Modal, AuthGuard,{provide: ToastOptions, useClass: CustomOption}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -14,11 +14,11 @@ export class StocktransferComponent implements OnInit {
 
   @ViewChild(DataTableDirective) dtElement:DataTableDirective;
 
-  private itemList: any;
+  public itemList: any;
   private baseURL:string= "http://localhost:4200/api/addItem";
 
-  private vendorList: any;
-  private selectorVendor:string;
+  public vendorList: any;
+  public selectorVendor:string;
 
   public dateFilterOn = false;
 
