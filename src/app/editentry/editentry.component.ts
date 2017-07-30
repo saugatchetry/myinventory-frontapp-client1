@@ -128,13 +128,18 @@ export class EditentryComponent implements OnInit {
     console.log("About to call api with today = "+this.today);
 
     this.networkservice.getAllReceiptsToday(this.today)
-                  .subscribe(
+      .subscribe(
 
-                    res => {
-                      console.log(res);
-                      this.itemList = res;
-                      this.dtTrigger.next();
-                    });
+        res => {
+          console.log(res);
+          const scope = this;
+          this.itemList = res;
+          this.itemList = this.itemList.map(function(item) {
+            item.edit = (scope.getDateDiff(item.date, scope.today) > 30) ? false : true;
+            return item;
+          });
+          this.dtTrigger.next();
+        });
   }
 
   fetchVendorName(){
