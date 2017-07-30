@@ -1,6 +1,11 @@
 <div align="center" class="container-shrink">
     <h2>Item Details</h2>
-    <form #userForm="ngForm" (ngSubmit)="afterSave(userForm)" >
+    <div *ngIf="loading" align="center" class="panel-body">
+        <div class="loader">
+        </div>
+        <label>Loading . . . </label>
+    </div>
+    <form *ngIf="!loading" #userForm="ngForm" (ngSubmit)="afterSave(userForm)" >
        <!--<div class="form-group">
             <label>Item Name</label>
             <input type="text" #varName="ngModel" class="form-control" name="Name" ngModel required

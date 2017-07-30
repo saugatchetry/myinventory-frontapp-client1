@@ -13,21 +13,25 @@ export class RestockitemComponent implements OnInit {
 
   public allVendorsList: any;
   public allItemList: any;
-  public selectedVendor: String;
-  public selectedItem: String;
+  public selectedVendor: string;
+  public selectedItem: string;
+  public storeItemDict;
   public selectedDate;
   public init: false;
   public currentForm;
+  public loading;
   
 
   constructor(private networkservice : NetworkService,private router: Router,
               private toastr: ToastsManager,vRef: ViewContainerRef) { 
     this.toastr.setRootViewContainerRef(vRef);
+    this.loading = true;
   }
 
   ngOnInit() {
-    this.fetchVendors();    
-    this.fetchAllItems();
+    // this.fetchVendors();    
+    // this.fetchAllItems();
+    this.fetchItemAndVendors();
     this.selectedDate = this.fetchToday();
   }
 
@@ -47,46 +51,59 @@ export class RestockitemComponent implements OnInit {
     return String(now.getFullYear()) + '-' + m + '-' + d;
   }
 
-  fetchVendors(){
-    if (this.networkservice.allVendorNames === undefined) {
-      this.networkservice.getAllVendorsName()
-            .subscribe(
-              res => {
-                console.log(res);
-                this.allVendorsList = res;
-                this.selectedVendor = this.allVendorsList[0].storeName;
-                this.allVendorsList = this.allVendorsList.map(function(item) {
-                  return item.storeName;
-                });  
-              });
-    }   
-    else {
-      this.allVendorsList = this.networkservice.allVendorNames;
-      this.selectedVendor = this.allVendorsList[0].storeName;
-      this.allVendorsList = this.allVendorsList.map(function(item) {
-        return item.storeName;
-      });  
-    }  
-  }
-
-  fetchAllItems() {
-    if (this.networkservice.allItemList === undefined) {
-      this.networkservice.getAllUniqueItemNames()
-            .subscribe(
-              res => {
-                console.log(res);
-                this.allItemList = res;
-                this.selectedItem = this.allItemList[0];
-              });
-    }   
-    else {
-      this.allItemList = this.networkservice.allItemList;
+  onVendorChanged(e) {
+    this.allItemList = this.storeItemDict[this.selectedVendor];
+    
+    if(this.allItemList.length > 0) {
       this.selectedItem = this.allItemList[0];
-    }    
+    }
   }
 
+  fetchItemAndVendors() {
+    this.networkservice.getAllVendorsName()
+      .subscribe(
+        res => {
+          this.allVendorsList = res.map(function (item) {return item.storeName});
+          this.allVendorsList.sort();
+          this.selectedVendor = this.allVendorsList[0];
+
+          this.networkservice.getAllItems()
+            .subscribe(
+              res => {
+                this.allItemList = this.processRecords(res);
+                if(this.allItemList.length > 0) {
+                  this.selectedItem = this.allItemList[0];
+                }
+                this.loading = false;
+            });
+    });  
+  }
+
+  processRecords(records_list) {
+    var tempDict = {} 
+    for(var i = 0; i < this.allVendorsList.length; i++) {
+      tempDict[this.allVendorsList[i]] = [];
+    }
+
+    for(var i = 0; i < records_list.length; i++) {
+      var element = records_list[i];
+      var current_item = element.itemName;
+      // Sanity Check
+      if (tempDict[element.outlet] === undefined) {
+        tempDict[element.outlet] = [];
+      }
+      tempDict[element.outlet].push(current_item);
+    }
+
+    Object.keys(tempDict).forEach(function(currentKey) {
+      tempDict[currentKey].sort();
+    });
+    this.storeItemDict = tempDict;
+    return this.storeItemDict[this.selectedVendor];
+  }
 
   onSubmit(form:any){
+    this.loading = true;
     this.currentForm = form;
     this.sendDataToServer(form.value);
   }
@@ -112,12 +129,15 @@ export class RestockitemComponent implements OnInit {
   }
 
   okSuccess(){
+    this.loading = false;
     this.currentForm.reset();
+    this.selectedDate = this.fetchToday();
     this.toastr.success('All resources submitted correctly', 'Success!', {toastLife: 5000, showCloseButton: true});
     console.log("Success");
   }
 
   okFailed(error){
+    this.loading = false;
     let error_string = "";
     let item = error;
     error_string = item["itemName"] + " in " + item["storeName"] + " - " + item["reason"];

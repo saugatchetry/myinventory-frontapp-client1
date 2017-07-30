@@ -35,6 +35,7 @@ import { RestockBulkUploadComponent } from './restock-bulk-upload/restock-bulk-u
 import { StockTransferAnomalyComponent } from './stock-transfer-anomaly/stock-transfer-anomaly.component';
 import { DateFilterComponent } from './date-filter/date-filter.component';
 import { ExcelDownloaderComponent } from './excel-downloader/excel-downloader.component';
+import { RetailOutletsComponent } from './retail-outlets/retail-outlets.component';
 
 @NgModule({
   declarations: [
@@ -60,7 +61,8 @@ import { ExcelDownloaderComponent } from './excel-downloader/excel-downloader.co
     RestockBulkUploadComponent,
     StockTransferAnomalyComponent,
     DateFilterComponent,
-    ExcelDownloaderComponent
+    ExcelDownloaderComponent,
+    RetailOutletsComponent
   ],
   imports: [
     BrowserModule,

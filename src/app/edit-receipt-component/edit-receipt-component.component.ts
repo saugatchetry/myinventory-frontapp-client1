@@ -24,6 +24,7 @@ export class EditReceiptComponentComponent implements OnInit, ModalComponent<BSM
   public amount: String;
   public date: String;
   public currentForm;
+  public loading;
 
 
   private editModel:EditModel;
@@ -31,6 +32,7 @@ export class EditReceiptComponentComponent implements OnInit, ModalComponent<BSM
   constructor(private networkservice : NetworkService, private toastr: ToastsManager,vRef: ViewContainerRef, public dialog: DialogRef<BSModalContext>) { 
     this.toastr.setRootViewContainerRef(vRef);
     this.context = dialog.context;
+    this.loading = false;
   }
 
   ngOnInit() {
@@ -52,6 +54,7 @@ export class EditReceiptComponentComponent implements OnInit, ModalComponent<BSM
    }
 
   sendDataToServer(form) {
+      this.loading = true;
       this.currentForm = form;
       let dataFromForm = form.value;
       console.log("About to send");
@@ -68,10 +71,12 @@ export class EditReceiptComponentComponent implements OnInit, ModalComponent<BSM
   }
 
   cancel() {
+    this.loading = false;
     this.dialog.close();
   }
   
   showSuccess() {
+    this.loading = false; 
     console.log("toastr method called");
     this.dialog.close();
     this.currentForm.reset();
@@ -79,6 +84,7 @@ export class EditReceiptComponentComponent implements OnInit, ModalComponent<BSM
   }
 
   showError() {
+    this.loading = false;
     this.toastr.error('Could not edit receipt', 'Error!', {toastLife: 20000, showCloseButton: true});
   }
 }

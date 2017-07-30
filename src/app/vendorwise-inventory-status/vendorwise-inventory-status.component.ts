@@ -116,15 +116,14 @@ export class VendorwiseInventoryStatusComponent implements OnInit,AfterViewInit 
             });
 
   }
-
-
+  
   getInventory(){
-      console.log("name = "+this.selectorVendor);
-      this.fetchCurrentInventoryOfVendor();
+    console.log("name = "+this.selectorVendor);
+    this.fetchCurrentInventoryOfVendor();
   }
 
 
-getInventoryDetails(itm){
+  getInventoryDetails(itm){
     this.networkservice.historyStoreName = itm.outlet;
     this.networkservice.historyItemName = itm.itemName;
 

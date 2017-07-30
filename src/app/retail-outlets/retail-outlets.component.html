@@ -1,0 +1,21 @@
+<br>
+<h2 align="center"> List of Retail Outlets</h2>
+<br>
+
+<div class="borderLine">
+  <table id="item-master" [dtTrigger]="dtTrigger" datatable class="table-bordered hover table">
+    <thead>
+        <tr>
+          <th>Sl.No</th>
+          <th >Outlet Name</th>
+        </tr>
+    </thead>
+    <tbody *ngIf="allVendorsList">
+        <tr *ngFor="let vendor of allVendorsList">
+          <td>{{vendor.id}}</td>
+          <td>{{vendor.name}}</td>
+        </tr>
+    </tbody>  
+  </table>
+</div>
+
