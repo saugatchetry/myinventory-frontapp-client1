@@ -133,6 +133,11 @@ export class DdStockReportComponent implements OnInit, AfterViewInit {
   	var closing = res_list[0].opening; // saugat laziness
 		var opening = closing;
 
+    res_list.sort(function(a, b) {
+      let val = (b.date < a.date) ? true : false;
+      return val;
+    });
+
 		for(var i = 0; i < res_list.length; i++) {
 			var trans_type = res_list[i].type;
 			var quantity = res_list[i].quantity;

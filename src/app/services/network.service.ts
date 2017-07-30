@@ -51,7 +51,7 @@ export class NetworkService {
   public cache_allVendorResponse;
 
   constructor(private _http:Http) {
-    // this.serverUrl = "https://d7280302.ngrok.io";
+    // this.serverUrl = "https://9616b3f4.ngrok.io";
     // this.serverUrl = "https://myinventory-test.herokuapp.com"
     this.serverUrl = "https://server.cemnohouse.biz";
 
