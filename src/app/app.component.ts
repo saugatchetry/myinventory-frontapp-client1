@@ -23,7 +23,6 @@ export class AppComponent implements OnInit,AfterViewChecked{
 
   ngAfterViewChecked(){
       this.username = this.networkService._user;
-      console.log(this.isCollapsed);
   }
 
   myFunc(){

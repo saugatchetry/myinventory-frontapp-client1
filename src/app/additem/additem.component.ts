@@ -11,6 +11,9 @@ import {ToastsManager, Toast} from 'ng2-toastr';
 export class AdditemComponent implements OnInit {
 
   public allVendorsList: any;
+  public allItemsList: any;
+  public allItemGroups: any;
+  public allItemUOM: any;
   public currentForm;
   public selectedVendor;
 
@@ -22,6 +25,7 @@ export class AdditemComponent implements OnInit {
 
   ngOnInit() {
     this.fetchVendors();
+    this.fetchAllItems();
   }
 
   fetchVendors(){
@@ -42,10 +46,27 @@ export class AdditemComponent implements OnInit {
       this.allVendorsList = this.allVendorsList.map(function(item) {
         return item.storeName;
       });
-    }  
-
-      
+    }        
   } 
+
+  fetchAllItems() {
+    this.networkservice.getAllUniqueItemDetails()
+      .subscribe(
+        res => {
+          let uom = {};
+          let groups = {};
+          let items = []
+          for (let index = 0; index < res.length; index++) {
+            let item = res[index];
+            items.push(item[0]);  
+            groups[item[1]] = 1;
+            uom[item[2]] = 1;
+          }
+          this.allItemUOM = Object.keys(uom);
+          this.allItemGroups = Object.keys(groups);
+          this.allItemsList = items;
+        });
+  }
 
   onSubmit(form:any){
     this.currentForm = form;
