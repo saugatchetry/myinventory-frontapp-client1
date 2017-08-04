@@ -9,7 +9,7 @@ export class AuthGuard implements CanActivate{
     }
 
     canActivate(){
-        console.log("canActivate called : userLoggedIn = "+this.networkservice.getUserLoggedIn());
+        // console.log("canActivate called : userLoggedIn = "+this.networkservice.getUserLoggedIn());
         if(this.networkservice.getUserLoggedIn()){
             return true;
         }

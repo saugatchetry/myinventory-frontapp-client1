@@ -69,7 +69,7 @@ export class NetworkService {
     return this._http.get(this.serverUrl + '/api/getAllUniqueItemNames').map(
                 res => {
                   const data = res.json()
-                  console.log(data);
+                  //console.log(data);
                   data.sort();
                   this.allItemList = data;
                   return this.allItemList;
@@ -80,7 +80,7 @@ export class NetworkService {
     return this._http.get(this.serverUrl + '/api/getallUniqueItemDetais').map(
                 res => {
                   const data = res.json()
-                  console.log(data);
+                  //console.log(data);
                   return data;
               });
   }
@@ -89,21 +89,21 @@ export class NetworkService {
 	return this._http.get(this.serverUrl + '/api/getAllItems').map(
 	        res => {
 	          const data = res.json()
-	          console.log(data);
+	          //console.log(data);
 	          return data;
 	      });
   }
 
 
    getUserLoggedIn(){
-     console.log("network service ... isUserLoggedIn = "+this.isUserLoggedIn);
+     //console.log("network service ... isUserLoggedIn = "+this.isUserLoggedIn);
      return this.isUserLoggedIn;
    }
 
    setUserLoggedIn(){
      this.isUserLoggedIn = true;
      this._user = "Saugat";
-     console.log("service layer : setUserLoggedIn called .... isUserLoggedIn = "+this.isUserLoggedIn);
+     //console.log("service layer : setUserLoggedIn called .... isUserLoggedIn = "+this.isUserLoggedIn);
    }
 
    getCurrentDate(){
@@ -126,14 +126,14 @@ export class NetworkService {
      return this._http.get(this.serverUrl + '/api/getAllReceipts').map(
                 res => {
                   const data = res.json()
-                  console.log(data);
+                  //console.log(data);
                   return data;
               });
 
       // return this._http.get('https://myinventory-test.herokuapp.com/api/getAllReceipts').map(
       //           res => {
       //             const data = res.json()
-      //             console.log(data);
+      //             //console.log(data);
       //             return data;
       //         });
    }
@@ -152,14 +152,14 @@ export class NetworkService {
      return this._http.get(this.serverUrl + '/api/getAllReceiptsToday',requestOptions).map(
                 res => {
                   const data = res.json()
-                  console.log(data);
+                  //console.log(data);
                   return data;
               });
 
       // return this._http.get('https://myinventory-test.herokuapp.com/api/getAllReceipts',requestOptions).map(
       //           res => {
       //             const data = res.json()
-      //             console.log(data);
+      //             //console.log(data);
       //             return data;
       //         });
    }
@@ -177,14 +177,14 @@ export class NetworkService {
      return this._http.get(this.serverUrl + '/api/getAllStockTranfersToday',requestOptions).map(
                 res => {
                   const data = res.json()
-                  console.log(data);
+                  //console.log(data);
                   return data;
               });
 
       // return this._http.get('https://myinventory-test.herokuapp.com/api/getAllReceipts',requestOptions).map(
       //           res => {
       //             const data = res.json()
-      //             console.log(data);
+      //             //console.log(data);
       //             return data;
       //         });
    }
@@ -203,7 +203,7 @@ export class NetworkService {
    }
 
    getReceiptsWithFilter(vendorName:string,startDate:string,endDate:string){
-     console.log("service + vendorName = "+vendorName+" startDate = "+startDate+" endDate = "+endDate);
+     //console.log("service + vendorName = "+vendorName+" startDate = "+startDate+" endDate = "+endDate);
      var selectedStartDate : string;
      var selectedEndDate : string;
 
@@ -223,14 +223,14 @@ export class NetworkService {
 
      let requestOptions = new RequestOptions();
      requestOptions.search = params;
-     console.log(" service layer vendorName = "+vendorName+" startDate = "+selectedStartDate+" endDate = "+selectedEndDate);
+     //console.log(" service layer vendorName = "+vendorName+" startDate = "+selectedStartDate+" endDate = "+selectedEndDate);
 
      return this._http.get(this.serverUrl + '/api/getAllReceiptsWithFilters',requestOptions).map(data => data.json());
 
    }
 
    getAllStockTranfersWithFilter(vendorName:string,startDate:string,endDate:string){
-     console.log("service + vendorName = "+vendorName+" startDate = "+startDate+" endDate = "+endDate);
+     //console.log("service + vendorName = "+vendorName+" startDate = "+startDate+" endDate = "+endDate);
      var selectedStartDate : string;
      var selectedEndDate : string;
 
@@ -250,7 +250,7 @@ export class NetworkService {
 
      let requestOptions = new RequestOptions();
      requestOptions.search = params;
-     console.log(" service layer sourceVendor = "+vendorName+" startDate = "+selectedStartDate+" endDate = "+selectedEndDate);
+     //console.log(" service layer sourceVendor = "+vendorName+" startDate = "+selectedStartDate+" endDate = "+selectedEndDate);
 
      return this._http.get(this.serverUrl + '/api/getAllStockTransfersFilters',requestOptions).map(data => data.json());
 
@@ -298,7 +298,7 @@ export class NetworkService {
       return this._http.get(this.serverUrl + '/api/getEveryStockTransfers').map(
                 res => {
                   const data = res.json()
-                  console.log(data);
+                  //console.log(data);
                   return data;
               });
    }
@@ -306,7 +306,7 @@ export class NetworkService {
    sendBulkData(data): Observable<Object> {
 
         let encoded_data = JSON.stringify(data);
-        console.log("encoded_data = " + encoded_data);
+        //console.log("encoded_data = " + encoded_data);
         let headers = new Headers({ 'Content-Type': 'application/json;charset=utf-8' });
         let options = new RequestOptions({ headers: headers });
         return this._http.post(this.serverUrl + "/api/bulkEntry", encoded_data, options).map(
@@ -317,7 +317,7 @@ export class NetworkService {
 
    sendFailedOutGoingStockTransfer(data): Observable<Object> {
      let encoded_data = JSON.stringify(data);
-      console.log("encoded_data = " + encoded_data);
+      //console.log("encoded_data = " + encoded_data);
       let headers = new Headers({ 'Content-Type': 'application/json;charset=utf-8' });
       let options = new RequestOptions({ headers: headers });
       return this._http.post(this.serverUrl + "/api/pushFailedOutGoingStockTransfer", encoded_data, options).map(
@@ -328,7 +328,7 @@ export class NetworkService {
    sendBulkRestockData(data): Observable<Object> {
 
         let encoded_data = JSON.stringify(data);
-        console.log("encoded_data = " + encoded_data);
+        //console.log("encoded_data = " + encoded_data);
         let headers = new Headers({ 'Content-Type': 'application/json;charset=utf-8' });
         let options = new RequestOptions({ headers: headers });
         return this._http.post(this.serverUrl + "/api/bulkRestock", encoded_data, options).map(
@@ -340,8 +340,8 @@ export class NetworkService {
    sendData(data): Observable<Object> {
 
         let encoded_data = JSON.stringify(data);
-        console.log("Network Service");
-        console.log("encoded_data = "+encoded_data);
+        //console.log("Network Service");
+        //console.log("encoded_data = "+encoded_data);
         let headers = new Headers({ 'Content-Type': 'application/json;charset=utf-8' });
         let options = new RequestOptions({ headers: headers });
         return this._http.post(this.serverUrl + "/api/addNewItem", encoded_data, options)/*.map(
@@ -353,8 +353,8 @@ export class NetworkService {
    sendRestockData(data): Observable<Object> {
 
         let encoded_data = JSON.stringify(data);
-        console.log("Network Service");
-        console.log("encoded_data = "+encoded_data);
+        //console.log("Network Service");
+        //console.log("encoded_data = "+encoded_data);
         let headers = new Headers({ 'Content-Type': 'application/json;charset=utf-8' });
         let options = new RequestOptions({ headers: headers });
         return this._http.post(this.serverUrl + "/api/refillItemInInventory", encoded_data, options)/*.map(
@@ -366,8 +366,8 @@ export class NetworkService {
    sendUpdatedReceipt(data): Observable<Object> {
 
         let encoded_data = JSON.stringify(data);
-        console.log("Network Service");
-        console.log("encoded_data for receipt update = "+encoded_data);
+        //console.log("Network Service");
+        //console.log("encoded_data for receipt update = "+encoded_data);
         let headers = new Headers({ 'Content-Type': 'application/json;charset=utf-8' });
         let options = new RequestOptions({ headers: headers });
 
@@ -380,8 +380,8 @@ export class NetworkService {
    sendResetPassword(data): Observable<Object> {
 
         let encoded_data = JSON.stringify(data);
-        console.log("Network Service");
-        console.log("encoded_data for receipt update = "+encoded_data);
+        //console.log("Network Service");
+        //console.log("encoded_data for receipt update = "+encoded_data);
         let headers = new Headers({ 'Content-Type': 'application/json;charset=utf-8' });
         let options = new RequestOptions({ headers: headers });
 
@@ -394,8 +394,8 @@ export class NetworkService {
    sendLoginRequest(data): Observable<Object> {
 
         let encoded_data = JSON.stringify(data);
-        console.log("Network Service");
-        console.log("encoded_data for receipt update = "+encoded_data);
+        //console.log("Network Service");
+        //console.log("encoded_data for receipt update = "+encoded_data);
         let headers = new Headers({ 'Content-Type': 'application/json;charset=utf-8' });
         let options = new RequestOptions({ headers: headers });
 
@@ -415,7 +415,7 @@ export class NetworkService {
       this.storeName = storeName;
       this.amount = amount;
       this.date = date;
-     console.log("Set Item called name = "+this.itemName+" value = "+this.quantity+" id = "+this.id);
+     //console.log("Set Item called name = "+this.itemName+" value = "+this.quantity+" id = "+this.id);
 
    }
 
@@ -473,13 +473,13 @@ export class NetworkService {
      return this._http.get(this.serverUrl + '/api/getAllRestockInventoryData').map(
                res => {
                  const data = res.json()
-                 console.log(data);
+                 //console.log(data);
                  return data;
              });
    }
 
    getCurrentInventoryOfVendorsWithFilters(storeName:string,startDate:string,endDate:string){
-     console.log("storeName = "+storeName+" startDate = "+startDate+" endDate = "+endDate);
+     //console.log("storeName = "+storeName+" startDate = "+startDate+" endDate = "+endDate);
      let params: URLSearchParams = new URLSearchParams();
      params.set('storeName', storeName);
      params.set('startDate', startDate );
@@ -490,7 +490,7 @@ export class NetworkService {
    }
 
    getCurrentInventoryOfItemWithFilters(itemName:string,startDate:string,endDate:string){
-     console.log("storeName = "+itemName+" startDate = "+startDate+" endDate = "+endDate);
+     //console.log("storeName = "+itemName+" startDate = "+startDate+" endDate = "+endDate);
      let params: URLSearchParams = new URLSearchParams();
      params.set('itemName', itemName);
      params.set('startDate', startDate );
@@ -501,7 +501,7 @@ export class NetworkService {
    }
 
    getDrillDownReortForVendorAndItem(storeName:string,itemName:string,startDate:string,endDate:string){
-     console.log("storeName = "+itemName+" startDate = "+startDate+" endDate = "+endDate);
+     //console.log("storeName = "+itemName+" startDate = "+startDate+" endDate = "+endDate);
      let params: URLSearchParams = new URLSearchParams();
      params.set('storeName', storeName);
      params.set('itemName', itemName);

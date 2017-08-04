@@ -13,6 +13,7 @@ declare var $: any;
 export class AppComponent implements OnInit,AfterViewChecked{
   title = 'app works!';
   public username : string;
+  public isCollapsed: boolean = true;
 
   constructor(public networkService : NetworkService,public router: Router){
   }
@@ -22,7 +23,7 @@ export class AppComponent implements OnInit,AfterViewChecked{
 
   ngAfterViewChecked(){
       this.username = this.networkService._user;
-      console.log(this.username);
+      console.log(this.isCollapsed);
   }
 
   myFunc(){

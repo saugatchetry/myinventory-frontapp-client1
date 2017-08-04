@@ -39,17 +39,17 @@ export class ItemwiseInventoryStatusComponent implements OnInit,AfterViewInit {
     this.loading = false;
 
     if(this.allItemList == null){
-      console.log("vendorlist is empty .... gettting it please wait");
+      //console.log("vendorlist is empty .... gettting it please wait");
       this.fetchAllItems();
     }
     else{
-      console.log("vendorlist is not empty ");
-      console.log(this.allItemList);
+      //console.log("vendorlist is not empty ");
+      //console.log(this.allItemList);
     }
 
 
     if(this.networkservice.allItemsInventoryList != null){
-      console.log("I still have data - size = "+this.networkservice.allItemsInventoryList.length);
+      //console.log("I still have data - size = "+this.networkservice.allItemsInventoryList.length);
       this.itemCurrentInventory = this.networkservice.allItemsInventoryList;
       this.dtTrigger.next();
     }
@@ -68,10 +68,10 @@ export class ItemwiseInventoryStatusComponent implements OnInit,AfterViewInit {
           .subscribe(
 
             res => {
-              console.log(res);
+              //console.log(res);
               this.allItemList = res;
               this.selectedItem = this.allItemList[0];
-              console.log("Arrey its "+this.selectedItem);
+              //console.log("Arrey its "+this.selectedItem);
             });
   }
 
@@ -83,15 +83,15 @@ export class ItemwiseInventoryStatusComponent implements OnInit,AfterViewInit {
 
             res => {
               this.itemCurrentInventory = [];
-              console.log(res);
+              //console.log(res);
               this.itemCurrentInventory = res;
               //this.loading = false;
 
               this.networkservice.allItemsInventoryList = res;
-              console.log("size of currentInventory = "+this.itemCurrentInventory.length);
+              //console.log("size of currentInventory = "+this.itemCurrentInventory.length);
               //this.dtTrigger.next();
 
-              console.log("dtElement = "+this.dtElement);
+              //console.log("dtElement = "+this.dtElement);
                   this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
                   // Destroy the table first
                   dtInstance.destroy();
@@ -104,7 +104,7 @@ export class ItemwiseInventoryStatusComponent implements OnInit,AfterViewInit {
 
 
   getInventory(){
-      console.log("name = "+this.selectedItem);
+      //console.log("name = "+this.selectedItem);
       this.fetchCurrentInventoryOfVendor();
   }
 
@@ -114,11 +114,11 @@ export class ItemwiseInventoryStatusComponent implements OnInit,AfterViewInit {
       this.networkservice.historyItemName = itm.itemName;
 
       if(itm.date == undefined){
-        //console.log("vendor dates = "+this.today);
+        ////console.log("vendor dates = "+this.today);
         this.networkservice.workingDate = this.today;
       }
       else{
-        //console.log("vendor dates = "+itm.date);
+        ////console.log("vendor dates = "+itm.date);
         this.networkservice.workingDate = itm.date;
       }
       
@@ -178,7 +178,7 @@ export class ItemwiseInventoryStatusComponent implements OnInit,AfterViewInit {
 
       var dateNew = new Date(endDate);
       dateNew.setDate(dateNew.getDate() - 30);
-      //console.log("Abhi Kya karenge - "+dateNew.toISOString().split('T')[0]);
+      ////console.log("Abhi Kya karenge - "+dateNew.toISOString().split('T')[0]);
       startDate = dateNew.toISOString().split('T')[0];
 
       this.makeTheApiCall(this.selectedItem,startDate,endDate);
@@ -200,14 +200,14 @@ export class ItemwiseInventoryStatusComponent implements OnInit,AfterViewInit {
 
             res => {
               this.itemCurrentInventory = [];
-              console.log(res);
+              //console.log(res);
               this.itemCurrentInventory = res;
-              //console.log("Where is date = "+this.itemCurrentInventory[0].date);
+              ////console.log("Where is date = "+this.itemCurrentInventory[0].date);
               this.networkservice.currentItemList = res;
-              console.log("size of currentInventory = "+this.itemCurrentInventory.length);
+              //console.log("size of currentInventory = "+this.itemCurrentInventory.length);
               //this.dtTrigger.next();
               this.loading = false;
-              console.log("dtElement = "+this.dtElement);
+              //console.log("dtElement = "+this.dtElement);
                   this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
                   // Destroy the table first
                   dtInstance.destroy();

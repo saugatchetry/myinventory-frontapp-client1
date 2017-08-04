@@ -31,13 +31,13 @@ export class InventoryDetailsComponent implements OnInit, ModalComponent<BSModal
   }
 
   getItemHistory(){
-    console.log("Working date in layout= "+this.networkService.workingDate);
-    console.log("Store Name = "+this.networkService.historyStoreName+" Item Name = "+this.networkService.historyItemName);
+    //console.log("Working date in layout= "+this.networkService.workingDate);
+    //console.log("Store Name = "+this.networkService.historyStoreName+" Item Name = "+this.networkService.historyItemName);
     // this.networkService.getHistoryOfItem(this.networkService.historyStoreName,this.networkService.historyItemName)
     //       .subscribe(
     //
     //         res => {
-    //           console.log(res);
+    //           //console.log(res);
     //           this.itemHistoryList = res;
     //           this.dtTrigger.next();
     //         });
@@ -46,7 +46,7 @@ export class InventoryDetailsComponent implements OnInit, ModalComponent<BSModal
           .subscribe(
 
             res => {
-              console.log(res);
+              //console.log(res);
               this.itemHistoryList = res;
               this.dtTrigger.next();
             });

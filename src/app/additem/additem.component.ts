@@ -29,7 +29,6 @@ export class AdditemComponent implements OnInit {
       this.networkservice.getAllVendorsName()
             .subscribe(
               res => {
-                console.log(res);
                 this.allVendorsList = res;
                 this.selectedVendor = this.allVendorsList[0].storeName;
                 this.allVendorsList = this.allVendorsList.map(function(item) {
@@ -55,7 +54,6 @@ export class AdditemComponent implements OnInit {
 
 
   sendDataToServer(dataFromForm) {
-      console.log("About to send");
       for (var key in dataFromForm) {
         dataFromForm[key] = this.networkservice.capitalize(dataFromForm[key])
       }
@@ -77,7 +75,6 @@ export class AdditemComponent implements OnInit {
   }
 
   okSuccess(){
-    console.log("Success Method called");
     this.showSuccess();
   }
 
@@ -87,11 +84,11 @@ export class AdditemComponent implements OnInit {
     error_string = item["itemName"] + " in " + item["storeName"] + " - " + item["reason"];
     this.toastr.error(error_string, 'Server Submission Error!', {toastLife: 20000, showCloseButton: true});
     
-    console.log("Failed");
+    ////console.log("Failed");
   }
 
   showSuccess() {
-    console.log("toastr method called");
+    //console.log("toastr method called");
     this.currentForm.reset();
     this.toastr.success('Added item to server!', 'Success!', {toastLife: 3000, showCloseButton: false});
   }

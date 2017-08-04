@@ -2,6 +2,7 @@ import { AuthGuard } from './guards/auth.guard';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { CollapseDirective } from 'ng2-bootstrap';
 import { HttpModule , JsonpModule} from '@angular/http';
 import { routes } from './app.router';
 import { ModalModule } from 'angular2-modal';
@@ -42,6 +43,7 @@ import { RetailOutletsComponent } from './retail-outlets/retail-outlets.componen
     AppComponent,
     AboutComponent,
     AdditemComponent,
+    CollapseDirective,
     EditentryComponent,
     SavereportComponent,
     LoginComponent,

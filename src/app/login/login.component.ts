@@ -23,7 +23,7 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit(value:any){
-    console.log("user = "+value.username+" password = "+value.password);
+    //console.log("user = "+value.username+" password = "+value.password);
     // if(value.username == "Saugat" && value.password == "apple"){
     //   // this.networkservice._user = "Saugat";
     //   // this.router.navigate(['/additem']);
@@ -55,7 +55,7 @@ export class LoginComponent implements OnInit {
   }
 
   showError(error) {
-    console.log(error.status);
+    //console.log(error.status);
     if (error.status === 400) 
       this.toastr.error("Check your password", 'Authentication Failed', {toastLife: 5000, showCloseButton: true});
     else
