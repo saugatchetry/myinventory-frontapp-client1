@@ -1,0 +1,20 @@
+<div align="center" class="container-shrink">
+    <h2>Edit Details</h2>
+    <button id="cancel" class="btn btn-error btn-cross" (click)="cancel()">X
+    </button>
+    <form #userForm="ngForm" (ngSubmit)="afterSave(userForm)" >
+        <div class="form-group">
+            <label>Item Name</label>
+            <input type="text" class="form-control" name="itemName" [(ngModel)] = "itemName">
+        </div>
+        <div class="form-group">
+            <label>Item Group</label>
+            <input type="text" class="form-control" name="itemGroup" [(ngModel)] = "itemGroup" id="itemGroup" required #dt="ngModel" ngModel >
+        </div>
+        <div class="form-group">
+            <label>UOM</label>
+            <input type="text" class="form-control" name="uom" [(ngModel)] = "uom" id="uom" required #dt="ngModel" ngModel>
+        </div>
+        <button [disabled]="!userForm.form.valid" type="submit" class="btn btn-primary" [disabled]="!userForm.form.valid">Submit</button>
+    </form>
+</div>

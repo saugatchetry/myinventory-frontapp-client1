@@ -30,6 +30,12 @@ export class NetworkService {
   public amount: String;
   public date:String;
 
+  // 
+  public editItemName: String;
+  public editItemGroup: String;
+  public editUOM: String;
+  public update;
+
   public workingDate: String;
 
   public historyItemName: String;
@@ -51,12 +57,13 @@ export class NetworkService {
   public cache_allVendorResponse;
 
   constructor(private _http:Http) {
-    // this.serverUrl = "http://e4d1a132.ngrok.io";
+    this.serverUrl = "https://c87329ea.ngrok.io";
     // this.serverUrl = "https://myinventory-test.herokuapp.com"
-    this.serverUrl = "https://server.cemnohouse.biz";
+    // this.serverUrl = "https://server.cemnohouse.biz";
 
     // Initialize Cache
     this.cache_allVendorResponse = null;
+    this.update = false;
   }
 
   //  getAllItems(){
@@ -314,6 +321,18 @@ export class NetworkService {
         );
 
    }
+
+  sendNewItemName(itemDetails): Observable<Object> {
+
+    let params: URLSearchParams = new URLSearchParams();  
+    for (var key in itemDetails) {
+      params.set(key, itemDetails[key]);
+    }
+
+    let requestOptions = new RequestOptions();
+    requestOptions.search = params;
+    return this._http.get(this.serverUrl + '/api/renameItem',requestOptions).map(data => data.json());
+  }
 
    sendFailedOutGoingStockTransfer(data): Observable<Object> {
      let encoded_data = JSON.stringify(data);

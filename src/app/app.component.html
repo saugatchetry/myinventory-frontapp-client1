@@ -10,19 +10,14 @@
       </div>
       <div *ngIf="username != undefined" class="navbar-collapse collapse" [collapse]="isCollapsed" id="navbar-main">
         <ul class="nav navbar-nav">
-          <li>
-            <a routerLink="retail-outlets">Outlets</a>
-          </li>
-          <li>
-            <a routerLink="editentry">Daily Sales Report</a>
-          </li>
-          <!--<li>-->
+          <li><a routerLink="retail-outlets">Outlets</a></li>
+          <li><a routerLink="editentry">Daily Sales Report</a></li>
+          <li><a routerLink="item-master">Item Master</a></li>
           <li class="dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown">Reports
             <span class="caret"></span></a>
             <ul class="dropdown-menu">
               <li><a routerLink="stocktransfer">Stock Transfer</a></li>
-              <li><a routerLink="item-master">Item Master</a></li>
               <li><a routerLink="vendorwise-inventory-status">Inventory Position - Outlet</a></li>
               <li><a routerLink="itemwise-inventory-status">Inventory Position - Item Wise</a></li>
 			        <li><a routerLink="inventory-addition-report">Inventory Addition</a></li>

@@ -38,6 +38,7 @@ import { StockTransferAnomalyComponent } from './stock-transfer-anomaly/stock-tr
 import { DateFilterComponent } from './date-filter/date-filter.component';
 import { ExcelDownloaderComponent } from './excel-downloader/excel-downloader.component';
 import { RetailOutletsComponent } from './retail-outlets/retail-outlets.component';
+import { EditItemNameComponent } from './edit-item-name/edit-item-name.component';
 
 @NgModule({
   declarations: [
@@ -64,7 +65,8 @@ import { RetailOutletsComponent } from './retail-outlets/retail-outlets.componen
     StockTransferAnomalyComponent,
     DateFilterComponent,
     ExcelDownloaderComponent,
-    RetailOutletsComponent
+    RetailOutletsComponent,
+    EditItemNameComponent
   ],
   imports: [
     BrowserModule,

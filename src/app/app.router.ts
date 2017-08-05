@@ -22,6 +22,7 @@ import { EditentryComponent } from './editentry/editentry.component';
 import { SavereportComponent } from './savereport/savereport.component';
 import { InventoryAdditionReportComponent } from './inventory-addition-report/inventory-addition-report.component'
 import { RetailOutletsComponent } from './retail-outlets/retail-outlets.component';
+import { EditItemNameComponent } from './edit-item-name/edit-item-name.component';
 
 
 export const router: Routes = [
@@ -49,7 +50,8 @@ export const router: Routes = [
     { path: 'restock-bulk', component: RestockBulkUploadComponent,canActivate:[AuthGuard]},
     { path: 'fileupload', component: FileuploadComponent, canActivate:[AuthGuard]},
     { path: 'additem', component: AdditemComponent, canActivate:[AuthGuard]},
-    { path: 'retail-outlets', component: RetailOutletsComponent, canActivate:[AuthGuard]}
+    { path: 'retail-outlets', component: RetailOutletsComponent, canActivate:[AuthGuard]},
+    { path: 'edit-item-name', component: EditItemNameComponent, canActivate:[AuthGuard]}
 ];
 
 export const routes: ModuleWithProviders = RouterModule.forRoot(router);

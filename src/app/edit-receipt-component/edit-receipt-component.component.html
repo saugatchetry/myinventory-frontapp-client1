@@ -1,5 +1,7 @@
 <div align="center" class="container-shrink">
     <h2>Item Details</h2>
+    <button id="cancel" class="btn btn-error btn-cross" (click)="cancel()">X
+    </button>
     <div *ngIf="loading" align="center" class="panel-body">
         <div class="loader">
         </div>
@@ -74,32 +76,6 @@
               </div>
             </div>
         </div>
-        
-
-        <!--<div ngModelGroup="Address">
-            <div class="form-group">
-                <label>Street</label>
-                <input type="text" class="form-control" name="Street" ngModel>
-            </div>
-            <div class="form-group">
-                <label>City</label>
-                <input type="text" class="form-control" name="City" ngModel>
-            </div>
-            <div class="form-group">
-                <label>Postal Code</label>
-                <input type="text" #varpostalCode="ngModel" class="form-control" name="PostalCode" ngModel pattern="^[1-9][0-9]{4}$">
-                <div *ngIf="varpostalCode.errors && (varpostalCode.dirty || varpostalCode.touched)"
-                    class="alert alert-danger">
-                    <div [hidden]="!varpostalCode.errors.pattern">
-                        Invalid format for PostalCode
-                    </div>
-            </div>
-            </div>
-
-        </div> -->
         <button [disabled]="!userForm.form.valid" type="submit" class="btn btn-primary" [disabled]="!userForm.form.valid">Submit</button>
-        <button id="cancel" class="btn btn-success" (click)="cancel()" style="
-    margin-left: 10px;
-">Cancel</button>
     </form>
 </div>

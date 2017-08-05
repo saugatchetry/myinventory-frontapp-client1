@@ -10,6 +10,7 @@
           <th rowspan="2">Item Group</th>
           <th rowspan="2">UOM</th>
           <th colspan="4">Retail Outlet Tagged</th>
+          <th rowspan="2">Action</th>
         </tr>
         <tr>
           <th *ngFor="let item of allVendorsList">{{item}}</th>
@@ -21,6 +22,7 @@
           <td>{{item.itemGroup}}</td>
           <td>{{item.uom}}</td>
           <td *ngFor="let store of item.stores">{{store}}</td>
+          <td><button  (click)="editItem(item)">Edit</button></td>
         </tr>
     </tbody>  
   </table>

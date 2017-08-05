@@ -4,6 +4,9 @@ import { NetworkService } from './../services/network.service';
 import { Subject } from 'rxjs/Rx';
 import { Router } from '@angular/router';
 import { DataTableDirective } from 'angular-datatables';
+import { EditItemNameComponent } from './../edit-item-name/edit-item-name.component';
+import { Modal, BSModalContext } from 'angular2-modal/plugins/bootstrap';
+import { Overlay, overlayConfigFactory } from 'angular2-modal';
 
 @Component({
   selector: 'app-item-master',
@@ -17,7 +20,9 @@ export class ItemMasterComponent implements OnInit {
   public allVendorsList: any;
   dtTrigger: Subject<any> = new Subject();
 
-  constructor(private _http:Http, private networkservice : NetworkService,private router: Router) { }
+  private currentItemIndex;
+
+  constructor(private _http:Http, private networkservice : NetworkService,private router: Router, private modal: Modal) { }
 
   ngOnInit() {
     this.fetchDetails();
@@ -62,12 +67,53 @@ export class ItemMasterComponent implements OnInit {
       tempDict[element.itemName] = current_item;
     }
 
-    var return_array = Object.keys(tempDict).map(function(key){
-      return tempDict[key];
+    var return_array = Object.keys(tempDict).map(function(key, i){
+      var val = tempDict[key];
+      val["index"] = i;
+      return val;
     });
 
     return return_array;
   }
+
+  editItem(oldItem) {
+    this.networkservice.editItemName = oldItem.itemName;
+    this.networkservice.editItemGroup =oldItem.itemGroup;
+    this.networkservice.editUOM = oldItem.uom;
+
+    this.modal.open(EditItemNameComponent, overlayConfigFactory({}, BSModalContext))
+        .then(dialog => dialog.result)
+        .then(result => this.updateItem(result));
+
+    // this.networkservice.editItemName(oldItemName, "Tomato").subscribe(
+    //   res => {
+    //     this.okSuccess();
+    //   });
+  }
+
+  updateItem(response) {
+    if(!this.networkservice.update) return;
+    
+    this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+      // Destroy the table first
+      dtInstance.destroy();
+      // Call the dtTrigger to rerender again
+    });
+
+    this.fetchDetails();
+    
+  }
+
+  okSuccess(){
+    console.log("success");
+  }
+
+  okFailed(){
+    console.log("error");
+    
+    ////console.log("Failed");
+  }
+
 
   DownloadToExcel() {
     var fileName = "Item_master.xlsx";
