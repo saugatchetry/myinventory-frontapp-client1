@@ -14,11 +14,13 @@ export class FileuploadComponent implements OnInit {
 
   private url:string = "/api/bulkEntry";
   public data:any;
+  public duplicates;
   public header:any;
   public show;
   constructor(private networkService : NetworkService, 
     private toastr: ToastsManager,vRef: ViewContainerRef) 
   {
+    this.duplicates = [];
     this.toastr.setRootViewContainerRef(vRef);
   }
 
@@ -50,6 +52,8 @@ export class FileuploadComponent implements OnInit {
         let file: File = fileList[0];
         const reader = new FileReader();
 
+        this.duplicates = [];
+
         reader.onload = function (e:any) {
           /* read workbook */
           const bstr = e.target.result;
@@ -72,6 +76,19 @@ export class FileuploadComponent implements OnInit {
               uom:scope.networkService.capitalize(item[3])
             };
           });
+
+          // Checking duplicates
+          var separator = " #$%^&*&$#$%^ ";
+          var seen = {}
+          var duplicates = scope.data.filter(function(item) {
+            var key = item.itemName + separator + item.outlet;
+            if (seen.hasOwnProperty(key)) {
+              return true;
+            }
+            seen[key] = item;
+            return false;
+          });
+          scope.duplicates = duplicates;
           scope.show = true;
         };
         reader.readAsBinaryString(file);

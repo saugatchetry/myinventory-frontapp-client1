@@ -8,7 +8,7 @@
   </div>
 </div>
 
-<div *ngIf="show">
+<div *ngIf="show && duplicates.length == 0" >
 	<table class="table">
 	  <thead class="thead-inverse">
 	    <tr>
@@ -29,7 +29,12 @@
 		<button type="button" (click)="Submit()" class="btn btn-success">Submit To Server </button>
 	</div>
 </div>
-<div>
+
+<div *ngIf = "duplicates.length != 0">
+	<div  *ngFor="let item of duplicates" class="alert alert-danger error-alert-close">
+	  	Duplicate entry for {{item.itemName}} in {{item.outlet}}
+	</div>   
 </div>
+
 
 <!-- <input type="file" class="uploadButton" (change)="fileChange($event)" placeholder="Upload file" accept=".xls,.xlsx"> -->

@@ -2,16 +2,10 @@
 
 <div align="center" class="dateFilterSpace">
     <h4 align="center">Selected Item</h4>
-    <label>Item</label>
-    <select [(ngModel)]="selectedItem" >
-      <option *ngFor="let item of allItemList;" value= {{item}}>
-        {{item}}
-      </option>
-    </select>
-    <!-- <label id="startDateLabel">Starting Date</label>
-    <input id="startDateEntry" type="date" name="" value="" [max]='today' [(ngModel)]="filterStartDate">
-    <label id="endDateLabel">End Date</label>
-    <input id="endDateEntry" type="date" name="" value="" [max]='today' [(ngModel)]="filterEndDate"> -->
+    <label>Item Name</label>
+    <input class="text-box" type="text" name="itemName" id="itemName" [typeahead]="allItemList" autocomplete="off" required [(ngModel)]="selectedItem" style="
+    min-width: 20%;
+" ngModel>
     <button *ngIf="!loading" id="submitStoreName" (click)="submitFilters()">Go</button>
 </div>
 

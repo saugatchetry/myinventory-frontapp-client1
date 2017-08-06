@@ -20,3 +20,7 @@
     cursor: inherit;
     display: block;
 }
+
+.error-alert-close {
+    margin-bottom: 2px;
+}
